@@ -19,7 +19,7 @@ const blogSchema = new mongoose.Schema({
         required: true
     },
     "subcategory": [String],
-    "published": {
+    "isPublished": {
         type: Boolean,
         default: false
     },

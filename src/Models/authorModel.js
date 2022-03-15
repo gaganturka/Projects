@@ -1,4 +1,6 @@
 const mongoose = require("mongoose")
+var validator = require("email-validator");
+validator.validate("test@email.com");
 
 const authorSchema = new mongoose.Schema({
 
@@ -19,6 +21,7 @@ const authorSchema = new mongoose.Schema({
     },
     "email": {
         type: String,
+        validator : true,
         required: true,
         unique: true
     },
