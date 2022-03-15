@@ -95,9 +95,9 @@ const getblog= async function (req, res) {
    
         try {
             const data = req.query
-            if (Object.keys(data) == 0) return res.status(400).send({ status: false, msg: "No input provided" })
+            if (Object.keys(data) == 0) return res.status(400).send({ status: false, msg: "not a vaild input" })
             const deleteBYquery = await blogModel.findOneAndUpdate(data, { deleted: true, deletedAt: new Date() }, { new: true })
-            if (!deleteBYquery) return res.status(404).send({ status: false, msg: "no such blog found" })
+            if (!deleteBYquery) return res.status(404).send({ status: false, msg: "blog not exist" })
             res.status(200).send({ status: true, msg: deleteBYquery })
         }
     
