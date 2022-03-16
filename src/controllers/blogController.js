@@ -28,15 +28,17 @@ const createblog= async function (req, res) {
 
 }
 }
+// ,  deleted: false ,  isPublished: true }
 
 
 
 const getblog= async function (req, res) {
         try {
             const data = req.query
-            if (Object.keys(data) == 0) return res.status(400).send({ status: false, msg: "No input provided" })
+            if (Object.keys(data).length == 0) return res.status(400).send({ status: false, msg: "No input provided" })
     
-            const blogs = await blogModel.find(data, { isDeleted: false }, { isPublished: true }).populate("authorid")
+            const blogs = await blogModel.find(data ).find({deleted: false ,  isPublished: true }).populate("authorid")
+            console.log(blogs)
             if (blogs.length == 0) return res.status(404).send({ status: false, msg: "No blogs Available." })
             res.status(200).send({ status: true, data: blogs });
         }
@@ -44,6 +46,7 @@ const getblog= async function (req, res) {
     
         catch (error) {
             res.status(500).send({ status: false, msg: error.message });
+            console.log(error)
         }
     }
     
@@ -51,6 +54,7 @@ const getblog= async function (req, res) {
 
     const updateblog = async function (req, res) {
         
+      
         let blogid = req.params.blogId
         let check = await blogModel.findById(blogid)
         if (!check) return res.send('not valid id')
@@ -77,18 +81,17 @@ const getblog= async function (req, res) {
 
    let idea = req.params.blogId
 
-   let check = await blogModel.findOne({ _id: idea })
+   let check = await blogModel.findOne({ _id: idea ,deleted: false})
    if(!check) return res.status(404).send('id not exist')
 
-   let checking = req.body.isDeleted
-   if (checking == false) { 
-
+//    let checking = req.body.deleted
+//    if (checking == false) { 
     let dlt = await blogModel.findOneAndUpdate({ id: idea }, { deleted : true}, { new: true })
     return res.status(200).send({ msg: dlt})
-   } else {
-       res.status(404).send('Blog not exist')
-   }
+//    } else {
+//        res.status(404).send('Blog not exist')
 
+ 
  }
 
  const dllt = async function(req, res) {
@@ -134,4 +137,3 @@ module.exports.getblog = getblog
 module.exports.updateblog = updateblog
 module.exports.deletebloog = deletebloog
 module.exports.dllt = dllt
-

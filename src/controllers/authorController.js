@@ -1,5 +1,7 @@
 
-const AuthorModel = require("../Models/authorModel")
+const { response } = require("express");
+const AuthorModel = require("../Models/authorModel");
+const jwt = require("jsonwebtoken");
 
 const createAuthor= async function (req, res) {
     try {
@@ -14,6 +16,24 @@ const createAuthor= async function (req, res) {
     
 
 }
+
+const login = async function (req, res) {
+    let email = req.body.email
+    let password = req.body.password
+
+    let log = await AuthorModel.find({email: email, password: password})
+    if (!log) return res.status(404).send('invaid email')
+
+    let token = jwt.sign({
+        userId: log._id,
+        project: "1",
+        room: "4"
+    }, "project1_room4")
+    res.status(201).send({tokenn: token})
+
+}
+
+module.exports.login = login
 
 
 module.exports.createAuthor=createAuthor
