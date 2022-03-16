@@ -6,11 +6,11 @@ const createblog= async function (req, res) {
     try{
     let blog = req.body
     let authorId= blog.authorid
-    let id=req.body.isPublished
+    // let id=req.body.isPublished
 
-    if(id === true){
-        blog["publishedAt"] = new Date()
-    }
+    // if(id === true){
+    //     blog["publishedAt"] = new Date()
+    // }
     
     if(!authorId){return res.status(400).send("authorid required")}
     let author = await authorModel.findById(authorId)
@@ -37,7 +37,7 @@ const getblog= async function (req, res) {
             const data = req.query
             if (Object.keys(data).length == 0) return res.status(400).send({ status: false, msg: "No input provided" })
     
-            const blogs = await blogModel.find(data ).find({deleted: false ,  isPublished: true }).populate("authorid")
+            const blogs = await blogModel.find(data).find({deleted: false,  isPublished: true }).populate("authorid")
             console.log(blogs)
             if (blogs.length == 0) return res.status(404).send({ status: false, msg: "No blogs Available." })
             res.status(200).send({ status: true, data: blogs });
@@ -63,9 +63,10 @@ const getblog= async function (req, res) {
         if (checking == true) return res.status(404).send({status : false})
 
         
-        let id=req.body.isPublished
+        let update = await blogModel.findOneAndUpdate({_id : blogid}, {isPublished: true}, {new : true})
 
-        if(id == true){
+        let publish=req.body.isPublished
+        if(publish == true){
             req.body["publishedAt"] = new Date()
         }
         // console.log(publishedAt)
@@ -73,6 +74,7 @@ const getblog= async function (req, res) {
         let updat = req.body
         let upda = await blogModel.findOneAndUpdate({_id : blogid}, updat, {new : true})
         res.status(200).send({msg :upda});
+        
     }
 
 
@@ -81,12 +83,12 @@ const getblog= async function (req, res) {
 
    let idea = req.params.blogId
 
-   let check = await blogModel.findOne({ _id: idea ,deleted: false})
+   let check = await blogModel.findOne({ _id: idea })
    if(!check) return res.status(404).send('id not exist')
 
 //    let checking = req.body.deleted
 //    if (checking == false) { 
-    let dlt = await blogModel.findOneAndUpdate({ id: idea }, { deleted : true}, { new: true })
+    let dlt = await blogModel.findOneAndUpdate({ id: idea }, { deleted : true,  deletedAt: new Date()}, { new: true })
     return res.status(200).send({ msg: dlt})
 //    } else {
 //        res.status(404).send('Blog not exist')
