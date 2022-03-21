@@ -1,31 +1,34 @@
+const jwt = require("jsonwebtoken");
+const blogModel = require("../Models/blogModel");
 
-const jwt = require("jsonwebtoken")
-
-
-
-
-const authenticate = async function(req, res, next) {
-    let header = req.headers["x-api-key"]
-    if(!header) return res.send('token must')
-
-    const verify = jwt.verify(header,"project1_room4")
-    if(!verify) return res.status(404).send('invaild token')
-    next()
-
-}
-const authorisation= function(req,res,next){
-    let authortobemodified = req.params.authorid
-
+const authenticate = function (req, res, next) {
     let token = req.headers["x-api-key"];
-    if(!token) return res.send({status:false, mssg:"token must be present"});
-    
-    let decodedtoken= jwt.verify(token, "project1_room4");
-    if(!decodedtoken) return res.send({status:false,mssg:"invalid token"})
-    let userloggedin = decodedtoken.userId
+    if (!token) return res.send({ status: false, mssg: "token must be present" });
 
-    if(authortobemodified!= userloggedin ) return res.send({status:false, mssg:"loggedin person is not allow to access the request"})
+    let decodedtoken = jwt.verify(token, "Blog-Project");
+    if (!decodedtoken) return res.send({ status: false, mssg: "invalid token" })
+    next()
+}
+
+
+
+const authorisation = async function (req, res, next) {
+
+    let blogId = req.params.blogId
+    let findBlog = await blogModel.findById(blogId)
+    if(!findBlog) return res.status(400).send("Blog id is not valid")
+    let authortobemodified = findBlog.authorid
+    let token = req.headers["x-api-key"];
+    if (!token) return res.send({ status: false, mssg: "token must be present" });
+
+    let decodedtoken = jwt.verify(token, "Blog-Project");
+    if (!decodedtoken) return res.send({ status: false, mssg: "invalid token" })
+    let userloggedin = decodedtoken.authorid
+
+    if (authortobemodified != userloggedin) return res.send({ status: false, msg: "user is not allowed to modify other's blog" })
 
     next()
 }
+
 module.exports.authenticate = authenticate
 module.exports.authorisation = authorisation

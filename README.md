@@ -47,7 +47,7 @@ GET /blogs
 PUT /blogs/:blogId
 
     Updates a blog by changing the its title, body, adding tags, adding a subcategory. (Assuming tag and subcategory received in body is need to be added)
-    Updates a blog by changing its publish status i.e. adds publishedAt date and set published to true
+Updates a blog by changing its publish status i.e. a    dds publishedAt date and set published to true
     Check if the blogId exists (must have isDeleted false). If it doesn't, return an HTTP status 404 with a response body like this
     Return an HTTP status 200 if updated successfully with a body like this
     Also make sure in the response you return the updated blog document.
