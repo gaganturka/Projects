@@ -22,7 +22,7 @@ const isValid = function (value) {
     }
     if (value.length == 0) {
         return false
-    } if (typeof (value) === 'string' || "Array" && valuelength > 0) {
+    } if (typeof (value) === 'string' || "Array" && value.length > 0) {
         return true
     }
 }
@@ -46,7 +46,6 @@ const createCollege = async function (req, res) {
         const len1 = len.length
         if (!(len1 == 1)) return res.status(400).send({ status: false, message: 'invalid name' })
 
-
         const Dublicatename = await collegeModel.findOne({ name: checkname })
         console.log(Dublicatename)
         if (Dublicatename) return res.status(400).send('college already exist')
@@ -55,9 +54,17 @@ const createCollege = async function (req, res) {
         const req1 = isValid(fullName)
         console.log(req1)
         if (!req1) return res.status(400).send({ status: false, message: "fullName is required" })
+       
+        const len5 = fullName.split(" ")
+        const len6 = len5.length
+        if (len6 < 2) return res.status(400).send({ status: false, message: 'invalid fullName' })
 
         const req2 = isValid(logoLink)
         if (!req2) return res.status(400).send({ status: false, message: "logoLink is required" })
+        
+        const len3 = logoLink.split(" ")
+        const len4 = len3.length
+        if (!(len4 == 1)) return res.status(400).send({ status: false, message: 'invalid logo' })
 
 
 
@@ -79,6 +86,8 @@ const createIntern = async function (req, res) {
         const valid1 = data.email
         const valid2 = data.mobile
 
+        const validate = await collegeModel.findOne({ _id: valid })
+        if (!validate) return res.status(400).send({ status: false, message: 'not valid collegeId' })
 
         const validate1 = await internModel.find({ email: valid1 })
         if (validate1.length > 0) return res.status(400).send({ status: false, message: 'email already exist' })
@@ -89,7 +98,7 @@ const createIntern = async function (req, res) {
 
         if (validate2.length > 0) return res.status(400).send({ status: false, message: 'mobile number already exist' })
 
- 
+
         const { name, email, mobile } = data
         const req0 = isValid(name)
         if (!req0) return res.status(400).send({ status: false, message: "name is required" })
