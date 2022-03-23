@@ -22,29 +22,35 @@ const isValid = function (value) {
     }
     if (value.length == 0) {
         return false
-    } if (typeof (value) === 'string' || "Array" && value.length > 0) {
+    } if (typeof (value) === 'string' || "Array" && valuelength > 0) {
         return true
     }
 }
-const mobilee = function (mobile) {
-    if (typeof (mobile) === 'undefined' || typeof (mobile) === 'null') {
-        return false
-    }
-    if (mobile.length == 0) {
-        return false
-    }
-    if (typeof (mobile) === 'number' || 'string') {
-        return true
-    }
-}
+
 
 const createCollege = async function (req, res) {
     try {
         let data = req.body
+        const checkname = data.name
+
+
+        if (Object.keys(data) == 0) {
+            return res.status(400).send({ status: false, msg: " data is  missing" })
+        }
 
         const { name, fullName, logoLink } = data
         const req0 = isValid(name)
         if (!req0) return res.status(400).send({ status: false, message: 'name is require' })
+
+        const len = name.split(" ")
+        const len1 = len.length
+        if (!(len1 == 1)) return res.status(400).send({ status: false, message: 'invalid name' })
+
+
+        const Dublicatename = await collegeModel.findOne({ name: checkname })
+        console.log(Dublicatename)
+        if (Dublicatename) return res.status(400).send('college already exist')
+
 
         const req1 = isValid(fullName)
         console.log(req1)
@@ -70,9 +76,20 @@ const createIntern = async function (req, res) {
     try {
         const data = req.body
         const valid = data.collegeId
-        const validate = await collegeModel.findOne({ _id: valid })
-        if (!validate) return res.status(400).send({ status: false, message: 'not valid collegeId' })
+        const valid1 = data.email
+        const valid2 = data.mobile
 
+
+        const validate1 = await internModel.find({ email: valid1 })
+        if (validate1.length > 0) return res.status(400).send({ status: false, message: 'email already exist' })
+
+
+        const validate2 = await internModel.find({ mobile: valid2 })
+        console.log(validate1)
+
+        if (validate2.length > 0) return res.status(400).send({ status: false, message: 'mobile number already exist' })
+
+ 
         const { name, email, mobile } = data
         const req0 = isValid(name)
         if (!req0) return res.status(400).send({ status: false, message: "name is required" })
@@ -80,9 +97,16 @@ const createIntern = async function (req, res) {
         const req1 = isValid(email)
         if (!req1) return res.status(400).send({ status: false, message: "email is required" })
 
-        const req2 = mobilee(mobile)
+        if (!(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)))
+            return res.status(400).send({ status: false, message: 'Not a valid email' })
+
+        const req2 = isValid(mobile)
         console.log(req2)
         if (!req2) return res.status(400).send({ status: false, message: "incorrect mobile Number" })
+
+        if (!(/^\d{10}$/.test(mobile)))
+            return res.status(400).send({ status: false, message: 'Not a valid mobile number' })
+
 
 
 
@@ -100,61 +124,48 @@ const createIntern = async function (req, res) {
     }
 }
 const detail = async function (req, res) {
-   
-        try {
-          let intern = []
-          let result = {}
-          let collegeName = req.query.name
-      
-          if (!collegeName) return res.status(400).send({ status: false, msg: "invalid request parameters . Please Provide college name" })
-      
-      
-          let collegeDetails = await collegeModel.findOne({ name: collegeName })
-          if (!collegeDetails)
-            res.send({ status: false, msg: "No College Found" })
-      
-          let internDetails = await internModel.find({ collegeId: collegeDetails._id })
-      
-          let collegeData = {
-            name: collegeDetails.name,
-            fullName: collegeDetails.fullName,
-            logoLink: collegeDetails.logoLink
-          }
-          for (let i = 0; i < internDetails.length; i++) {
+
+
+    try {
+
+        let intere = []
+
+        const data = req.query.name
+        if (!data) return res.status(400).send({ status: false, message: 'invalid detail' })
+
+        const collegeData = await collegeModel.findOne({ name: data })
+        if (!collegeData) return res.status(404).send({ status: false, message: 'No college found' })
+
+
+        const search = collegeData._id
+        const interest = await internModel.find({ collegeId: search })
+
+        let collegeDataele = {
+            name: collegeData.name,
+            fullName: collegeData.fullName,
+            logoLink: collegeData.logoLink
+        }
+
+
+        for (let i = 0; i < interest.length; i++) {
             result = {
-              _id: internDetails[i]._id,
-              name: internDetails[i].name,
-              email: internDetails[i].email,
-              mobile: internDetails[i].mobile
-      
+                _id: interest[i]._id,
+                name: interest[i].name,
+                email: interest[i].email,
+                mobile: interest[i].mobile
             }
-            intern.push(result)
-          }
-          collegeData["intrests"] = intern
-          res.status(200).send({ status: true, data: collegeData })
+            intere.push(result)
+            console.log(intere)
         }
-        catch (error) {
-          console.log(error)
-          res.status(500).send({ status: false, msg: error.message })
-        }
-      }
-//     try {
-//         const data = req.query.name
-//         if (!data) return res.status(400).send({ status: false, message: 'invalid detail' })
+        collegeDataele["interest"] = intere
 
-//         const checking = await collegeModel.findOne({ name: data })
-//         if (!checking) return res.status(404).send({ status: false, message: 'No college found' })
+        res.status(201).send(collegeDataele)
 
-
-//         const search = checking._id
-//         const interests = await internModel.find({ collegeId: search })
-//         res.status(201).send({ data: checking, intern: interests })
-
-//     } catch (error) {
-//         res.status(500).send({ status: false, message: error.message })
-//         console.log(error)
-//     }
-// }
+    } catch (error) {
+        res.status(500).send({ status: false, message: error.message })
+        console.log(error)
+    }
+}
 
 
 module.exports.createCollege = createCollege
