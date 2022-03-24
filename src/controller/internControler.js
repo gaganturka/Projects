@@ -1,19 +1,7 @@
-const collegeModel = require("../Models/CollegeModel")
 const internModel = require("../Models/internModel")
+const collegeModel = require("../Models/CollegeModel")
 
 
-// const isValid = function (value) {
-
-//     if (typeof (value) === 'undefined' || typeof (value) === 'null') {
-//         return false
-//     }
-//     if (value.length == 0) {
-//         return false
-//     }
-//     if (typeof (value) === 'String' && value.length > 0 ) {
-//         return true
-//     }
-// }
 
 const isValid = function (value) {
 
@@ -22,62 +10,12 @@ const isValid = function (value) {
     }
     if (value.length == 0) {
         return false
-    } if (typeof (value) === 'string' || "Array" && value.length > 0) {
+    } if (typeof (value) == 'string' && value.trim().length > 0) {
         return true
     }
 }
 
 
-const createCollege = async function (req, res) {
-    try {
-        let data = req.body
-        const checkname = data.name
-
-
-        if (Object.keys(data) == 0) {
-            return res.status(400).send({ status: false, msg: " data is  missing" })
-        }
-
-        const { name, fullName, logoLink } = data
-        const req0 = isValid(name)
-        if (!req0) return res.status(400).send({ status: false, message: 'name is require' })
-
-        const len = name.split(" ")
-        const len1 = len.length
-        if (!(len1 == 1)) return res.status(400).send({ status: false, message: 'invalid name' })
-
-        const Dublicatename = await collegeModel.findOne({ name: checkname })
-        console.log(Dublicatename)
-        if (Dublicatename) return res.status(400).send('college already exist')
-
-
-        const req1 = isValid(fullName)
-        console.log(req1)
-        if (!req1) return res.status(400).send({ status: false, message: "fullName is required" })
-       
-        const len5 = fullName.split(" ")
-        const len6 = len5.length
-        if (len6 < 2) return res.status(400).send({ status: false, message: 'invalid fullName' })
-
-        const req2 = isValid(logoLink)
-        if (!req2) return res.status(400).send({ status: false, message: "logoLink is required" })
-        
-        const len3 = logoLink.split(" ")
-        const len4 = len3.length
-        if (!(len4 == 1)) return res.status(400).send({ status: false, message: 'invalid logo' })
-
-
-
-        let saveData = await collegeModel.create(data)
-        if (!saveData) return res.status(400).send({ status: false, message: " body missing" })
-        res.status(201).send({ status: true, data: saveData })
-
-
-    }
-    catch (err) {
-        res.status(500).send({ status: false, message: err.message })
-    }
-}
 
 const createIntern = async function (req, res) {
     try {
@@ -85,6 +23,11 @@ const createIntern = async function (req, res) {
         const valid = data.collegeId
         const valid1 = data.email
         const valid2 = data.mobile
+
+
+        if (Object.keys(data) == 0) {
+            return res.status(400).send({ status: false, msg: " data is  missing" })
+        }
 
         const validate = await collegeModel.findOne({ _id: valid })
         if (!validate) return res.status(400).send({ status: false, message: 'not valid collegeId' })
@@ -94,8 +37,6 @@ const createIntern = async function (req, res) {
 
 
         const validate2 = await internModel.find({ mobile: valid2 })
-        console.log(validate1)
-
         if (validate2.length > 0) return res.status(400).send({ status: false, message: 'mobile number already exist' })
 
 
@@ -115,10 +56,6 @@ const createIntern = async function (req, res) {
 
         if (!(/^\d{10}$/.test(mobile)))
             return res.status(400).send({ status: false, message: 'Not a valid mobile number' })
-
-
-
-
 
 
         const create = await internModel.create(data)
@@ -149,6 +86,7 @@ const detail = async function (req, res) {
         const search = collegeData._id
         const interest = await internModel.find({ collegeId: search })
 
+
         let collegeDataele = {
             name: collegeData.name,
             fullName: collegeData.fullName,
@@ -156,19 +94,25 @@ const detail = async function (req, res) {
         }
 
 
-        for (let i = 0; i < interest.length; i++) {
-            result = {
-                _id: interest[i]._id,
-                name: interest[i].name,
-                email: interest[i].email,
-                mobile: interest[i].mobile
-            }
-            intere.push(result)
-            console.log(intere)
-        }
+        // for (let i = 0; i < interest.length; i++) {
+        //     result = {
+        //         _id: interest[i]._id,
+        //         name: interest[i].name,
+        //         email: interest[i].email,
+        //         mobile: interest[i].mobile,
+
+        //     }
+        //     intere.push(result)
+        //     console.log(intere)
+        // }
+        // collegeDataele["interest"] = intere
+
+        //     OR
+
+        intere.push(interest)
         collegeDataele["interest"] = intere
 
-        res.status(201).send(collegeDataele)
+        res.status(200).send(collegeDataele)
 
     } catch (error) {
         res.status(500).send({ status: false, message: error.message })
@@ -177,6 +121,5 @@ const detail = async function (req, res) {
 }
 
 
-module.exports.createCollege = createCollege
 module.exports.createIntern = createIntern
 module.exports.detail = detail
