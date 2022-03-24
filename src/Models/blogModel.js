@@ -30,7 +30,6 @@ const blogSchema = new mongoose.Schema({
     },
     "deletedAt": Date, // if deleted is true deletedAt will have a date 2021-09-17T04:25:07.803Z,
 
-
 }, { timestamps: true })
 
 module.exports = mongoose.model("blog", blogSchema)

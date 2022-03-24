@@ -60,7 +60,6 @@ const loginauthor = async function (req, res) {
     catch (error) {
         return res.status(500).send({ msg: error.message })
     }
-
 };
 
 

@@ -10,7 +10,6 @@ const authenticate = function (req, res, next) {
     next()
 }
 
-
 const authorisation = async function (req, res, next) {
 
     let blogId = req.params.blogId

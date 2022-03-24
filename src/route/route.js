@@ -6,7 +6,6 @@ const blogController = require("../controllers/blogController");
 const middleware = require("../middelware/mideware")
 
 
-
 router.post("/createAuthor", authorController.createAuthor);
 router.post("/createblog", middleware.authenticate, blogController.createblog);
 
