@@ -7,17 +7,15 @@ const middleware = require("../middleware/auth.js")
 
 
 
+router.post("/createAuthor", authorController.createAuthor);
+router.post("/createblog", middleware.authenticate, blogController.createblog);
 
-router.post("/createAuthor",authorController.createAuthor);
-router.post("/createblog",middleware.authenticate,blogController.createblog);
+router.get("/getblog", middleware.authenticate, blogController.getblog)
+router.put("/blog/:blogId", middleware.authenticate, middleware.authorisation, blogController.updateblog)
+router.delete("/blogs/:blogId", middleware.authenticate, middleware.authorisation, blogController.deleteblog)
 
-router.get("/getblog",middleware.authenticate,blogController.getblog)
-router.put("/blog/:blogId",middleware.authenticate,middleware.authorisation, blogController.updateblog)
-router.delete("/blogs/:blogId",middleware.authenticate,middleware.authorisation,blogController.deleteblog)
+router.delete("/deleteblog", middleware.authenticate, blogController.deleteByElement)
 
-router.delete("/deleteblog",middleware.authenticate,blogController.deleteByElement)
-
-
-router.post("/login",authorController.loginauthor)
+router.post("/login", authorController.loginauthor)
 
 module.exports = router;
