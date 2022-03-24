@@ -3,7 +3,7 @@ const router = express.Router();
 
 const authorController = require("../controllers/authorController");
 const blogController = require("../controllers/blogController");
-const middleware = require("../middleware/auth.js")
+const middleware = require("../middelware/mideware")
 
 
 

@@ -80,11 +80,17 @@ const updateblog = async function (req, res) {
     let checking = check.deleted
     if (checking == true) return res.status(404).send({ status: false, msg: "blog has been already deleted" })
 
-    let update = await blogModel.findOneAndUpdate({ _id: blogid }, { isPublished: true }, { new: true })
-    let id = update.isPublished
+    let upd0 = check.isPublished
+    console.log(upd0)
+    if (upd0 === false) {
+        let update = await blogModel.findOneAndUpdate({ _id: blogid }, { isPublished: true }, { new: true })
+        let upd = update.isPublished
 
-    if (id == true) {
-        req.body["publishedAt"] = new Date()
+        if (upd == true) {
+            req.body["publishedAt"] = new Date()
+        } else {
+            res.status(400).send({ status: false, message: 'alread updated' })
+        }
     }
 
     let updateBody = req.body
