@@ -1,8 +1,8 @@
 const validUrl = require('valid-url')
 const shortId = require('shortid')
 const urlModel = require('../models/urlModel')
-const redis = require("redis")
-const {promisify} = require("util")
+// const redis = require("redis")
+// const {promisify} = require("util")
 // const e = require('express')
 
 const isValid = function (value) {
@@ -11,13 +11,13 @@ const isValid = function (value) {
     }
     if (typeof (value) != 'string') {
         return false
-    } 
+    }
     if (typeof (value) == 'string' && value.trim().length == 0) {
-        return false 
+        return false
     }
 
     return true
-} 
+}
 
 
 const queryparams = function (query) {
@@ -25,27 +25,28 @@ const queryparams = function (query) {
         return true
     }
 }
+const redis = require("redis");
 
+const { promisify } = require("util");
+
+//Connect to redis
 const redisClient = redis.createClient(
-//     16368,
-//     "redis-16368.c15.us-east-1-2.ec2.cloud.redislabs.com",
-//     { no_ready_check: true }
-    
-//   );
+    16368,
+    "redis-16368.c15.us-east-1-2.ec2.cloud.redislabs.com",
+    { no_ready_check: true }
+);
+redisClient.auth("Y52LH5DG1XbiVCkNC2G65MvOFswvQCRQ", function (err) {
+    if (err) throw err;
+});
 
-//   redisClient.auth("Y52LH5DG1XbiVCkNC2G65MvOFswvQCRQ", function (err) {
-//     if (err) throw err;
-//   });
-//   console.log('1')
+redisClient.on("connect", async function () {
+    console.log("Connected to Redis..");
+});
 
-  
-//   redisClient.on("connect", async function () {
-//     console.log("Connected to Redis..");
-//   }
-  );
 
-  const SET_ASYNC = promisify(redisClient.SET).bind(redisClient)
-  const GET_ASYNC = promisify(redisClient.GET).bind(redisClient)
+
+const SET_ASYNC = promisify(redisClient.SET).bind(redisClient);
+const GET_ASYNC = promisify(redisClient.GET).bind(redisClient);
 
 
 const shortUrl = async function (req, res) {
@@ -114,20 +115,20 @@ const longUrl = async function (req, res) {
         }
         let caching = await GET_ASYNC(`${urlCode}`)
         if (caching) {
-            return res.status(200).send({status : true, message : 'caching wooooooh', data :JSON.parse(caching)})
+            return res.status(200).send({ status: true, message: 'caching wooooooh', data: JSON.parse(caching) })
 
         } else {
-        const urlCodeExist = await urlModel.findOne({ urlCode })
-        console.log(urlCodeExist)
+            const urlCodeExist = await urlModel.findOne({ urlCode })
+            console.log(urlCodeExist)
 
-        if (urlCodeExist) {        
-            await SET_ASYNC(`${urlCode}`,JSON.stringify(urlCodeExist))
-          return res.status(300).redirect( urlCodeExist.longUrl)
+            if (urlCodeExist) {
+                await SET_ASYNC(`${urlCode}`, JSON.stringify(urlCodeExist))
+                return res.status(300).redirect(urlCodeExist.longUrl)
 
-        } else {
-            res.status(404).send({ status: false, message: 'No url found' })
+            } else {
+                res.status(404).send({ status: false, message: 'No url found' })
+            }
         }
-    }
     } catch (error) {
         res.status(500).send({ status: false, message: error.message })
     }
