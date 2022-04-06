@@ -19,10 +19,9 @@ const isValid = function (value) {
 
 
 const queryparams = function (query) {
-    if (Object.keys(query).length != 0) {
-        return false
+    if (Object.keys(query).length == 0) {
+        return true
     }
-    return true
 }
 
 
@@ -30,11 +29,11 @@ const shortUrl = async function (req, res) {
     try {
 
         const longUrl = req.body.longUrl
-        // const query = req.query
+        const query = req.query
 
-        // if (queryparams(query)) {
-        //     return res.status(400).send({ status: false, message: 'invalid request' })
-        // }
+        if (!queryparams(query)) {
+            return res.status(400).send({ status: false, message: 'invalid request' })
+        }
 
         //here isvalid mainly using for if type != 'string' then it give error
         if (!isValid(longUrl)) {
@@ -85,11 +84,11 @@ const shortUrl = async function (req, res) {
 const longUrl = async function (req, res) {
     try {
         const urlCode = req.params.urlCode
-        // const query = req.query
+        const query = req.query
 
-        // if (queryparams(query)) {
-        //     return res.status(400).send({ status: false, message: 'invalid request' })
-        // }
+        if (!queryparams(query)) {
+            return res.status(400).send({ status: false, message: 'invalid request' })
+        }
 
         const urlCodeExist = await urlModel.findOne({ urlCode })
         console.log(urlCodeExist)

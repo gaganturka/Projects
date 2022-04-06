@@ -25,6 +25,7 @@
     "node-module": "^2.0.0",
     "node-url-shortener": "^2.0.1",
     "nodemon": "^2.0.15",
+    "redis": "^4.0.6",
     "short-id": "^0.1.0-1",
     "shortid": "^2.2.16",
     "valid-url": "^1.0.9"
