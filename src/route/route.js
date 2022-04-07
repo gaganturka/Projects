@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router();
-const url = require('../controllers/url')
+const urlController = require('../controllers/urlController')
 
 
 router.get("/test-me", function (re, res) {
@@ -8,8 +8,8 @@ router.get("/test-me", function (re, res) {
     res.send('all is well')
 })
 
-router.post("/url/shorten", url.shortUrl)
-router.get("/:urlCode", url.longUrl)
+router.post("/url/shorten", urlController.shortUrl)
+router.get("/:urlCode", urlController.longUrl)
 
 
-module.exports =  router;
+module.exports = router;
