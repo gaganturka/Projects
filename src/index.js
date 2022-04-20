@@ -21,5 +21,5 @@ mongoose.connect("mongodb+srv://group13:UEEqzwKeluhyT2uM@cluster0.hkvjs.mongodb.
 
 
  app.listen(process.env.PORT || 3000, function(){5
-     console.log('Express app runnig on port' + (process.env.PORT || 300))
+     console.log('Express app runnig on port' + (process.env.PORT || 3000))
  })
