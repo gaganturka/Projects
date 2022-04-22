@@ -1,36 +1,47 @@
 const express = require('express')
+const userController = require("../controller/userController")
+const productController = require("../controller/productController")
+const cartController = require("../controller/cartController")
+const orderController = require("../controller/orderController")
+const mw = require("../middleware/auth")
+
 const router = express.Router()
-const removeUploadedFiles=require('multer/lib/remove-uploaded-files');
-// const s3 = require('../s3')
-const user = require('../controller/userController')
-const mid = require('../midellware/auth')
-const product = require('../controller/productController')
-const cart = require('../controller/cartController')
-const order = require('../controller/orderController')
 
-
-
-router.get("/test-me", function (re, res) {
-    console.log('i am fine')
-    res.send('all is well')
+router.get("/test", (req, res) => {
+    let data = req.body
+    res.status(200).send({status: true, message: "it's working", data: data})
 })
+// user
+router.post("/register", userController.register)
 
-router.post("/createUser", user.createUser)
-router.get("/loginUser", user.loginUser)
-router.get("/user/:userId/profile",mid.mid, user.userProfile)
-router.put("/user/:userId/profile", mid.mid, user.updateUser)
+router.post("/login", userController.userlogin)
 
-router.post("/createProduct", product.createProduct)
-router.get("/product", product.fetchProductdata)
-router.get("/products/:productId", product.getProduct)
-router.put("/products/:productId", product.updateProduct)
-router.delete("/products/:productId", product.deleteProduct)
+router.get("/user/:userId/profile", mw.authentication, userController.getUserProfile)
 
-router.post("/users/:userId/cart", cart.createCart)
-router.put("/users/:userId/cart", cart.updateCart)
-router.delete("/delete", cart.deleteCart)
+router.put("/user/:userId/profile", mw.authentication, mw.userAuthorization, userController.updateUser)
 
-router.post("/users/:userId/orders", order.createOrder)
-router.put("/users/:userId/orders", order.updateOrder)
+//products
+router.post("/products", productController.createProduct)
 
-module.exports = router;
+router.get("/products", productController.getSpecificProduct)
+
+router.get("/products/:productId", productController.getProductByProductId)
+
+router.put("/products/:productId", productController.updatedProduct)
+
+router.delete("/products/:productId", productController.deleteProduct)
+
+//Cart
+router.post("/users/:userId/cart", mw.authentication, mw.userAuthorization, cartController.createCart)
+
+router.get("/users/:userId/cart", mw.authentication, mw.userAuthorization, cartController.getCartByUserId)
+
+router.delete("/users/:userId/cart", mw.authentication, mw.userAuthorization, cartController.deleteCartItems)
+
+router.put("/users/:userId/cart", mw.authentication, mw.userAuthorization, cartController.updateCart)
+
+// order
+router.post("/users/:userId/orders", mw.authentication, mw.userAuthorization, orderController.postOrder)
+router.put("/users/:userId/orders", mw.authentication, mw.userAuthorization, orderController.upadateOrder)
+
+module.exports = router

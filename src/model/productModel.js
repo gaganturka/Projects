@@ -4,7 +4,7 @@ const productSchema = new mongoose.Schema ({
     title : {
         type : String,
         required : 'title is required',
-        // unique : true
+        unique : true
     },
     description : {
         type : String,
@@ -20,7 +20,7 @@ const productSchema = new mongoose.Schema ({
         // required : 'currencyId is required',
         default : "INR"
         },
-    currencyFormate : {
+    currencyFormat : {
         type : String,
         // required : 'currencyFormate is required',
         default : "₹"
@@ -39,6 +39,8 @@ const productSchema = new mongoose.Schema ({
     availableSizes : [{
         type : Array,
         enum : ["S", "XS","M","X", "L","XXL", "XL"],
+        required : true,
+        trim : true
     }],
     installments : {
         type : Number
@@ -54,4 +56,4 @@ const productSchema = new mongoose.Schema ({
 
 },{timestamps : true})
 
-module.exports = mongoose.model('Product', productSchema)
+module.exports = new mongoose.model("Product", productSchema)

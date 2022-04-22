@@ -1,12 +1,13 @@
-const express = require('express')
-const bodyParser = require('body-parser')
-const mongoose = require('mongoose')
-const route = require('./route/route')
-const app = express();
-const multer = require('multer')
+const express = require("express")
+const mongoose = require("mongoose")
+const multer = require("multer")
 
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({extended : true}))
+const route = require("./route/route")
+
+const app = express()
+
+app.use(express.json())
+app.use(express.urlencoded({extended: true}))
 app.use(multer().any())
 
 
