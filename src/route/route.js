@@ -6,7 +6,7 @@ const collegeController = require("../controller/collegeControler")
 
 router.post("/functionup/colleges", collegeController.createCollege);
 router.post("/functionup/interns", interControler.createIntern)
-router.get("/functionup/collegeDetails", interControler.detail)
+router.get("/functionup/collegeDetails", interControler.fetchCollegeData)
 
 
 module.exports = router;

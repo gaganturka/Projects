@@ -27,7 +27,7 @@ const internSchema = new mongoose.Schema({
             unique: true,
             validate: {
                 validator: function (inputtxt) {
-                   return /^\d{10}$/.test(inputtxt);              
+                   return /^[6-9]\d{9}$/.test(inputtxt);              
         },
         message : "please enter valid mobile number"
     }
@@ -43,7 +43,7 @@ const internSchema = new mongoose.Schema({
             type : Boolean,
             default : false
         }
-    },{timestamp: true})
+    },{timestamps: true})
 
 
 
