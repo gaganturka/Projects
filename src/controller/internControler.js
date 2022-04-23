@@ -46,7 +46,7 @@ const createIntern = async function (req, res) {
             return res.status(400).send({ status: false, message: "email is required" })
         }
 
-        if (!(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email))) {
+        if (!(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email.trim()))) {
             return res.status(400).send({ status: false, message: 'Not a valid email' })
         }
 
@@ -54,7 +54,7 @@ const createIntern = async function (req, res) {
             return res.status(400).send({ status: false, message: "please provide valid mobile Number" })
         }
 
-        if (!(/^[6-9]\d{9}$/.test(mobile)))
+        if (!(/^[6-9]\d{9}$/.test(mobile.trim())))
             return res.status(400).send({ status: false, message: 'Not a valid mobile number' })
 
 

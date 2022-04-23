@@ -30,7 +30,7 @@ const createCollege = async function (req, res) {
             return res.status(400).send({ status: false, message: 'name is require' })
         }
 
-        const nameLen = name.split(" ")
+        const nameLen = name.trim().split(" ")
         const checkNameLen = nameLen.length
         if (!(checkNameLen == 1)) return res.status(400).send({ status: false, message: 'invalid name' })
 
@@ -40,7 +40,7 @@ const createCollege = async function (req, res) {
             return res.status(400).send({ status: false, message: "fullName is required" })
         }
 
-        const fullNameLen = fullName.split(" ")
+        const fullNameLen = fullName.trim().split(" ")
         const isValidFullName = fullNameLen.length
         if (isValidFullName < 2) {
             return res.status(400).send({ status: false, message: 'invalid fullName' })
@@ -51,7 +51,7 @@ const createCollege = async function (req, res) {
             return res.status(400).send({ status: false, message: "logoLink is required" })
         }
 
-        const isValidLogoLink = logoLink.split(" ")
+        const isValidLogoLink = logoLink.trim().split(" ")
         const isSpaceInLogoLink = isValidLogoLink.length
         if (!(isSpaceInLogoLink == 1)) {
             return res.status(400).send({ status: false, message: 'invalid logo' })
