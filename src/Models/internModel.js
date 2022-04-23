@@ -13,7 +13,8 @@ const internSchema = new mongoose.Schema({
         required: true,
         trim: true,
         unique: true,
-
+        lowercase : true, //it convert email into loweCase
+        
         validate: {
             validator: function (v) {
                 return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(v);

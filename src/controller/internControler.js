@@ -51,7 +51,7 @@ const createIntern = async function (req, res) {
         }
 
         if (!isValid(mobile)) {
-            return res.status(400).send({ status: false, message: "incorrect mobile Number" })
+            return res.status(400).send({ status: false, message: "please provide valid mobile Number" })
         }
 
         if (!(/^[6-9]\d{9}$/.test(mobile)))
