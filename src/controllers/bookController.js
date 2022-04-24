@@ -41,28 +41,27 @@ const isValidRequestBody = function (data) {
 const createBook = async function (req, res) {
     try {
         const query = req.query
-        const data = req.body
-        const userId = data.userId
+        const requestBody = req.body
+        const userId = requestBody.userId
 
         if (!isValidId(userId)) {
             return res.status(400).send({ status: false, message: 'valid userId is required' })
         }
 
+        // we can check isValid user but to decrease db call we cann't. in token there is same id so we can compare with it
         if (req.userIdFromToken != userId) {
             return res.status(401).send({ status: false, message: 'unAuthorised access ! owner info doesnot match' })
         }
 
         if (Object.keys(query).length != 0) {
-            return res.status(400).send({ status: false, message: 'invalid request' })
+            return res.status(400).send({ status: false, message: 'page not found' })
         }
 
-        if (!isValidRequestBody(data)) {
+        if (!isValidRequestBody(requestBody)) {
             return res.status(400).send({ status: false, message: 'data required' })
         }
 
-
-
-        const { title, excerpt, ISBN, catagory, subCatagory, reviews, releasedAt } = data
+        const { title, excerpt, ISBN, catagory, subCatagory, reviews, releasedAt } = requestBody
         //  excerpt is a short piece taken from a book , (like bref summery )
         if (!isvalid(excerpt)) {
             return res.status(400).send({ status: false, message: 'excerpt is require must be in string' })
@@ -87,7 +86,7 @@ const createBook = async function (req, res) {
             return res.status(400).send({ status: false, message: 'enter a valid date' })
         }
 
-        if (data.hasOwnProperty("reviews")) {
+        if (requestBody.hasOwnProperty("reviews")) {
             if (typeof (reviews) != 'number') {
                 return res.status(400).send({ status: false, message: 'reviews will be a number' })
             }
@@ -98,7 +97,7 @@ const createBook = async function (req, res) {
 
         if (isvalid(title)) {
 
-            const uniqueTitle = await bookModel.findOne({ title: title })
+            const uniqueTitle = await bookModel.findOne({ title })
             if (uniqueTitle) {
                 return res.status(400).send({ status: false, message: 'title shoud be uniqe' })
             }
@@ -108,7 +107,7 @@ const createBook = async function (req, res) {
 
         //  ISBN is International Standard Book Number
         if (isvalid(ISBN)) {
-            if (!/^(97(8|9))?\d{9}(\d|X)$/.test(ISBN.split("-").join(""))) {
+            if (!/[1-9][0-9]{12}$$/.test(ISBN.trim())) {
                 return res.status(400).send({ status: false, message: 'ISBN is must be in valid formate' })
             }
 
@@ -172,38 +171,32 @@ const getBooks = async function (req, res) {
                 if (!isValidId(userId)) {
                     return res.status(400).send({ status: false, message: 'write a proper id' })
                 }
-
-                const findBookWithUserId = await bookModel.find({ userId: userId })
+                const findBookWithUserId = await bookModel.find({ userId: userId ,isDeleted : false})
                 if (findBookWithUserId) {
                     filterbook['userId'] = userId.trim()
                 }
             }
+
 
             if (query.hasOwnProperty('catagory')) {
 
                 if (!isvalid(catagory)) {
                     return res.status(400).send({ status: false, message: 'improper catagory' })
                 }
-
-                const findCatagory = await bookModel.find({ catagory })
-                if (findCatagory) {
                     filterbook['catagory'] = catagory.trim()
-                }
             }
+
 
             if (query.hasOwnProperty('subCatagory')) {
 
                 if (!isvalid(subCatagory)) {
                     return res.status(400).send({ status: false, message: 'improper subCatagory' })
                 }
-
-                const findsubCatagory = await bookModel.find({ subCatagory })
-                if (findsubCatagory) {
                     filterbook['subCatagory'] = subCatagory.trim()
-                }
             }
 
-            const result = await bookModel.find(filterbook).select({ _id: 1, title: 1, excerpt: 1, userId: 1, category: 1, releasedAt: 1, reviews: 1 }).sort({ title: 1 });
+
+            const result = await bookModel.find(filterbook).select({ _id: 1, title: 1,catagory : 1, excerpt: 1, userId: 1, category: 1, releasedAt: 1, reviews: 1 }).sort({ title: 1 });
             if (result.length == 0) {
                 return res.status(400).send({ status: false, message: 'no book found' })
             }
@@ -213,7 +206,7 @@ const getBooks = async function (req, res) {
 
         } else {
 
-            const findBook = await bookModel.find({ isDeleted: false }).select({ _id: 1, title: 1, excerpt: 1, userId: 1, category: 1, releasedAt: 1, reviews: 1 }).sort({ title: 1 });
+            const findBook = await bookModel.find({ isDeleted: false }).select({ _id: 1, title: 1,catagory : 1, excerpt: 1, userId: 1, category: 1, releasedAt: 1, reviews: 1 }).sort({ title: 1 });
 
             if (findBook.length == 0) {
                 return res.status(400).send({ status: false, message: 'NO book available' })
@@ -237,9 +230,8 @@ const getBookByParams = async function (req, res) {
         //converting query params into array for check length
 
         if (Object.keys(query).length != 0) {
-            return res.status(400).send({ status: false, message: 'invalid request' })
+            return res.status(400).send({ status: false, message: 'page Not found' })
         }
-        const reviewsData = []
 
         const params = req.params.bookId
 
@@ -257,7 +249,7 @@ const getBookByParams = async function (req, res) {
             //  alternative we can also use .lean() 
             const findBook = await bookModel.findOne({ _id: params, isDeleted: false })
             if (!findBook) {
-                return res.status(400).send({ status: false, message: 'book not found' })
+                return res.status(404).send({ status: false, message: 'book not found' })
             }
             const data = {
                 _id: findBook._id,
@@ -275,16 +267,14 @@ const getBookByParams = async function (req, res) {
                 reviewsData: review
 
             }
-            reviewsData.push(data)
-            if (!findBook) {
-                return res.status(400).send({ status: false, message: ' book not exist id' })
-            }
+            res.status(200).send({ status: true,message : 'book details', data: data })
+
 
         } else {
             return res.status(400).send({ status: false, message: 'invalid book id' })
         }
 
-        res.status(200).send({ status: true, data: reviewsData })
+        // res.status(200).send({ status: true,message : 'book details', data: reviewsData })
     } catch (error) {
         res.status(500).send({ status: false, message: error.message })
         console.log(error)
@@ -299,13 +289,13 @@ const updateBookById = async function (req, res) {
             return res.status(400).send({ status: false, message: 'invalid request' })
         }
 
-        const data = req.body
+        const requestBody = req.body
 
         if (!isValidRequestBody) {
             return res.status(400).send({ status: false, message: 'data is required for update' })
         }
 
-        const { title, ISBN, excerpt, releasedAt } = data
+        const { title, ISBN, excerpt, releasedAt } = requestBody
         // we use update variable for update specific data. without variable data is not specied or you can delete book from body simply give isDeleted : true
         const update = {}
 
@@ -318,7 +308,6 @@ const updateBookById = async function (req, res) {
                 return res.status(404).send({ status: false, message: 'invalid book Id' })
             }
             //  authorisation
-
             // toString() returns the content of a string:or without toString() function user authorised
             if (req.userIdFromToken != checkId.userId.toString()) {
                 return res.status(401).send({ status: false, message: 'unAuthorised access ! owner info doesnot match' })
@@ -326,7 +315,7 @@ const updateBookById = async function (req, res) {
 
         }
 
-        if (data.hasOwnProperty("title")) {
+        if (requestBody.hasOwnProperty("title")) {
             if (!(isvalid(title))) {
                 return res.status(400).send({ status: false, message: 'improper title' })
             }
@@ -335,38 +324,34 @@ const updateBookById = async function (req, res) {
             if (uniqueTitle) {
                 return res.status(400).send({ status: false, message: 'title should be unique' })
             }
-            update["title"] = title
+            update["title"] = title.trim()
         }
 
-        if (data.hasOwnProperty("ISBN")) {
+        if (requestBody.hasOwnProperty("ISBN")) {
             if (!(isvalid(ISBN))) {
                 return res.status(400).send({ status: false, message: 'ISBN required' })
             }
-            if (!/^(97(8|9))?\d{9}(\d|X)$/.test(ISBN.split("-").join(""))) {
+            if (!/[1-9][0-9]{12}$$/.test(ISBN.trim())) {
                 return res.status(400).send({ status: false, message: 'ISBN is must be in valid formate' })
             }
-
-            if (ISBN.length != 13) {
-                return res.status(400).send({ status: false, message: 'invalid ISBN' })
-            }
+         
             const uniqueISBN = await bookModel.findOne({ ISBN: ISBN })
-            console.log(uniqueISBN)
             if (uniqueISBN) {
                 return res.status(400).send({ status: false, message: 'ISBN should be unique' })
             }
-            update["ISBN"] = ISBN
+            update["ISBN"] = ISBN.trim()
 
         }
 
-        if (data.hasOwnProperty("excerpt")) {
+        if (requestBody.hasOwnProperty("excerpt")) {
             if (!(isvalid(excerpt))) {
                 return res.status(400).send({ status: false, message: 'excerpt required' })
             }
-            update["excerpt"] = excerpt
+            update["excerpt"] = excerpt.trim()
 
         }
 
-        if (data.hasOwnProperty("releasedAt")) {
+        if (requestBody.hasOwnProperty("releasedAt")) {
             // check date formate
             if (!/^[0-9]{4}[-]{1}[0-1]{1}[0-9]{1}[-]{1}[0-9]{2}/.test(releasedAt)) {
                 return res.status(400).send({
@@ -379,7 +364,7 @@ const updateBookById = async function (req, res) {
             if (!moment(releasedAt).isValid()) {
                 return res.status(400).send({ status: false, message: 'enter a valid date' })
             }
-            update["releasedAt"] = releasedAt
+            update["releasedAt"] = releasedAt.trim()
 
         }
 
@@ -403,7 +388,7 @@ const deleteBookByparams = async function (req, res) {
 
         const query = req.query
         if (Object.keys(query).length != 0) {
-            return res.status(400).send({ status: false, message: 'invalid request' })
+            return res.status(400).send({ status: false, message: 'page not found' })
         }
 
         const bookId = req.params.bookId

@@ -6,8 +6,8 @@ const bookControler = require("../controllers/bookController")
 const reviweControler = require("../controllers/reviewController")
 const midelware = require("../middlewares/auth")
 
-router.post("/createUser", userControler.creatUser)
-router.post("/loginUser", userControler.loginUser)
+router.post("/register", userControler.register)
+router.post("/login", userControler.login)
 
 router.post("/books", midelware.authenticate, bookControler.createBook)
 router.get("/books", midelware.authenticate, bookControler.getBooks)

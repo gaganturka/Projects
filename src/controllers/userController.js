@@ -23,32 +23,36 @@ const isValidRequestBody = function (data) {
 }
 
 // handeler function for registration of new user
-const creatUser = async function (req, res) {
+const register = async function (req, res) {
     try {
 
         const queryData = req.query
-        const data = req.body
+        const requestBody = req.body
 
         //query params must be empty
         if (Object.keys(queryData).length > 0) {
-            return res.status(400).send('invalid request')
+            return res.status(400).send('page Not Found!')
         }
 
-        if (!isValidRequestBody(data)) {
-            return res.status(400).send({ status: false, msg: " data is  missing" })
+        if (!isValidRequestBody(requestBody)) {
+            return res.status(400).send({ status: false, msg: "please provide user details" })
         }
 
 
         // using destructering that we can validaing each key individually 
-        const { name, title, phone, email, password } = data
+        const { name, title, phone, email, password, address, isDeleted } = requestBody
 
-        if (!isvalid(name)) {
+        if (isvalid(name)) {
+            // !isNaN(name) define if value of name != alphabat then give error 
+            if (!isNaN(name)) {
+                return res.status(400).send({ status: false, message: 'valid name is required' })
+            }
+        } else {
             return res.status(400).send({ status: false, message: 'name is required' })
         }
 
-
         if (isvalid(title)) {
-            if (!["Mr" || "Mrs" || "Miss"]) {
+            if (["Mr", "Mrs", "Miss"].indexOf(title) == -1) {
                 return res.status(400).send({ status: false, message: 'title should be in ["Mr"/"Mrs" /"Miss"] formate' })
             }
         } else {
@@ -61,7 +65,7 @@ const creatUser = async function (req, res) {
                 return res.status(400).send({ status: false, message: 'please enter a valid 10 digit mobile number' })
             }
         } else {
-            return res.status(400).send({ status: false, message: 'mobile number is required' })
+            return res.status(400).send({ status: false, message: 'valid mobile number is required' })
         }
 
 
@@ -72,17 +76,38 @@ const creatUser = async function (req, res) {
             }
 
         } else {
-            return res.status(400).send({ status: false, message: 'email address is required' })
+            return res.status(400).send({ status: false, message: 'valid email address is required' })
         }
 
 
 
         if (isvalid(password)) {
-            if (password.length > 15 || password.length < 8) {
+            if (!/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,15}$/.test(password.trim())) {
                 return res.status(400).send({ status: false, message: 'The length of password should not be less then 8 and not be greater then 15 ' })
             }
         } else {
-            return res.status(400).send({ status: false, message: 'password is required should not be less then 8 and not be greater then 15' })
+            return res.status(400).send({ status: false, message: 'password should be 8 to 15 characters, at least one character or one Number ' })
+        }
+        if (isvalid(address)) {
+
+            if (!isvalid(address.street)) {
+                return res.status(400).send({ status: false, message: 'valid street name is required' })
+            }
+
+            if (!isvalid(address.city)) {
+                return res.status(400).send({ status: false, message: 'valid city name is required' })
+            }
+
+            if (isvalid(address.pincode)) {
+                if (!/^[1-9][0-9]{5}$/.test(address.pincode)) {
+                    return res.status(400).send({ status: false, message: 'please enter valid pincode' })
+                }
+            }
+            else {
+                return res.status(400).send({ status: false, message: 'valid pincode is required' })
+            }
+        } else {
+            return res.status(400).send({ status: false, message: 'please enter a valid address' })
         }
 
 
@@ -96,29 +121,32 @@ const creatUser = async function (req, res) {
             return res.status(400).send({ status: false, message: 'email address is already exist' })
         }
 
+        if (isDeleted) {
+            requestBody["isDeleted"] = false
+        }
 
-        const creatingUser = await userModel.create(data)
+
+        const creatingUser = await userModel.create(requestBody)
         res.status(201).send({ status: true, message: 'user created successfully', data: creatingUser })
 
     } catch (error) {
-        console.log(error)
         return res.status(500).send({ status: false, message: error.message })
     }
 }
 
 
-const loginUser = async function (req, res) {
+const login = async function (req, res) {
     try {
         const params = req.query
         if (Object.keys(params).length > 0) {
             res.send(400).send({ status: false, message: 'invalid request' })
         }
 
-        const data = req.body
-        const email = data.email.toLowerCase()
-        const password = data.password
+        const requestBody = req.body
+        const email = requestBody.email.toLowerCase()
+        const password = requestBody.password
 
-        if (!isValidRequestBody) {
+        if (!isValidRequestBody(requestBody)) {
             return res.status(400).send({ status: false, message: 'data is missing' })
         }
 
@@ -131,9 +159,11 @@ const loginUser = async function (req, res) {
             }
 
         if (isvalid(password)) {
-            if (password.length > 15 || password.length < 8)
-                return res.status(400).send({ status: false, message: 'The length of password should not be less then 8 and not be greater then 15' })
-
+            if (!/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,15}$/.test(password.trim())) {
+                return res.status(400).send({ status: false, message: 'The length of password should not be less then 8 and not be greater then 15 ' })
+            }
+        } else {
+            return res.status(400).send({ status: false, message: 'password should be 8 to 15 characters, at least one character or one Number ' })
         }
 
         const logInUser = await userModel.findOne({ email: email, password: password })
@@ -156,5 +186,5 @@ const loginUser = async function (req, res) {
         res.status(500).send({ status: false, message: error.message })
     }
 }
-module.exports.creatUser = creatUser
-module.exports.loginUser = loginUser
+module.exports.register = register
+module.exports.login = login

@@ -16,12 +16,15 @@ const reviewSchma = new mongoose.Schema({
     reViewedAt: {
         type: Date,
         default: moment().format('YYYY-MM-DD'),  //simple give current date in formate ('YYYY-MM-DD') 
-        trim: true
+        trim: true,
+  
     },
     rating: {
         type: Number,
         required: [true, 'rating must be provided'],
-        trim: true
+        trim: true,
+        min : 1,
+        max : 5
     },
     review: {
         type: String,
