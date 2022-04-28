@@ -1,16 +1,23 @@
 const mongoose = require("mongoose")
 
 const isValidObject = (data) => {
-    if (Object.keys(data).length === 0){
+    if (Object.keys(data).length === 0) {
         return false
     }
     return true
 }
 
 const isValid = (value) => {
-    if(typeof(value) == "undefined" || value == null)return false
-    if(typeof(value) == "string" && value.trim().length === 0) return false
-    if(typeof(value) == "number" && value .toString().trim().length=== 0) return false
+    if (typeof (value) == "undefined" || value == null) return false
+    if (typeof (value) == "string" && value.trim().length === 0) return false
+    if (typeof (value) == "number" && value.toString().trim().length === 0) return false
+    return true
+}
+
+const queryParam = (value) => {
+    if (Object.keys(value).length != 0) {
+        return false
+    }
     return true
 }
 
@@ -37,16 +44,17 @@ const isValidString = (value) => {
     return /^[a-zA-Z -]+$/.test(value)
 }
 
-const isValidPincode = (value) =>{
+const isValidPincode = (value) => {
     return /^[1-9][0-9]{5}$/.test(value)
-   }
+}
 
 
 module.exports.isValidObject = isValidObject
 module.exports.isValid = isValid
+module.exports.queryParam = queryParam
 module.exports.isValidPhone = isValidPhone
 module.exports.isValidEmail = isValidEmail
 module.exports.isValidPW = isValidPW
 module.exports.isValidObjectId = isValidObjectId
 module.exports.isValidString = isValidString
-module.exports.isValidPincode=isValidPincode
+module.exports.isValidPincode = isValidPincode
