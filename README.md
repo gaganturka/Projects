@@ -63,12 +63,6 @@ DELETE /blogs?queryParams
 
 
 
-
-
-
-
-
-
 Phase II
 
     Add authentication and authroisation feature

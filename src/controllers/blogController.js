@@ -1,60 +1,77 @@
 const authorModel = require("../Models/authorModel")
 const blogModel = require("../Models/blogModel")
-
-const isValid = function (value) {
-
-    if (typeof (value) === 'undefined' || typeof (value) === 'null') {
-        return false
-    }
-    if (value.length == 0) {
-        return false
-    } if (typeof (value) === 'string' || "Array" && value.length > 0) {
-        return true
-    }
-}
+const validator = require('./validator')
 
 
 const createblog = async function (req, res) {
     try {
-        let blog = req.body
-        let authorId = blog.authorid
-        let id = req.body.isPublished
+        const requestBody = req.body
+        const queryParams = req.query
 
-        const { title, body, authorid, tags, category, subcategory, } = blog
-        const req0 = isValid(title)
-        if (!req0) return res.status(400).send('title is require')
-
-        const req1 = isValid(body)
-        if (!req1) return res.status(400).send('body require')
-
-        const req2 = isValid(authorid)
-        if (!req2) return res.status(400).send('authorid require')
-
-        const req3 = isValid(tags)
-        if (!req3) return res.status(400).send('tags require')
-
-        const req4 = isValid(category)
-        if (!req4) return res.status(400).send('category require')
-
-        const req5 = isValid(subcategory)
-        if (!req5) return res.status(400).send('subcategory require')
-
-
-        if (id === true) {
-            blog["publishedAt"] = new Date()
+        if (!validator.requestBody(requestBody)) {
+            return res.status(400).send({ status: false, message: 'data is required' })
         }
 
-        if (!authorId) { return res.status(400).send("authorid required") }
-        let author = await authorModel.findById(authorId)
-        if (!author) { return res.status(400).send("invalid authorId") }
+        if (!validator.queryParams(queryParams)) {
+            return res.status(400).send({ status: false, message: 'page not found' })
+        }
 
-        let blogCreated = await blogModel.create(blog)
-        if (!blogCreated) return res.status(400).send('invalid request')
-        res.status(201).send({ data: blogCreated })
+        const { title, body, authorId, tags, category, subcategory, isPublished, isDeleted } = requestBody
+
+        if (!validator.isValid(title)) {
+            return res.status(400).send({ status: false, message: 'title is required' })
+        }
+
+        if (!validator.isValidString(title)) {
+            return res.status(400).send({ status: false, message: 'title must be in valid formate' })
+        }
+
+        if (!validator.isValid(body)) {
+            return res.status(400).send({ status: false, message: 'body is required' })
+        }
+
+        if (!validator.isValid(authorId)) {
+            return res.status(400).send({ status: false, message: 'authorid is required' })
+        }
+
+        if (!validator.isValidObjectId(authorId)) {
+            return res.status(400).send({ status: false, message: 'invalid authorid ' })
+        }
+
+        if (!validator.isValid(tags)) {
+            return res.status(400).send({ status: false, message: 'tags required' })
+        }
+
+        if (!validator.isValid(category)) {
+            return res.status(400).send({ status: false, message: 'category required' })
+        }
+
+        if (!validator.isValidString(category)) {
+            return res.status(400).send({ status: false, message: 'category must be in valid formate' })
+        }
+
+        if (!validator.isValid(subcategory)) {
+            return res.status(400).send({ status: false, message: 'subcategory required' })
+        }
+
+        if (isPublished === true) {
+            requestBody["publishedAt"] = new Date()
+        }
+
+        let isAuthorExist = await authorModel.findById(authorId)
+        if (!isAuthorExist) {
+            return res.status(400).send({ status: false, message: "authorId not exist" })
+        }
+        if (isDeleted) {
+            requestBody["isDeleted"] = false
+        }
+
+        let blogCreated = await blogModel.create(requestBody)
+        res.status(201).send({ status: true, message: 'blog created sucessfully', data: blogCreated })
 
     } catch (error) {
-        res.status(500).send(error.message)
-        console.log(error.message)
+        console.log(error)
+        res.status(500).send({ status: false, message: error.message })
 
     }
 }
@@ -62,80 +79,181 @@ const createblog = async function (req, res) {
 
 const getblog = async function (req, res) {
     try {
-        const data = req.query
-        const blogs = await blogModel.find(data).find({ isPublished: true, deleted: false }).populate("authorid")
-        if (blogs.length == 0) return res.status(404).send({ status: false, msg: "No blogs Available." })
+        const queryParams = req.query
+
+        const fillterBlog = {
+            isDeleted: false,
+            isPublished: true
+        }
+
+        const { authorId, category, tags, subcategory } = queryParams
+
+        if (authorId) {
+            if (!validator.isValidObjectId(authorId)) {
+                return res.status(400).send({ status: false, message: 'invalid authorid ' })
+            }
+            fillterBlog['authorId'] = authorId
+        }
+
+        if (category) {
+            fillterBlog['category'] = category
+        }
+
+        if (tags) {
+            fillterBlog['tags'] = tags
+        }
+
+        if (subcategory) {
+            fillterBlog['subCategory'] = subcategory
+        }
+
+        const blogs = await blogModel.find(fillterBlog).populate("authorId")
+
+        if (blogs.length == 0) {
+            return res.status(404).send({ status: false, message: "No blogs Available." })
+        }
         res.status(200).send({ status: true, data: blogs });
     } catch (error) {
-        res.status(500).send({ status: false, msg: error.message });
+        console.log(error)
+        res.status(500).send({ status: false, message: error.message });
     }
 }
 
 const updateblog = async function (req, res) {
 
-    let blogid = req.params.blogId
-    let check = await blogModel.findById(blogid)
-    if (!check) return res.send('not valid id')
+    const blogId = req.params.blogId
+    const requestBody = req.body
+    const queryParams = req.query
 
-    let checking = check.deleted
-    if (checking == true) return res.status(404).send({ status: false, msg: "blog has been already deleted" })
-
-    let upd0 = check.isPublished
-    console.log(upd0)
-    if (upd0 === false) {
-        let update = await blogModel.findOneAndUpdate({ _id: blogid }, { isPublished: true }, { new: true })
-        let upd = update.isPublished
-
-        if (upd == true) {
-            req.body["publishedAt"] = new Date()
-        } else {
-            res.status(400).send({ status: false, message: 'alread updated' })
-        }
+    if (!validator.queryParams(queryParams)) {
+        return res.status(400).send({ status: false, message: 'page not found' })
     }
 
-    let updateBody = req.body
-    let updated = await blogModel.findOneAndUpdate({ _id: blogid }, updateBody, { new: true })
-    res.status(200).send({ msg: updated });
+    const updateBlog = {
+        isDeletted: false
+    }
+
+    const { title, body, tags, subcategory, isPublished } = requestBody
+
+    const blogExist = await blogModel.findById(blogId)
+    if (!blogExist) {
+        return res.status(400).send({ status: false, message: 'Blog not exist' })
+    }
+
+    const isBlogExist = blogExist.isDeleted
+    if (isBlogExist == true) {
+        return res.status(404).send({ status: false, message: "blog has been already deleted" })
+    }
+
+    if (title) {
+        if (!validator.isValid(title)) {
+            return res.status(400).send({ status: false, message: 'title is required' })
+        }
+
+        if (!validator.isValidString(title)) {
+            return res.status(400).send({ status: false, message: 'title must be in valid formate' })
+        }
+        updateBlog['title'] = title
+    }
+
+
+    if (body) {
+        if (!validator.isValid(body)) {
+            return res.status(400).send({ status: false, message: 'body is required' })
+        }
+
+        updateBlog['body'] = body
+    }
+
+    if (tags) {
+        if (!validator.isValid(tags)) {
+            return res.status(400).send({ status: false, message: 'tags required' })
+        }
+        updateBlog['tags'] = tags
+    }
+
+    if (subcategory) {
+        if (!validator.isValid(subcategory)) {
+            return res.status(400).send({ status: false, message: 'subcategory required' })
+        }
+        updateBlog['subcategory'] = subcategory
+    }
+
+    if (isPublished) {
+        if (typeof isPublished != Boolean) {
+            return res.status(400).send({ status: false, message: 'isPublished shoud be true or false' })
+        }
+        updateBlog['isPublished'] = isPublishedh
+    }
+
+    if (isPublished === true) {
+        requestBody["publishedAt"] = new Date()
+    }
+
+    const updated = await blogModel.findOneAndUpdate({ _id: blogId }, { $set: updateBlog }, { new: true })
+    res.status(200).send({ status: true, data: updated });
 }
+
+
 
 const deleteblog = async function (req, res) {
     try {
-        let Blogid = req.params.blogId
-        let check = await blogModel.findOne({ _id: Blogid })
-        if (!check) return res.status(404).send('Blog not exist')
 
-        let checking = check.deleted
-        if (checking == false) {
-            let deleteBlog = await blogModel.findOneAndUpdate({ _id: Blogid }, { deleted: true, deletedAt: new Date() }, { new: true })
-            return res.status(200).send({ msg: "blog deleted successfuly" })
+        const queryParams = req.query
+        const Blogid = req.params.blogId
+
+        if (!validator.queryParams(queryParams)) {
+            return res.status(400).send({ status: false, message: 'page not found' })
+        }
+
+        const isBlogExist = await blogModel.findOne({ _id: Blogid })
+        if (!(isBlogExist && isBlogExist.isDeleted == false)) {
+            return res.status(404).send({ status: false, message: 'Blog not exist' })
+        }
+
+        if (isBlogExist.isDeleted == false) {
+            const deleteBlog = await blogModel.findOneAndUpdate({ _id: Blogid }, { isDeleted: true, deletedAt: new Date() }, { new: true })
+
+            return res.status(200).send({ status: true, message: "blog deleted successfuly" })
         } else {
-            res.status(404).send('Blog has already deleted')
+            res.status(404).send({ status: false, message: 'Blog has already deleted' })
         }
 
     } catch (error) {
-        res.status(500).send({ status: false, msg: error.message });
+        res.status(500).send({ status: false, message: error.message });
     }
 }
 
 
 const deleteByElement = async function (req, res) {
     try {
-        let data = req.query
-        if (Object.keys(data) == 0) return res.status(400).send({ status: false, msg: "not a vaild input" })
+        const queryParams = req.query
 
-        let check = await blogModel.find(data)
-        if (!check) return res.status(404).send('Blog not exist')
-        console.log(check)
+        if (Object.keys(queryParams) == 0) {
+            return res.status(400).send({ status: false, message: "not a vaild input" })
+        }
 
-        const deleteBYquery = await blogModel.updateMany({ $and: [data, { deleted: false }, { isPublished: false }] }, { $set: { deleted: true, deletedAt: new Date() } })
-        if (deleteBYquery.modifiedCount == 0) return res.status(400).send('user already deleted')
+        const isBlogExist = await blogModel.find(queryParams)
+        if (isBlogExist.length == 0) {
+            return res.status(404).send({ status: false, message: 'Blog not able to delete' })
+        }
 
-        if (!deleteBYquery) return res.status(404).send({ status: false, msg: "blog not exist" })
-        res.status(200).send({ status: true, msg: deleteBYquery })
+
+        const deleteBlogByQuery = await blogModel.updateMany({ isBlogExist, isDeleted: false, isPublished: false }, { $set: { isDeleted: true, deletedAt: new Date() } })
+        if (deleteBlogByQuery.modifiedCount == 0) {
+            return res.status(400).send({ status: false, message: 'user already deleted' })
+        }
+
+        if (!deleteBlogByQuery) {
+            return res.status(404).send({ status: false, message: "blog not exist" })
+        } else {
+            res.status(200).send({ status: true, message: deleteBlogByQuery })
+        }
     }
 
     catch (error) {
-        res.status(500).send({ status: false, msg: error.message });
+        console.log(error)
+        res.status(500).send({ status: false, message: error.message });
     }
 };
 

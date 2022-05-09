@@ -4,19 +4,24 @@ const blogSchema = new mongoose.Schema({
 
     "title": {
         type: String,
-        required: true
+        required: 'Blog title is required',
+        trim: true
     },
     "body": {
         type: String,
-        required: true
+        required: 'Blog body is requird',
+        trim: true
     },
-    "authorid": {
-        type: objectId, ref: "author"
+    "authorId": {
+        type: objectId,
+        ref: "author",
+        required: 'authorId is required'
     },
     "tags": [String],
     "category": {
         type: String,
-        required: true
+        required: 'Blog category is required',
+        trim: true
     },
     "subcategory": [String],
     "isPublished": {
@@ -24,12 +29,14 @@ const blogSchema = new mongoose.Schema({
         default: false
     },
     "publishedAt": Date, // if published is true publishedAt will have a date 2021-09-17T04:25:07.803Z
-    "deleted": {
+    "isDeleted": {
         type: Boolean,
         default: false
     },
-    "deletedAt": Date, // if deleted is true deletedAt will have a date 2021-09-17T04:25:07.803Z,
-
+    "deletedAt": {
+        type: Date, // if deleted is true deletedAt will have a date 2021-09-17T04:25:07.803Z,
+        default: null
+    }
 }, { timestamps: true })
 
 module.exports = mongoose.model("blog", blogSchema)
