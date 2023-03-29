@@ -46,7 +46,35 @@ const isValidString = (value) => {
 
 const isValidPincode = (value) => {
     return /^[1-9][0-9]{5}$/.test(value)
+
 }
+
+const sendSucess = (response, res) => {
+    const statusCode = response && response.statusCode ? response.statusCode : 200
+    const message = response && response.message ? response.message : 'sucess'
+    const data = response && response.data ? response.data : {}
+    data.password && delete data.password
+    return res.json({
+        statusCode,
+        message,
+        data
+    })
+}
+
+
+
+const sendError = (response, res) => {
+    const statusCode = response && response.statusCode ? response.statusCode : 400
+    const message = response && response.message ? response.message : {}
+    const data = {}
+    return res.json({
+        statusCode,
+        message,
+        data
+    })
+}
+
+
 
 
 module.exports.isValidObject = isValidObject
@@ -58,3 +86,5 @@ module.exports.isValidPW = isValidPW
 module.exports.isValidObjectId = isValidObjectId
 module.exports.isValidString = isValidString
 module.exports.isValidPincode = isValidPincode
+module.exports.sendSucess = sendSucess
+module.exports.sendError = sendError

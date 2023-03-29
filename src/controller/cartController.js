@@ -1,6 +1,6 @@
 const cartModel = require("../model/cartModel")
 const userModel = require("../model/userModel")
-const validator = require("../validator/validator")
+const validator = require("../helper/helper")
 const productModel = require("../model/productModel");
 
 

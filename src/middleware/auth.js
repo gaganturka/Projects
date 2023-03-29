@@ -1,47 +1,36 @@
 const jwt = require("jsonwebtoken")
-const validator = require("../validator/validator")
+const {validator, sendError, sendSucess} = require("../helper/helper")
+const logInSession = require('../model/logIn')
 
 const authentication = async function (req, res, next) {
     try {
-        const token = req.header('Authorization', 'Bearer Token')
+        const token = req.header('Authorization')
         if (!token) {
-            return res.status(400).send({ status: false, message: "Plz enter a token" })
+            return sendError({message: "You Not are authorized" }, res)
         }
-        let splitToken = token.split(' ')
-        let decodedToken = jwt.verify(splitToken[1], "projectfivegroup20")
-        //check decoded Token
+        let decodedToken = jwt.verify(token, "projectfivegroup20")
         if (!decodedToken) {
-            return res.status(400).send({ status: false, message: "token is invalid" })
+            return sendError({message: "wrong authentication credential" }, res)
+
         }
         if (Date.now() > (decodedToken.exp) * 1000) {
-            return res.status(404).send({ status: false, message: `please login again because session is expired` })
+            return sendError({message: `please login again because session is expired`  }, res)
         }
 
         req.decodedToken = decodedToken.userId
-        next()
+
+        const login = await logInSession.findOne({ token });
+        if (login) {
+            next()
+
+        }else{
+            sendError({ message: "You are not authorized", statusCode: 403 }, res);
+        }
+        
     }
     catch (error) {
         return res.status(500).send({ status: false, message: error.message })
     }
 }
 
-const userAuthorization = async function (req, res, next) {
-    try {
-        let userId = req.params.userId;
-        let userIdInToken = req.decodedToken;
-        if (!(validator.isValid(userId)) && (validator.isValidobjectId(userId))) {
-            return res.status(400).send({ status: false, message: "plz enter a valid userId" })
-        }
-        if (userId != userIdInToken) {
-            return res.status(403).send({ status: false, message: "You are not authorized" })
-        }
-
-        next()
-    } catch (error) {
-        return res.status(500).send({ status: false, message: error.message })
-    }
-}
-
-
-module.exports.userAuthorization = userAuthorization;
 module.exports.authentication = authentication

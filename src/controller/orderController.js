@@ -1,12 +1,14 @@
 const cartModel = require("../model/cartModel")
 const userModel = require("../model/userModel")
-const validator = require("../validator/validator")
+const validator = require("../helper/helper")
 const orderModel = require("../model/orderModel")
-
 
 const createOrder = async (req, res) => {
   try {
     const { userId } = req.params
+
+
+
 
     const queryParam = req.query
     if (!validator.queryParam(queryParam)) {
