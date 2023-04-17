@@ -38,7 +38,7 @@ const StandardAgreement =() => {
     }
   
     const getDesignation = async()=> {
-      const department = await httpGet(`designation/${formData.department}`)
+      const department = await httpGet(`designation/department/${formData.department}`)
       console.log('daqta',department.data);
       setAllDesignation(department.data);
      }
