@@ -10,76 +10,101 @@ import Form from "react-bootstrap/Form";
 
 
 const Designation = () => {
-  const [department, setDepartment] = useState([]);
+  const [designation, setDesignation] = useState([]);
+  const [formData, setFormData] = useState({name : '',departmentId :'' , level: ''})
+    const [allDepartment, setAllDepartment] = useState([]);
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () =>setShow(true);
-  let [newDepartment, setNewDepartment] = useState('')
-  const [id, setId] =useState('')
+  let [newDesignation, setNewDesignation] = useState('')
+  const [id, setId] =useState('');
+  const level=([
+    {name : 1, value : 1},
+    {name : 2, value : 2},
+    {name : 3, value : 3},
+    {name : 4, value : 4},
+    {name : 5, value : 5},
+  ])
 
   useEffect(() => {
-    getDepartments();
+    getDesignations();
+    getDeprtments();
   }, []);
 
   const addNew = () => {
     setId('');
-    setNewDepartment('');
+    setFormData({name : '',departmentId :'' , level : ''});
     handleShow();
 
   }
 
-  const createDepartment = async () => {
+  const getDeprtments = async () => {
+    const department = await httpGet("department/");
+    setAllDepartment(department.data);
+  };
+
+
+  const createDesignation = async () => {
     let overAllResponse ;
     if(id){
-    const response = await httpPut(`department/${id}`, {'name' : newDepartment});
+    const response = await httpPut(`designation/${id}`, formData);
     overAllResponse = response
     } else{
-        const response = await httpPost(`department/`, {'name' : newDepartment});
+        const response = await httpPost(`designation/`, formData);
         overAllResponse = response
 
     }
     handleClose()
-    setNewDepartment('')
+    setNewDesignation('')
     if (overAllResponse.status == "400") {
       console.log("err");
       showError(overAllResponse.message);
     } else {
-        getDepartments()
+        getDesignations()
       showSucess(overAllResponse.message);
       console.log("res", overAllResponse.data);
     }
   };
 
-  const getDepartments = async () => {
-    const department = await httpGet("department/");
-    console.log("daqta", department.data);
-    setDepartment(department.data);
+  const getDesignations = async () => {
+    const designation = await httpGet("designation/");
+    console.log("daqta", Designation.data);
+    setDesignation(designation.data);
   };
 
   const onClick = async (id) => {
-    if (window.confirm("Are you want to Delete Department")) {
-      const response = await httpDelete(`department/${id}`);
+    if (window.confirm("Are you want to Delete Designation")) {
+      const response = await httpDelete(`designation/${id}`);
       if (response.status == "400") {
         showError(response.message);
       } else {
-        getDepartments();
+        getDesignations();
         showSucess(response.message);
       }
     }
   };
 
-  const getDepartment =async (id) => {
-    const department = await httpGet(`department/${id}`);
+  const getDesignation =async (id) => {
+    const designation = await httpGet(`designation/${id}`);
     handleShow()
-    console.log("data", department.data);
-    setNewDepartment(department.data.name);
-    setId(department.data._id)
+    console.log("data", designation.data);
+    setFormData({['name'] : designation.data?.name, ['departmentId'] :  designation.data?.departmentId, ['level'] :  designation.data?.level});
+    // setFormData({...formData,});
+    setId(designation.data._id)
   }
+
+  const onChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+    console.log("weq", formData);
+  };
+
 
   return (
     <>
+    {console.log('dsa',id, formData)};
       <div className="title-bar">
-        <h2>Department</h2>
+        <h2>Designation</h2>
         <Button variant="primary" onClick={addNew}>
         Add New 
       </Button>
@@ -88,7 +113,7 @@ const Designation = () => {
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Add Department</Modal.Title>
+          <Modal.Title>Add Designation</Modal.Title>
         </Modal.Header>
         <Modal.Body>
         <Form>
@@ -96,19 +121,55 @@ const Designation = () => {
                 <Form.Label>Name</Form.Label>
                 <Form.Control
                   type="text"
-                  placeholder="Enter Department"
+                  placeholder="Enter Designation"
                   name="name"
-                  value={newDepartment}
-                  onChange={(e) => setNewDepartment(e.target.value)}
+                  value={formData.name}
+                  onChange={(e) => onChange(e)}
                 />
               </Form.Group>
+
+              <Form.Group className="mb-3">
+                <Form.Label>Department</Form.Label>
+                <Form.Select
+                  className="form-control"
+                  name="departmentId"
+                  value={formData.departmentId}
+                  onChange={(e) => onChange(e)}
+                >
+                  <option>Select Department Type</option>
+                  {allDepartment.map((item) => (
+                    <>
+                      <option value={item._id}>{item.name}</option>
+                    </>
+                  ))}
+                </Form.Select>
+              </Form.Group>
+
+              <Form.Group className="mb-3">
+                <Form.Label>Level</Form.Label>
+                <Form.Select
+                  className="form-control"
+                  name="level"
+                  value={formData.level}
+                  onChange={(e) => onChange(e)}
+                >
+                  <option>Select Level</option>
+                  {level.map((item) => (
+                    <>
+                      <option value={item.value}>{item.name}</option>
+                    </>
+                  ))}
+                </Form.Select>
+              </Form.Group>
+
+
               </Form>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
             Close
           </Button>
-          <Button variant="primary" onClick={createDepartment}>
+          <Button variant="primary" onClick={createDesignation}>
             Save Changes
           </Button>
         </Modal.Footer>
@@ -121,18 +182,21 @@ const Designation = () => {
             <tr>
             <th>DESIGNATION</th>
             <th>DEPARTMENT</th>
+            <th>LEVEL</th>
               <th>ACTIONS</th>
             </tr>
           </thead>
           <tbody>
-            
-            {department.map((item) => {
+
+            {designation.map((item) => {
               return (
                 <>
                   <tr>
                     <td>{item?.name}</td>
+                    <td>{item?.departmentId?.name}</td>
+                    <td>{item?.level}</td>
                     <td>
-                        <AiFillEdit onClick={() => getDepartment(item?._id)}/>
+                        <AiFillEdit onClick={() => getDesignation(item?._id)}/>
                       <RiDeleteBinLine onClick={() => onClick(item?._id)} />
                     </td>
                   </tr>
