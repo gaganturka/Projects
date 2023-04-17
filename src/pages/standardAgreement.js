@@ -5,72 +5,68 @@ import { showError, showSucess } from "../helper/heper";
 import { httpGet, httpPost } from "../Action";
 import { Row, Col } from "react-bootstrap";
 
+const StandardAgreement = () => {
+  const [allDepartment, setAllDepartment] = useState([]);
+  const [allDesignation, setAllDesignation] = useState([]);
+  const [formData, setFormData] = useState({
+    contractType: "",
+    secondPartyName: "",
+    signatoryMailId: "",
+    department: "",
+    designation: "",
+  });
 
+  useEffect(() => {
+    getDeprtments();
+  }, []);
 
-const StandardAgreement =() => {
-
-    const [allDepartment, setAllDepartment] = useState([])
-    const [allDesignation, setAllDesignation] = useState([])
-    const [formData, setFormData] = useState({
-      contractType: "",
-      secondPartyName: "",
-      signatoryMailId: "",
-      department: "",
-      designation: "",
-    });
-  
-    useEffect(() => {
-      getDeprtments()
-    },[])
-  
-    useEffect(() => {
-      if(formData.department){
-       getDesignation()
-      }
-    },[formData.department])
-  
-    const getDeprtments = async()=> {
-     const department = await httpGet('department/')
-     console.log('daqta',department.data);
-     setAllDepartment(department.data);
+  useEffect(() => {
+    if (formData.department) {
+      getDesignation();
     }
-  
-    const getDesignation = async()=> {
-      const department = await httpGet(`designation/${formData.department}`)
-      console.log('daqta',department.data);
-      setAllDesignation(department.data);
-     }
-    const onChange = (e) => {
-      const { name, value } = e.target;
-      setFormData({ ...formData, [name]: value });
-      console.log('weq', formData);
-    };
-  
-    const submit = async (e) => {
-      e.preventDefault();
-  
-      const response = await httpPost("user/sign/up", formData);
-      if (response.status == "400") {
-        console.log('err');
-        showError(response.message);
-      } else {
-        showSucess(response.message);
-        console.log("res", response.data);
-      }
-    };
-  
+  }, [formData.department]);
 
-    
-    return(<>
-    <diV className="title-bar">
+  const getDeprtments = async () => {
+    const department = await httpGet("department/");
+    console.log("daqta", department.data);
+    setAllDepartment(department.data);
+  };
+
+  const getDesignation = async () => {
+    const department = await httpGet(`designation/${formData.department}`);
+    console.log("daqta", department.data);
+    setAllDesignation(department.data);
+  };
+  const onChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+    console.log("weq", formData);
+  };
+
+  const submit = async (e) => {
+    e.preventDefault();
+
+    const response = await httpPost("user/sign/up", formData);
+    if (response.status == "400") {
+      console.log("err");
+      showError(response.message);
+    } else {
+      showSucess(response.message);
+      console.log("res", response.data);
+    }
+  };
+
+  return (
+    <>
+      <diV className="title-bar">
         <h2>Standard Agreement</h2>
-    </diV>
+      </diV>
 
-    <div className="form">
+      <div className="form">
         <Row>
-            <Col>
+          <Col>
             <Form>
-            <Form.Group className="mb-3">
+              <Form.Group className="mb-3">
                 <Form.Label>Type of Contract</Form.Label>
                 <Form.Select className="form-control" name="department">
                   <option>Select Contract Type</option>
@@ -90,18 +86,18 @@ const StandardAgreement =() => {
               </Form.Group>
 
               <Form.Group className="mb-3" controlId="formBasicName">
-                <Form.Label>
-                XYXX Required Signatory Mail ID
-                </Form.Label>
-                <Form.Control type="text" placeholder="Enter Signatory Email ID" name="name" />
+                <Form.Label>XYXX Required Signatory Mail ID</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Enter Signatory Email ID"
+                  name="name"
+                />
               </Form.Group>
-
-
             </Form>
-            </Col>
-            <Col>
+          </Col>
+          <Col>
             <Form>
-            <Form.Group className="mb-3">
+              <Form.Group className="mb-3">
                 <Form.Label>Select XYXX Entity and Address</Form.Label>
                 <Form.Select className="form-control" name="department">
                   <option>Enter Address</option>
@@ -122,26 +118,29 @@ const StandardAgreement =() => {
 
               <Form.Group className="mb-3" controlId="formBasicName">
                 <Form.Label>
-                Customer/Vendor Required Signatory Mail ID
+                  Customer/Vendor Required Signatory Mail ID
                 </Form.Label>
-                <Form.Control type="text" placeholder="Enter Vendor Signatory Email ID" name="name" />
+                <Form.Control
+                  type="text"
+                  placeholder="Enter Vendor Signatory Email ID"
+                  name="name"
+                />
               </Form.Group>
 
-<div class="burrons">
-              <Button variant="primary" type="submit" onClick={"submit"}>
-                Preview
-              </Button>
-              <Button variant="primary" type="submit" onClick={"submit"}>
-                Submit
-              </Button>
+              <div class="btngroups">
+                <Button className="btnblack" type="submit" onClick={"submit"}>
+                  Preview
+                </Button>
+                <Button className="btnblack" type="submit" onClick={"submit"}>
+                  Submit
+                </Button>
               </div>
-
-
             </Form>
-            </Col>
+          </Col>
         </Row>
-    </div>
-    </>)
-}
+      </div>
+    </>
+  );
+};
 
-export default StandardAgreement
+export default StandardAgreement;

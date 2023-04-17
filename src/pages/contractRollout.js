@@ -2,6 +2,7 @@ import { Col, Row } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import Button from "react-bootstrap/Button";
+import { RiDeleteBin5Line } from "react-icons/ri";
 
 const ContractRollout = () => {
   return (
@@ -12,22 +13,23 @@ const ContractRollout = () => {
             <div className="title-bar">
               <h2>Contract Rollout</h2>
             </div>
+            <div className="d-flex align-items-center forminputs-bar">
+              <Form.Check
+                className="cursor-pointer"
+                type="radio"
+                label="New Email Broadcast"
+                name="formHorizontalRadios"
+                id="formHorizontalRadios1"
+              />
+              <Form.Check
+                className="cursor-pointer"
+                type="radio"
+                label="Reminder Email"
+                name="formHorizontalRadios"
+                id="formHorizontalRadios2"
+              />
+            </div>
 
-            <Row sm={10}>
-            <Form.Check
-              type="radio"
-              label="New Email Broadcast"
-              name="formHorizontalRadios"
-              id="formHorizontalRadios1"
-            />
-            <Form.Check
-              type="radio"
-              label="Reminder Email"
-              name="formHorizontalRadios"
-              id="formHorizontalRadios2"
-            />
-           
-          </Row>
             <div className="form">
               <Form>
                 <Form.Group className="mb-3" controlId="formBasicName">
@@ -39,8 +41,7 @@ const ContractRollout = () => {
                   />
                 </Form.Group>
                 <Form.Label>Emails</Form.Label>
-
-                <InputGroup className="mb-3">
+                <InputGroup className="mb-3 uploademails">
                   <Form.Control
                     placeholder="Enter emails "
                     aria-label="Recipient's username"
@@ -52,6 +53,7 @@ const ContractRollout = () => {
                 <Form.Group className="mb-3" controlId="formBasicName">
                   <Form.Label>Emails</Form.Label>
                   <Form.Control
+                    as="textarea"
                     type="text"
                     placeholder="Enter emails"
                     name="name"
@@ -59,34 +61,53 @@ const ContractRollout = () => {
                 </Form.Group>
 
                 <Row>
-                <Col>
-                  <Form.Label>Upload Document</Form.Label>
-                  <Form.Control
-                    type="file"
-                    placeholder="Customer/Vendor Name"
-                    name="CustomerName"
-                  />
-                </Col>
-              </Row>
+                  <Col className="uploadbar">
+                    <Form.Label>Upload Document</Form.Label>
+                    <Form.Control
+                      type="file"
+                      placeholder="Customer/Vendor Name"
+                      name="CustomerName"
+                    />
+                  </Col>
+                </Row>
 
-              <div class="burrons">
-              <Button variant="primary" type="submit" onClick={"submit"}>
-                Preview
-              </Button>
-              <Button variant="primary" type="submit" onClick={"submit"}>
-                Submit
-              </Button>
-              </div>
-
-
-
+                <div class="btngroups">
+                  <Button className="btnblack" type="submit" onClick={"submit"}>
+                    Preview
+                  </Button>
+                  <Button className="btnblack" type="submit" onClick={"submit"}>
+                    Submit
+                  </Button>
+                </div>
               </Form>
             </div>
           </Col>
           <Col>
-          <div className="title-bar">
-            <h3>Email Added</h3>
-          </div>
+            <div className="emailadded-bar">
+              <div className="title-bar">
+                <h3>Email Added</h3>
+              </div>
+              <ul className="emaillisting mb-0 p-0 ">
+                <li className='d-flex align-items-center justify-content-between pb-2 mb-2'>
+                  <p className="mb-0">xyz@email.com</p>
+                  <button className="del-btn">
+                    <RiDeleteBin5Line/>
+                  </button>
+                </li>
+                <li className='d-flex align-items-center justify-content-between pb-2 mb-2'>
+                  <p className="mb-0">xyz@email.com</p>
+                  <button className="del-btn">
+                    <RiDeleteBin5Line/>
+                  </button>
+                </li>
+                <li className='d-flex align-items-center justify-content-between pb-2 mb-2'>
+                  <p className="mb-0">xyz@email.com</p>
+                  <button className="del-btn">
+                    <RiDeleteBin5Line/>
+                  </button>
+                </li>
+              </ul>
+            </div>
           </Col>
         </Row>
       </div>

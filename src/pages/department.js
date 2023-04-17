@@ -2,49 +2,49 @@ import { useEffect, useState } from "react";
 import Table from "react-bootstrap/Table";
 import { httpDelete, httpGet, httpPost, httpPut } from "../Action";
 import { RiDeleteBinLine } from "react-icons/ri";
-import {AiFillEdit}  from "react-icons/ai";
+import { AiFillEdit } from "react-icons/ai";
 import { showError, showSucess } from "../helper/heper";
-import Button from 'react-bootstrap/Button';
-import Modal from 'react-bootstrap/Modal';
+import Button from "react-bootstrap/Button";
+import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
-
+import { AiOutlinePlus } from "react-icons/ai";
 
 const Department = () => {
   const [department, setDepartment] = useState([]);
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
-  const handleShow = () =>setShow(true);
-  let [newDepartment, setNewDepartment] = useState('')
-  const [id, setId] =useState('')
+  const handleShow = () => setShow(true);
+  let [newDepartment, setNewDepartment] = useState("");
+  const [id, setId] = useState("");
 
   useEffect(() => {
     getDepartments();
   }, []);
 
   const addNew = () => {
-    setId('');
-    setNewDepartment('');
+    setId("");
+    setNewDepartment("");
     handleShow();
-
-  }
+  };
 
   const createDepartment = async () => {
-    let overAllResponse ;
-    if(id){
-    const response = await httpPut(`department/${id}`, {'name' : newDepartment});
-    overAllResponse = response
-    } else{
-        const response = await httpPost(`department/`, {'name' : newDepartment});
-        overAllResponse = response
-
+    let overAllResponse;
+    if (id) {
+      const response = await httpPut(`department/${id}`, {
+        name: newDepartment,
+      });
+      overAllResponse = response;
+    } else {
+      const response = await httpPost(`department/`, { name: newDepartment });
+      overAllResponse = response;
     }
-    handleClose()
-    setNewDepartment('')
+    handleClose();
+    setNewDepartment("");
     if (overAllResponse.status == "400") {
       console.log("err");
       showError(overAllResponse.message);
     } else {
-        getDepartments()
+      getDepartments();
       showSucess(overAllResponse.message);
       console.log("res", overAllResponse.data);
     }
@@ -68,30 +68,31 @@ const Department = () => {
     }
   };
 
-  const getDepartment =async (id) => {
+  const getDepartment = async (id) => {
     const department = await httpGet(`department/${id}`);
-    handleShow()
+    handleShow();
     console.log("data", department.data);
     setNewDepartment(department.data.name);
-    setId(department.data._id)
-  }
+    setId(department.data._id);
+  };
 
   return (
     <>
-      <div className="title-bar">
-        <h2>Department</h2>
-        <Button variant="primary" onClick={addNew}>
-        Add New 
-      </Button>
-      </div>
+      <div className="body-main">
+        <div className="title-bar d-flex align-items-center justify-content-between">
+          <h2>Department</h2>
+          <Button className="btnblack" onClick={addNew}>
+            <AiOutlinePlus />
+            Add New
+          </Button>
+        </div>
 
-
-      <Modal show={show} onHide={handleClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>Add Department</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-        <Form>
+        <Modal show={show} onHide={handleClose}>
+          <Modal.Header closeButton>
+            <Modal.Title>Add Department</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Form>
               <Form.Group className="mb-3" controlId="formBasicName">
                 <Form.Label>Name</Form.Label>
                 <Form.Control
@@ -102,43 +103,43 @@ const Department = () => {
                   onChange={(e) => setNewDepartment(e.target.value)}
                 />
               </Form.Group>
-              </Form>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Close
-          </Button>
-          <Button variant="primary" onClick={createDepartment}>
-            Save Changes
-          </Button>
-        </Modal.Footer>
-      </Modal>
+            </Form>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleClose}>
+              Close
+            </Button>
+            <Button variant="primary" onClick={createDepartment}>
+              Save Changes
+            </Button>
+          </Modal.Footer>
+        </Modal>
 
-
-      <div className="table-bar">
-        <Table striped bordered hover>
-          <thead>
-            <tr>
-              <th>DEPARTMENT</th>
-              <th>ACTIONS</th>
-            </tr>
-          </thead>
-          <tbody>
-            {department.map((item) => {
-              return (
-                <>
-                  <tr>
-                    <td>{item?.name}</td>
-                    <td>
-                        <AiFillEdit onClick={() => getDepartment(item?._id)}/>
-                      <RiDeleteBinLine onClick={() => onClick(item?._id)} />
-                    </td>
-                  </tr>
-                </>
-              );
-            })}
-          </tbody>
-        </Table>
+        <div className="table-bar">
+          <Table>
+            <thead>
+              <tr>
+                <th>DEPARTMENT</th>
+                <th>ACTIONS</th>
+              </tr>
+            </thead>
+            <tbody>
+              {department.map((item) => {
+                return (
+                  <>
+                    <tr>
+                      <td>{item?.name}</td>
+                      <td>
+                        <AiFillEdit onClick={() => getDepartment(item?._id)} />
+                        <RiDeleteBinLine onClick={() => onClick(item?._id)} />
+                      </td>
+                    </tr>
+                  </>
+                );
+              })}
+            </tbody>
+          </Table>
+        </div>
       </div>
     </>
   );

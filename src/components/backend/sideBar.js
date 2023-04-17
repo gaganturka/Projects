@@ -1,9 +1,11 @@
 import Accordion from "react-bootstrap/Accordion";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
+import { CiLogout } from 'react-icons/ci';
 
 const SideBar = () => {
   return (
     <>
+      <div className="sidebar-panel">
       <Accordion defaultActiveKey="Requested-Access">
         <Accordion.Item eventKey="Requested-Access">
           <Accordion.Header>Requested Access</Accordion.Header>
@@ -11,15 +13,15 @@ const SideBar = () => {
             <ul>
               <li>
                 {" "}
-                <Link to="/contract/upload">Contract Upload</Link>{" "}
+                <NavLink to="/contract/upload">Contract Upload</NavLink>{" "}
               </li>
               <li>
                 {" "}
-                <Link to="/standard/agreement">Standard Agreement</Link>{" "}
+                <NavLink to="/standard/agreement">Standard Agreement</NavLink>{" "}
               </li>
               <li>
                 {" "}
-                <Link to="/">Contract Rollout</Link>
+                <NavLink to="/contractrollout">Contract Rollout</NavLink>
               </li>
             </ul>
           </Accordion.Body>
@@ -31,21 +33,21 @@ const SideBar = () => {
             <ul>
               <li>
                 {" "}
-                <Link to="/contract/upload">Contract Upload</Link>{" "}
+                <NavLink to="/allcontract">All Contracts</NavLink>{" "}
               </li>
               <li>
                 {" "}
-                <Link to="/standard/agreement">Standard Agreement</Link>{" "}
+                <NavLink to="/standard/agreement">Standard Agreement</NavLink>{" "}
               </li>
               <li>
                 {" "}
-                <Link to="/">Contract Rollout</Link>
+                <NavLink to="/">Contract Rollout</NavLink>
               </li>
             </ul>
           </Accordion.Body>
         </Accordion.Item>
         
-          <Link to="/approvals">Approvals</Link>
+        <NavLink to="/approvals">Approvals</NavLink>
         
 
         <Accordion.Item eventKey="Configuration">
@@ -53,25 +55,29 @@ const SideBar = () => {
           <Accordion.Body>
             <ul>
               <li>
-                <Link to="/"> Department </Link>{" "}
+                <NavLink to="/department"> Department </NavLink>{" "}
               </li>
               <li>
                 {" "}
-                <Link to="/"> Designation </Link>{" "}
+                <NavLink to="/"> Designation </NavLink>{" "}
               </li>
               <li>
                 {" "}
-                <Link to="/"> Contract Type </Link>{" "}
+                <NavLink to="/"> Contract Type </NavLink>{" "}
               </li>
               <li>
                 {" "}
-                <Link to="/">Contract Sub Type </Link>{" "}
+                <NavLink to="/">Contract Sub Type </NavLink>{" "}
               </li>
+              
             </ul>
           </Accordion.Body>
         </Accordion.Item>
       </Accordion>
+      <NavLink className='logoutbtn' to=""><CiLogout/>Logout</NavLink>
+      </div>
     </>
+
   );
 };
 

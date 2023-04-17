@@ -116,7 +116,7 @@ const Designation = () => {
 
 
       <div className="table-bar">
-        <Table striped bordered hover>
+        <Table >
           <thead>
             <tr>
             <th>DESIGNATION</th>
