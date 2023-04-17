@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import InputGroup from "react-bootstrap/InputGroup";
-import { AiOutlineEye } from "react-icons/ai";
 import { showError, showSucess } from "../helper/heper";
 import { httpGet, httpPost } from "../Action";
 import { Row, Col } from "react-bootstrap";

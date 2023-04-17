@@ -8,6 +8,7 @@ import Auth from "./components/Auth/index";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Backend from "./components/backend/index";
+import Authentication from "./components/Authentication/index";
 import Contract from "./pages/contract";
 import StandardAgreement from "./pages/standardAgreement";
 import ContractRollout from "./pages/contractRollout";
@@ -20,23 +21,19 @@ function App() {
     <>
       <div>
       <ToastContainer />
-        {/* <Routes>
+        <Routes   element={<Authentication />} >
           <Route path="/" element={<Auth />} />
-        </Routes> */}
+        </Routes>
 
         <Routes>
           <Route  element={<Backend />} >
           <Route path="/approvals" element={<Approvals />} />
           <Route path="/department" element={<Department />} />
-          <Route path="/" element={<Designation />} />
-
+          <Route path="/designation" element={<Designation />} />
           <Route path="/contract/upload" element={<Contract />} />
-          <Route path="/*" element={<Contract />} />
-          <Route path="/Contract/rollout" element={<ContractRollout />} />
+          {/* <Route path="/*" element={<Contract />} /> */}
+          <Route path="/contract/rollout" element={<ContractRollout />} />
           <Route path="/standard/agreement" element={<StandardAgreement />} />
-          <Route path="/au" element={<Auth />} />
-
-
           </Route>
         </Routes>
 

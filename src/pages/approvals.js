@@ -3,7 +3,6 @@ import Table from "react-bootstrap/Table";
 import { httpGet, httpPost } from "../Action";
 import { CiCircleCheck, CiCircleRemove } from "react-icons/ci";
 import { showError, showSucess } from "../helper/heper";
-import moment from "moment";
 
 const Approvals = () => {
   const [users, setUsers] = useState([]);
