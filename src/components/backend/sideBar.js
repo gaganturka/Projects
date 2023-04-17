@@ -9,35 +9,68 @@ const SideBar = () => {
           <Accordion.Header>Requested Access</Accordion.Header>
           <Accordion.Body>
             <ul>
-             <li> <Link to='/contract/upload'>Contract Upload</Link> </li>
-             <li>  <Link to='/standard/agreement'>Standard Agreement</Link> </li>
-              <li> <Link to='/' >Contract Rollout</Link></li>
+              <li>
+                {" "}
+                <Link to="/contract/upload">Contract Upload</Link>{" "}
+              </li>
+              <li>
+                {" "}
+                <Link to="/standard/agreement">Standard Agreement</Link>{" "}
+              </li>
+              <li>
+                {" "}
+                <Link to="/">Contract Rollout</Link>
+              </li>
+            </ul>
+          </Accordion.Body>
+        </Accordion.Item>
+
+        <Accordion.Item eventKey="All-Contract">
+          <Accordion.Header>All Contracts</Accordion.Header>
+          <Accordion.Body>
+            <ul>
+              <li>
+                {" "}
+                <Link to="/contract/upload">Contract Upload</Link>{" "}
+              </li>
+              <li>
+                {" "}
+                <Link to="/standard/agreement">Standard Agreement</Link>{" "}
+              </li>
+              <li>
+                {" "}
+                <Link to="/">Contract Rollout</Link>
+              </li>
             </ul>
           </Accordion.Body>
         </Accordion.Item>
         
-        <Accordion.Item eventKey="All-Contract">
-          <Accordion.Header>All Contracts</Accordion.Header>
-          <Accordion.Body>
+          <Link to="/approvals">Approvals</Link>
+        
 
-          </Accordion.Body>
-        </Accordion.Item> 
-       <li> <Link to='/approvals'>Approvals</Link></li>
-
-      <Accordion.Item eventKey="Configuration">
+        <Accordion.Item eventKey="Configuration">
           <Accordion.Header>Configuration</Accordion.Header>
           <Accordion.Body>
-  <ul>
-              <li><Link to='/' > Department </Link> </li>
-              <li> <Link to='/' >  Designation </Link> </li>
-              <li> <Link to='/' > Contract Type  </Link> </li>
-              <li> <Link to='/' >Contract Sub Type </Link> </li>
+            <ul>
+              <li>
+                <Link to="/"> Department </Link>{" "}
+              </li>
+              <li>
+                {" "}
+                <Link to="/"> Designation </Link>{" "}
+              </li>
+              <li>
+                {" "}
+                <Link to="/"> Contract Type </Link>{" "}
+              </li>
+              <li>
+                {" "}
+                <Link to="/">Contract Sub Type </Link>{" "}
+              </li>
             </ul>
           </Accordion.Body>
-          </Accordion.Item>
-
+        </Accordion.Item>
       </Accordion>
-
     </>
   );
 };

@@ -14,13 +14,13 @@ const Auth = () => {
           </div>
           <div className="form-tabs">
             <Tabs
-              defaultActiveKey="profile"
+              defaultActiveKey="login"
               id="uncontrolled-tab-example"
             >
-              <Tab eventKey="home" title="LogIn">
+              <Tab eventKey="login" title="Sign In">
                 <Login />
               </Tab>
-              <Tab eventKey="profile" title="Raise">
+              <Tab eventKey="signup" title="Raise request access">
                 <SignUp />
               </Tab>
             </Tabs>

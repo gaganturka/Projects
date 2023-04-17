@@ -59,7 +59,7 @@ const SignUp = () => {
 
   return (
     <>
-      <div className="title-bar">
+      <div className="title-bar text-center">
         <h2>Request Access</h2>
         <p>Raise a request for access</p>
       </div>
@@ -97,14 +97,14 @@ const SignUp = () => {
 
           <Form.Label>Your password</Form.Label>
 
-          <InputGroup className="mb-3">
+          <InputGroup className="mb-3 formeye">
             <Form.Control type="password" placeholder="Enter your password" onChange={(e) =>onChange(e)} name='password'/>
             <InputGroup.Text id="basic-addon2">
               <AiOutlineEye />
             </InputGroup.Text>
           </InputGroup>
 
-          <Button variant="primary" type="submit" onClick={submit}>
+          <Button className='btnblack' type="submit" onClick={submit}>
             Submit
           </Button>
         </Form>

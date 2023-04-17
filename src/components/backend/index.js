@@ -10,11 +10,12 @@ const Backend = () => {
         <Header/>
         <div className="dashboard-wrapper">
             <div className="dashboardsidebar">
-            <SideBar/>
+            <div className="sidebar-innner">
+                <SideBar/>
+            </div>
             </div>
             <div className="main-body">
                 <Outlet/>
-                
             </div>
 
         </div>
