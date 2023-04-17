@@ -24,16 +24,12 @@ const StandardAgreement = () => {
     if (formData.department) {
       getDesignation();
     }
-  }, [formData.department]);
-
-  const getDeprtments = async () => {
-    const department = await httpGet("department/");
-    console.log("daqta", department.data);
-    setAllDepartment(department.data);
-  };
+  });
 
   const getDesignation = async () => {
-    const department = await httpGet(`designation/${formData.department}`);
+    const department = await httpGet(
+      `designation/department/${formData.department}`
+    );
     console.log("daqta", department.data);
     setAllDesignation(department.data);
   };
