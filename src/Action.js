@@ -43,8 +43,6 @@ export const httpPut = (url, data) => {
   });
 };
 
-
-
 export const httpDelete = (url) => {
   return new Promise((resolve, reject) => {
     axios
@@ -59,20 +57,36 @@ export const httpDelete = (url) => {
   });
 };
 
-
-
-
-
 // Add a request interceptor
-axios.interceptors.request.use(function (config) {
-  const token = localStorage.getItem('token')
-  config.headers = { 
-    'authorization': ` ${token}`,
-    // 'Accept': 'application/json',
-    // 'Content-Type': 'application/x-www-form-urlencoded'
+axios.interceptors.request.use(
+  function (config) {
+    const token = localStorage.getItem("token");
+    config.headers = {
+      authorization: ` ${token}`,
+      // 'Accept': 'application/json',
+      // 'Content-Type': 'application/x-www-form-urlencoded'
+    };
+    return config;
+  },
+  function (error) {
+    // Do something with request error
+    return Promise.reject(error);
   }
-  return config;
-}, function (error) {
-  // Do something with request error
-  return Promise.reject(error);
-});
+);
+
+axios.interceptors.response.use(
+  function (response) {
+    console.log("DEC", response.data.status);
+    if (response.data.status === 403) {
+      localStorage.removeItem("token");
+    }
+    return response;
+  },
+  function (error) {
+    console.log("error", error);
+
+    // Any status codes that falls outside the range of 2xx cause this function to trigger
+    // Do something with response error
+    return Promise.reject(error);
+  }
+);

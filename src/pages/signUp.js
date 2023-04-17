@@ -5,10 +5,12 @@ import InputGroup from "react-bootstrap/InputGroup";
 import { AiOutlineEye } from "react-icons/ai";
 import { showError, showSucess } from "../helper/heper";
 import { httpGet, httpPost } from "../Action";
+import { useNavigate } from "react-router-dom";
 
 const SignUp = () => {
   const [allDepartment, setAllDepartment] = useState([])
   const [allDesignation, setAllDesignation] = useState([])
+  const navigate = useNavigate()
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -34,14 +36,14 @@ const SignUp = () => {
   }
 
   const getDesignation = async()=> {
-    const department = await httpGet(`designation/department/${formData.department}`)
+    const department = await httpGet(`designation/department/${formData?.department}`)
     console.log('daqta',department.data);
     setAllDesignation(department.data);
    }
   const onChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
-    console.log('weq', formData);
+   
   };
 
   const submit = async (e) => {
@@ -53,12 +55,14 @@ const SignUp = () => {
       showError(response.message);
     } else {
       showSucess(response.message);
+      navigate('/log-in')
       console.log("res", response.data);
     }
   };
 
   return (
     <>
+    { console.log('weq', formData)}
       <div className="title-bar text-center">
         <h2>Request Access</h2>
         <p>Raise a request for access</p>
@@ -78,7 +82,7 @@ const SignUp = () => {
           <Form.Group className="mb-3">
             <Form.Label>Department</Form.Label>
             <Form.Select onChange={(e) =>onChange(e)} name='department'>
-            <option>Requester’s Department</option>
+            <option value="">Requester’s Department</option>
             {allDepartment.map((item) => <>
               <option value={item._id}>{item.name}</option>
                </>)}
@@ -88,7 +92,7 @@ const SignUp = () => {
           <Form.Group className="mb-3">
             <Form.Label>Designation</Form.Label>
             <Form.Select onChange={(e) =>onChange(e)} name='designation'>
-              <option>Requester’s Designation</option>
+              <option value="">Requester’s Designation</option>
               {allDesignation.map((item) => <>
               <option value={item._id}>{item.name}</option>
                </>)}

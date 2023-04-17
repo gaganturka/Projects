@@ -2,7 +2,7 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { AiOutlineEye } from "react-icons/ai";
 import InputGroup from "react-bootstrap/InputGroup";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { httpPost } from "../Action";
 import { showError, showSucess } from "../helper/heper";
@@ -10,6 +10,7 @@ import { showError, showSucess } from "../helper/heper";
 // import 'react-toastify/dist/ReactToastify.css';
 
 const Login = () => {
+  const navigate = useNavigate()
   const [formData, setFormData] = useState({ email: "", password: "" });
 
   const onChange = (e) => {
@@ -27,6 +28,7 @@ const Login = () => {
       showSucess(response.message);
       console.log("res", response.data);
       localStorage.setItem("token", response.data.token);
+      navigate('/')
     }
   };
 
@@ -71,7 +73,7 @@ const Login = () => {
             controlId="formBasicCheckbox"
           >
             <Form.Check type="checkbox" label="Remember me" />
-            <Link to="">Forgot your password?</Link>
+            <Link to="/forget/password">Forgot your password?</Link>
           </Form.Group>
           <Button className="btn btnblack" type="submit" onClick={submit}>
             Log In

@@ -53,11 +53,11 @@ const SideBar = () => {
           <Accordion.Body>
             <ul>
               <li>
-                <Link to="/"> Department </Link>{" "}
+                <Link to="/department"> Department </Link>{" "}
               </li>
               <li>
                 {" "}
-                <Link to="/"> Designation </Link>{" "}
+                <Link to="/designation"> Designation </Link>{" "}
               </li>
               <li>
                 {" "}

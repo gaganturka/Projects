@@ -15,28 +15,38 @@ import ContractRollout from "./pages/contractRollout";
 import Approvals from "./pages/approvals";
 import Department from "./pages/department";
 import Designation from "./pages/designation";
-
+import ForgetPassword from "./pages/forgetPassword";
 function App() {
   return (
     <>
       <div>
-      <ToastContainer />
-        <Routes   element={<Authentication />} >
-          <Route path="/" element={<Auth />} />
-        </Routes>
-
-        <Routes>
-          <Route  element={<Backend />} >
-          <Route path="/approvals" element={<Approvals />} />
-          <Route path="/department" element={<Department />} />
-          <Route path="/designation" element={<Designation />} />
-          <Route path="/contract/upload" element={<Contract />} />
-          {/* <Route path="/*" element={<Contract />} /> */}
-          <Route path="/contract/rollout" element={<ContractRollout />} />
-          <Route path="/standard/agreement" element={<StandardAgreement />} />
-          </Route>
-        </Routes>
-
+        <ToastContainer />
+        {localStorage.getItem("token") ? (
+          <>
+            <Routes>
+              <Route element={<Backend />}>
+                <Route path="/approvals" element={<Approvals />} />
+                <Route path="/department" element={<Department />} />
+                <Route path="/designation" element={<Designation />} />
+                <Route path="/contract/upload" element={<Contract />} />
+                <Route path="/*" element={<Contract />} />
+                <Route path="/contract/rollout" element={<ContractRollout />} />
+                <Route
+                  path="/standard/agreement"
+                  element={<StandardAgreement />}
+                />
+              </Route>
+            </Routes>
+          </>
+        ) : (
+          <>
+            <Routes element={<Authentication />}>
+            <Route path="/*" element={<Auth />} />
+              <Route path="/log-in" element={<Auth />} />
+              <Route path="/forget/password" element={<ForgetPassword />} />
+            </Routes>
+          </>
+        )}
       </div>
     </>
   );
