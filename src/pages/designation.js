@@ -102,10 +102,11 @@ const Designation = () => {
 
   return (
     <>
-    {console.log('dsa',id, formData)};
-      <div className="title-bar">
+   
+   <div className="body-main">
+        <div className="title-bar d-flex align-items-center justify-content-between">
         <h2>Designation</h2>
-        <Button variant="primary" onClick={addNew}>
+        <Button variant="primary" className="btnblack" onClick={addNew}>
         Add New 
       </Button>
       </div>
@@ -177,7 +178,7 @@ const Designation = () => {
 
 
       <div className="table-bar">
-        <Table striped bordered hover>
+        <Table >
           <thead>
             <tr>
             <th>DESIGNATION</th>
@@ -205,6 +206,7 @@ const Designation = () => {
             })}
           </tbody>
         </Table>
+      </div>
       </div>
     </>
   );

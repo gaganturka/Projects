@@ -3,15 +3,19 @@ import Form from "react-bootstrap/Form";
 import { AiOutlineEye } from "react-icons/ai";
 import InputGroup from "react-bootstrap/InputGroup";
 import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { httpPost } from "../Action";
 import { showError, showSucess } from "../helper/heper";
+import { AppContext } from "../helper/context";
 // import { ToastContainer } from 'react-toastify';
 // import 'react-toastify/dist/ReactToastify.css';
 
 const Login = () => {
+  const {formData, setFormData, logIn} = useContext(AppContext);
+
+
   const navigate = useNavigate()
-  const [formData, setFormData] = useState({ email: "", password: "" });
+  // const [formData, setFormData] = useState({ email: "", password: "" });
 
   const onChange = (e) => {
     const { name, value } = e.target;
@@ -19,17 +23,7 @@ const Login = () => {
   };
 
   const submit = async (e) => {
-    e.preventDefault();
-
-    const response = await httpPost("user/log/in", formData);
-    if (response.status == "400") {
-      showError(response.message);
-    } else {
-      showSucess(response.message);
-      console.log("res", response.data);
-      localStorage.setItem("token", response.data.token);
-      navigate('/')
-    }
+    logIn(e)
   };
 
   return (

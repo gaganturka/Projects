@@ -49,7 +49,10 @@ const ForgetPassword = () => {
 
   return (
     <>
-      <div className="main-form">
+      <div className="main-wraper">
+        <div className='body-wraper'>
+        <div class="logo"><img src="/images/logoblack.png" alt="logo.white"/></div>
+        <div class="title-bar text-center"><h2>Forgot Password</h2><p>Enter your details to log into your account!</p></div>
         {/* <Form> */}
 
         {step === 0 ? (
@@ -64,9 +67,9 @@ const ForgetPassword = () => {
                   onChange={(e) => setEmail(e.target.value)}
                 />
               </Form.Group>
-              ;
+              
             </Form>
-            ;
+            
           </>
         ) : null}
 
@@ -115,10 +118,11 @@ const ForgetPassword = () => {
           </>
         ) : null}
 
-        <Button variant="primary" type="submit" onClick={submit}>
+        <Button className='btnblack' type="submit" onClick={submit}>
           Submit
         </Button>
         {/* </Form> */}
+        </div>
       </div>
     </>
   );

@@ -45,12 +45,12 @@ const Approvals = () => {
   return (
     <>
 <div className="body-main">
-      <div className="titile-bar">
+      <div className="title-bar">
         <h2>Approvals</h2>
       </div>
 
       <div className="table-bar">
-        <Table striped bordered hover>
+        <Table >
           <thead>
             <tr>
               <th>NAME</th>
