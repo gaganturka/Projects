@@ -515,3 +515,26 @@ input:-webkit-autofill:active{
     width: 100%;
     color: #ffffff;
 }
+.contactorlist {
+    padding: 20px;
+    border: 1px solid var(--box-border);
+}
+
+.contactorlist ul.contactorlist-ul {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.contactorlist ul.contactorlist-ul li {
+    flex: 0 0 50%;
+    font-size: 20px;
+}
+.contactorlist ul.contactorlist-ul {
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--box-border);
+}

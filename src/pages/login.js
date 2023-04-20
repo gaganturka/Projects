@@ -20,11 +20,31 @@ const Login = () => {
   const onChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
+   console.log(formData)
   };
 
   const submit = async (e) => {
     logIn(e)
   };
+
+  const isChecked =(e) => {
+    console.log('enter');
+    setFormData({ ...formData, [e.target.name]: e.target.checked })
+  }
+
+
+  // const togglePassword = document.querySelector("#togglePassword");
+  // const password = document.querySelector("#password");
+
+  // togglePassword.addEventListener("click", function () {
+  //     // toggle the type attribute
+  //     const type = password.getAttribute("type") === "password" ? "text" : "password";
+  //     password.setAttribute("type", type);
+      
+  //     // toggle the icon
+  //     this.classList.toggle("bi-eye");
+  // });
+
 
   return (
     <>
@@ -49,6 +69,7 @@ const Login = () => {
             <Form.Label>Your password</Form.Label>
             <InputGroup className="mb-3 formeye">
               <Form.Control
+              id="password"
                 type="password"
                 placeholder="Enter your password"
                 name="password"
@@ -56,7 +77,7 @@ const Login = () => {
                 aria-describedby="basic-addon2"
                 onChange={(e) => onChange(e)}
               />
-              <InputGroup.Text id="basic-addon2">
+              <InputGroup.Text id="togglePassword">
                 <AiOutlineEye />
               </InputGroup.Text>
             </InputGroup>
@@ -66,7 +87,7 @@ const Login = () => {
             className="mb-3 d-flex justify-content-between"
             controlId="formBasicCheckbox"
           >
-            <Form.Check type="checkbox" label="Remember me" />
+            <Form.Check type="checkbox" name="rememberMe" label="Remember me" onChange={isChecked} />
             <Link to="/forget/password">Forgot your password?</Link>
           </Form.Group>
           <Button className="btn btnblack" type="submit" onClick={submit}>

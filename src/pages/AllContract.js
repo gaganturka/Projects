@@ -1,18 +1,93 @@
 import Table from "react-bootstrap/Table";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Dropdown from "react-bootstrap/Dropdown";
 import { AiOutlineSetting, AiOutlineCheck } from "react-icons/ai";
 import { BsFilter } from "react-icons/bs";
-import Form from 'react-bootstrap/Form';
+import Form from "react-bootstrap/Form";
+import { httpGet } from "../Action";
+import moment from "moment";
+import Button from "react-bootstrap/Button";
+import ViewContract from "./viewContract";
+import { useNavigate } from "react-router-dom";
+
 
 const AllContract = () => {
+  const [allContract, setAllContract] = useState([]);
+  const [allDepartment, setAllDepartment] = useState([]);
+  const [allContractsType, setAllContractsType] = useState([]);
+  const [formData, setFormData] = useState({
+    type: "",
+    department: "",
+    startDate: "",
+    endDate: "",
+  });
+  const navigate = useNavigate()
+
+  const [tableFields, setTableFields] = useState(['name', 'customerName', 'Type', 'endDate']);
+
+  const onChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+    console.log("weq", formData);
+  };
+
+  useEffect(() => {
+    getDesignations()
+  }, [formData]);
+
+  useEffect(() => {
+    getContracts();
+ 
+    getDeprtments();
+  }, []);
+
+  const getDesignations = async (e) => {
+    e?.preventDefault();
+    const contract = await httpGet(
+      `contract/?department=${formData?.department}&type=${formData?.type}&startDate=${formData?.startDate}&endDate=${formData?.endDate}`
+    );
+    console.log("daqta", contract.data);
+    setAllContract(contract.data);
+  };
+
+  const getDeprtments = async () => {
+    const department = await httpGet("department/");
+    console.log("daqta", department.data);
+    setAllDepartment(department.data);
+  };
+
+  const getContracts = async () => {
+    const department = await httpGet("contract/type/");
+    console.log("daqta", department.data);
+    setAllContractsType(department.data);
+  };
+
+  const addFieldInArray = (field) => {
+    let tableFieldsTemp = [...tableFields];
+    // console.log('inc', tableFieldsTemp.includes(field));
+    if(tableFieldsTemp.includes(field)){
+      const index = tableFieldsTemp.indexOf(field);
+      const x = tableFieldsTemp.splice(index, 1);
+      console.log('yes', tableFieldsTemp);
+    }else{
+      tableFieldsTemp.push(field)
+      console.log('no', tableFieldsTemp);
+    }
+    setTableFields(tableFieldsTemp);
+  }
+
+  const ViewContract = (e) => {
+    navigate(`/viewcontract/${e}`)
+
+  }
   return (
     <>
       <div className="body-main">
         <div className="title-bar dropdown-flexing">
           <h2>All Contracts</h2>
           <ul className="dropdown-listing-bar">
-            <li>
+            <li>        
+{/* 
               <Dropdown>
                 <Dropdown.Toggle
                   className="custom-dropbar icondropdown"
@@ -23,96 +98,86 @@ const AllContract = () => {
                 <Dropdown.Menu>
                   <h6>FILTER</h6>
                   <Form >
-                      <Form.Select aria-label="Default select example">
-                        <option>Select Contract Type</option>
-                        <option value="1">Select Contract Type 1</option>
-                        <option value="2">Select Contract Type 2</option>
-                        <option value="3">Select Contract Type 3</option>
+              <Form.Select aria-label="Default select example"
+                         className="form-control"
+                         name="type"
+                         onChange={(e) => onChange(e)}>
+                      <option value=''>Select Contract Type</option>
+                    {allContractsType.map((item) => (
+                      <>
+                        <option value={item._id}>{item.name}</option>
+                      </>
+                    ))}
                       </Form.Select>
-                      <Form.Select aria-label="Default select example">
+              <Form.Select aria-label="Default select example"
+                         className="form-control"
+                         name="department"
+                         onChange={(e) => onChange(e)}>
                         <option>Select Department</option>
-                        <option value="1">Select Department 1</option>
-                        <option value="2">Select Department 2</option>
-                        <option value="3">Select Department 3</option>
+                        {allDepartment.map((item) => (
+                      <>
+                        <option value={item._id}>{item.name}</option>
+                      </>
+                    ))}
                       </Form.Select>
-                      <Form.Control type='date' placeholder="Enter Start Date" />
-                      <Form.Control type='date' placeholder="Enter Start Date" />
-                      <button className="btnblack" type='submit'>Filter</button>
+              <Form.Control type='date' placeholder="Enter Start Date"    className="form-control"
+                    name="startDate"
+                    onChange={(e) => onChange(e)}/>
+              <Form.Control type='date' placeholder="Enter End Date"    className="form-control"
+                    name="endDate"
+                    onChange={(e) => onChange(e)} />
+              <button className="btnblack" type='submit' onClick={getDesignations} >Filter</button>
                   </Form>
                 </Dropdown.Menu>
-              </Dropdown>
+              </Dropdown> */}
             </li>
             <li>
-              <Dropdown>
-                <Dropdown.Toggle className="custom-dropbar" id="dropdown-basic">
-                  Contract Type
-                </Dropdown.Toggle>
-                <Dropdown.Menu>
-                  <Dropdown.Item href="#/action-1">
-                    Contract Type 1
-                  </Dropdown.Item>
-                  <Dropdown.Item href="#/action-2">
-                    Contract Type 2
-                  </Dropdown.Item>
-                  <Dropdown.Item href="#/action-3">
-                    Contract Type 3
-                  </Dropdown.Item>
-                </Dropdown.Menu>
-              </Dropdown>
+              <Form.Select
+                aria-label="Default select example"
+                className="form-control"
+                name="type"
+                onChange={(e) => onChange(e)}
+              >
+                <option value="">Select Contract Type</option>
+                {allContractsType.map((item) => (
+                  <>
+                    <option value={item._id}>{item.name}</option>
+                  </>
+                ))}
+              </Form.Select>
             </li>
             <li>
-              <Dropdown>
-                <Dropdown.Toggle className="custom-dropbar" id="dropdown-basic">
-                  Contract Type
-                </Dropdown.Toggle>
-                <Dropdown.Menu>
-                  <Dropdown.Item href="#/action-1">
-                    Contract Type 1
-                  </Dropdown.Item>
-                  <Dropdown.Item href="#/action-2">
-                    Contract Type 2
-                  </Dropdown.Item>
-                  <Dropdown.Item href="#/action-3">
-                    Contract Type 3
-                  </Dropdown.Item>
-                </Dropdown.Menu>
-              </Dropdown>
+              <Form.Select
+                aria-label="Default select example"
+                className="form-control"
+                name="department"
+                onChange={(e) => onChange(e)}
+              >
+                <option>Select Department</option>
+                {allDepartment.map((item) => (
+                  <>
+                    <option value={item._id}>{item.name}</option>
+                  </>
+                ))}
+              </Form.Select>
             </li>
             <li>
-              <Dropdown>
-                <Dropdown.Toggle className="custom-dropbar" id="dropdown-basic">
-                  Contract Type
-                </Dropdown.Toggle>
-                <Dropdown.Menu>
-                  <Dropdown.Item href="#/action-1">
-                    Contract Type 1
-                  </Dropdown.Item>
-                  <Dropdown.Item href="#/action-2">
-                    Contract Type 2
-                  </Dropdown.Item>
-                  <Dropdown.Item href="#/action-3">
-                    Contract Type 3
-                  </Dropdown.Item>
-                </Dropdown.Menu>
-              </Dropdown>
+              <Form.Control
+                type="date"
+                placeholder="Enter Start Date"
+                className="form-control"
+                name="startDate"
+                onChange={(e) => onChange(e)}
+              />
             </li>
             <li>
-              <Dropdown>
-                <Dropdown.Toggle className="custom-dropbar" id="dropdown-basic">
-                  Contract Type
-                </Dropdown.Toggle>
-                <Dropdown.Menu>
-                  <Dropdown.Item href="#/action-1">
-                    Contract Type 1
-                  </Dropdown.Item>
-                  <Dropdown.Item href="#/action-2">
-                    Contract Type 2
-                  </Dropdown.Item>
-                  <Dropdown.Item href="#/action-3">
-                    Contract Type 3
-                  </Dropdown.Item>
-                </Dropdown.Menu>
-              </Dropdown>
+              <Form.Control
+                type="date"
+                placeholder="Enter End Date"
+                className="form-control"
+                name="endDate"
+                onChange={(e) => onChange(e)}
+              />
             </li>
             <li>
               <Dropdown>
@@ -126,37 +191,47 @@ const AllContract = () => {
                   <h6>FILTER FIELDS</h6>
                   <ul>
                     <li>
-                      <button>
+                      <button onClick={() =>addFieldInArray('name')}>
                         Name
-                        <AiOutlineCheck />
+                       
+                        {tableFields.includes('name') ? <AiOutlineCheck /> : ''}
+                        
                       </button>
                     </li>
                     <li>
-                      <button>
+                      <button onClick={() =>addFieldInArray('customerName')}>
                         Customer/Vendor Name
-                        <AiOutlineCheck />
+                        {tableFields.includes('customerName') ? <AiOutlineCheck /> : ''}
                       </button>
                     </li>
                     <li>
-                      <button>
+                    <button onClick={() =>addFieldInArray('Type')}>
                         Type of Contract
-                        <AiOutlineCheck />
+                        {tableFields.includes('Type') ? <AiOutlineCheck /> : ''}
                       </button>
                     </li>
                     <li>
-                      <button>
+                    <button onClick={() =>addFieldInArray('endDate')}>
                         Contract End Date
-                        <AiOutlineCheck />
+                        {tableFields.includes('endDate') ? <AiOutlineCheck /> : ''}
                       </button>
                     </li>
                     <li>
-                      <button>Email</button>
+                      <button  onClick={() =>addFieldInArray('email')}>
+                        Email
+                      {tableFields.includes('email') ? <AiOutlineCheck /> : ''}
+                      </button>
                     </li>
                     <li>
-                      <button>Customer/Vendor Email</button>
+                      <button onClick={() =>addFieldInArray('customerEmail')}>
+                      Customer/Vendor Email</button>
+                      {tableFields.includes('customerEmail') ? <AiOutlineCheck /> : ''}
                     </li>
                     <li>
-                      <button>Department</button>
+                      <button onClick={() =>addFieldInArray('department')}>
+                        Department
+                      {tableFields.includes('department') ? <AiOutlineCheck /> : ''}
+                      </button>
                     </li>
                   </ul>
                 </Dropdown.Menu>
@@ -168,21 +243,37 @@ const AllContract = () => {
           <Table>
             <thead>
               <tr>
-                <th>NAME</th>
-                <th>CUSTOMER/VENDOR NAME</th>
-                <th>TYPE OF CONTRACT</th>
-                <th>CONTRACT END DATE</th>
-                <th>Inward Quantity</th>
+              {tableFields.includes('name') ?  <th>NAME</th>     : ''}
+              {tableFields.includes('customerName') ?    <th>CUSTOMER/VENDOR NAME</th>    : ''}
+              {tableFields.includes('Type') ?    <th>TYPE OF CONTRACT</th>  : ''}
+              {tableFields.includes('endDate') ? <th>CONTRACT END DATE</th>   : ''}
+              {tableFields.includes('email') ? <th>Email</th>   : ''}
+              {tableFields.includes('customerEmail') ? <th>CUSTOMER/VENDOR Email</th>   : ''}
+              {tableFields.includes('department') ? <th>Department</th>   : ''}
+              {<th>Action</th>}
+
+
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
+              {allContract.map((item) => (
+                <tr>
+                    {tableFields.includes('name') ?  <td>{item.name}</td>    : ''}
+                    {tableFields.includes('customerName') ?  <td>{item.customerName}</td>    : ''}
+                    {tableFields.includes('Type') ?    <td>{item?.type?.name}</td>   : ''}
+                    {tableFields.includes('endDate') ?    <td>{moment(item.endDate).format("DD-MM-YYYY")}</td>    : ''}
+                    {tableFields.includes('email') ?    <td>  { item.email}  </td>    : ''}
+                    {tableFields.includes('customerEmail') ?    <td>  {item.customerEmail}   </td>    : ''}
+                    {tableFields.includes('department') ?    <td>  {item.department}   </td>    : ''}
+                    {      tableFields.length > 0 ?     
+                    <> <div className="btnupload">
+                <Button className="btnblack" type="submit" onClick={() => {ViewContract(item._id)}}>View Contract</Button>
+                </div>  </> 
+                   : '' }
+
+                 
+                </tr>
+              ))}
             </tbody>
           </Table>
         </div>

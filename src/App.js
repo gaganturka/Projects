@@ -18,40 +18,59 @@ import Designation from "./pages/designation";
 import AllContract from "./pages/AllContract";
 import ForgetPassword from "./pages/forgetPassword";
 import { AppContext } from "./helper/context";
-
+import ViewContract from "./pages/viewContract";
+import EmailExtractor from "./pages/read";
 function App() {
-  const {token} = useContext(AppContext);
-  
+  const { token, decodeToken } = useContext(AppContext);
+  const role = decodeToken()?.role;
   return (
     <>
       <div>
-      <ToastContainer />
-      { token ? <> 
-      <Routes>
-          <Route  element={<Backend />} >
-          <Route path="/approvals" element={<Approvals />} />
-          <Route path="/*" element={<Contract />} />
-          <Route path="/department" element={<Department />} />
-          <Route path="/designation" element={<Designation />} />
-          <Route path="/contract/upload" element={<Contract />} />
-          <Route path="/allcontract" element={<AllContract />} />
-          <Route path="/contractrollout" element={<ContractRollout />} />
-          <Route path="/standard/agreement" element={<StandardAgreement />} />
-          </Route>
-        </Routes>
+        <ToastContainer />
+        {token ? (
+          <>
+            {role == "user" ? (
+              <>
+                <Routes>
+                  <Route element={<Backend />}>
+                    <Route path="/*" element={<EmailExtractor />} />
+                    <Route path="/contract/upload" element={<Contract />} />
+                    <Route path="/allcontract" element={<AllContract />} />
+                    <Route path="/viewcontract/:id" element={<ViewContract />} />
+                    <Route
+                      path="/contractrollout"
+                      element={<ContractRollout />}
+                    />
+                    <Route
+                      path="/standard/agreement"
+                      element={<StandardAgreement />}
+                    />
+                  </Route>
+                </Routes>
+              </>
+            ) : (
+              <>
+                <Routes>
+                  <Route element={<Backend />}>
+                    <Route path="/approvals" element={<Approvals />} />
+                    <Route path="/*" element={<Approvals />} />
+                    <Route path="/department" element={<Department />} />
+                    <Route path="/designation" element={<Designation />} />
+                  </Route>
+                </Routes>
+              </>
+            )}
+          </>
+        ) : (
+          <>
+            <Routes element={<Authentication />}>
+              <Route path="/" element={<Auth />} />
+              <Route path="/*" element={<Auth />} />
 
-      </> : <> 
-      <Routes   element={<Authentication />} >
-          <Route path="/" element={<Auth />} />
-          <Route path="/*" element={<Auth />} />
-
-          <Route path="/forget/password" element={<ForgetPassword />} />
-
-        </Routes>
-
-      </>}
-    
-
+              <Route path="/forget/password" element={<ForgetPassword />} />
+            </Routes>
+          </>
+        )}
       </div>
     </>
   );

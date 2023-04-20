@@ -1,11 +1,16 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { showError, showSucess } from "../helper/heper";
 import { httpGet, httpPost } from "../Action";
 import { Row, Col } from "react-bootstrap";
+import { AppContext } from "../helper/context";
 
 const Contract = () => {
+  const {  decodeToken } = useContext(AppContext);
+  const userId = decodeToken()?.userId;
+  
+
   const [allDepartment, setAllDepartment] = useState([]);
   const [allContractsType, setAllContractsType] = useState([]);
   const [allSubContractsType, setAllSubContractsType] = useState([]);
@@ -82,6 +87,7 @@ const Contract = () => {
     newFormData.append("spocName", formData.spocName);
     newFormData.append("department", formData.department);
     newFormData.append("image", file);
+    newFormData.append("userId", userId);
 
     const response = await httpPost("contract/", newFormData);
     if (response.status == "400") {
@@ -90,9 +96,6 @@ const Contract = () => {
     } else {
       showSucess(response.message);
       console.log("res", response.data);
-      setFormData('');
-    
-    
     }
   };
 
