@@ -20,6 +20,9 @@ import ForgetPassword from "./pages/forgetPassword";
 import { AppContext } from "./helper/context";
 import ViewContract from "./pages/viewContract";
 import EmailExtractor from "./pages/read";
+import ContractType from "./pages/contractType";
+import SubContractType from "./pages/subContractType";
+
 function App() {
   const { token, decodeToken } = useContext(AppContext);
   const role = decodeToken()?.role;
@@ -56,6 +59,8 @@ function App() {
                     <Route path="/*" element={<Approvals />} />
                     <Route path="/department" element={<Department />} />
                     <Route path="/designation" element={<Designation />} />
+                    <Route path="/contract/type" element={<ContractType />} />
+                    <Route path="/sub/contract/type" element={<SubContractType />} />
                   </Route>
                 </Routes>
               </>

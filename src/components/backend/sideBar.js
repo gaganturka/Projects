@@ -75,11 +75,11 @@ const SideBar = () => {
                     </li>
                     <li>
                       {" "}
-                      <NavLink to="/"> Contract Type </NavLink>{" "}
+                      <NavLink to="/contract/type"> Contract Type </NavLink>{" "}
                     </li>
                     <li>
                       {" "}
-                      <NavLink to="/">Contract Sub Type </NavLink>{" "}
+                      <NavLink to="/sub/contract/type">Contract Sub Type </NavLink>{" "}
                     </li>
                   </ul>
                 </Accordion.Body>
