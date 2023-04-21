@@ -53,16 +53,7 @@ const SideBar = () => {
                       {" "}
                       <NavLink to="/allcontract">All Contracts</NavLink>{" "}
                     </li>
-                    <li>
-                      {" "}
-                      <NavLink to="/standard/agreement">
-                        Standard Agreement
-                      </NavLink>{" "}
-                    </li>
-                    <li>
-                      {" "}
-                      <NavLink to="/">Contract Rollout</NavLink>
-                    </li>
+                   
                   </ul>
                 </Accordion.Body>
               </Accordion.Item>

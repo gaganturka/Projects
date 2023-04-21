@@ -89,7 +89,7 @@ const Department = () => {
 
         <Modal show={show} onHide={handleClose}>
           <Modal.Header closeButton>
-            <Modal.Title>Add Department</Modal.Title>
+            <Modal.Title>{id ? 'Edit' : 'Add'} Department</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <Form>

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Table from "react-bootstrap/Table";
 import { httpDelete, httpGet, httpPost, httpPut } from "../Action";
 import { RiDeleteBinLine } from "react-icons/ri";
-import {AiFillEdit}  from "react-icons/ai";
+import { AiFillEdit } from "react-icons/ai";
 import { showError, showSucess } from "../helper/heper";
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
@@ -11,19 +11,19 @@ import Form from "react-bootstrap/Form";
 
 const Designation = () => {
   const [designation, setDesignation] = useState([]);
-  const [formData, setFormData] = useState({name : '',departmentId :'' , level: ''})
-    const [allDepartment, setAllDepartment] = useState([]);
+  const [formData, setFormData] = useState({ name: '', departmentId: '', level: '' })
+  const [allDepartment, setAllDepartment] = useState([]);
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
-  const handleShow = () =>setShow(true);
+  const handleShow = () => setShow(true);
   let [newDesignation, setNewDesignation] = useState('')
-  const [id, setId] =useState('');
-  const level=([
-    {name : 1, value : 1},
-    {name : 2, value : 2},
-    {name : 3, value : 3},
-    {name : 4, value : 4},
-    {name : 5, value : 5},
+  const [id, setId] = useState('');
+  const level = ([
+    { name: 1, value: 1 },
+    { name: 2, value: 2 },
+    { name: 3, value: 3 },
+    { name: 4, value: 4 },
+    { name: 5, value: 5 },
   ])
 
   useEffect(() => {
@@ -33,7 +33,7 @@ const Designation = () => {
 
   const addNew = () => {
     setId('');
-    setFormData({name : '',departmentId :'' , level : ''});
+    setFormData({ name: '', departmentId: '', level: '' });
     handleShow();
 
   }
@@ -45,13 +45,13 @@ const Designation = () => {
 
 
   const createDesignation = async () => {
-    let overAllResponse ;
-    if(id){
-    const response = await httpPut(`designation/${id}`, formData);
-    overAllResponse = response
-    } else{
-        const response = await httpPost(`designation/`, formData);
-        overAllResponse = response
+    let overAllResponse;
+    if (id) {
+      const response = await httpPut(`designation/${id}`, formData);
+      overAllResponse = response
+    } else {
+      const response = await httpPost(`designation/`, formData);
+      overAllResponse = response
 
     }
     handleClose()
@@ -60,7 +60,7 @@ const Designation = () => {
       console.log("err");
       showError(overAllResponse.message);
     } else {
-        getDesignations()
+      getDesignations()
       showSucess(overAllResponse.message);
       console.log("res", overAllResponse.data);
     }
@@ -84,11 +84,11 @@ const Designation = () => {
     }
   };
 
-  const getDesignation =async (id) => {
+  const getDesignation = async (id) => {
     const designation = await httpGet(`designation/${id}`);
     handleShow()
     console.log("data", designation.data);
-    setFormData({['name'] : designation.data?.name, ['departmentId'] :  designation.data?.departmentId, ['level'] :  designation.data?.level});
+    setFormData({ ['name']: designation.data?.name, ['departmentId']: designation.data?.departmentId, ['level']: designation.data?.level });
     // setFormData({...formData,});
     setId(designation.data._id)
   }
@@ -102,22 +102,22 @@ const Designation = () => {
 
   return (
     <>
-   
-   <div className="body-main">
+
+      <div className="body-main">
         <div className="title-bar d-flex align-items-center justify-content-between">
-        <h2>Designation</h2>
-        <Button variant="primary" className="btnblack" onClick={addNew}>
-        Add New 
-      </Button>
-      </div>
+          <h2>Designation</h2>
+          <Button variant="primary" className="btnblack" onClick={addNew}>
+            Add New
+          </Button>
+        </div>
 
 
-      <Modal show={show} onHide={handleClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>Add Designation</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-        <Form>
+        <Modal show={show} onHide={handleClose}>
+          <Modal.Header closeButton>
+            <Modal.Title>{id ? "Edit" : "Add"} Designation</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Form>
               <Form.Group className="mb-3" controlId="formBasicName">
                 <Form.Label>Name</Form.Label>
                 <Form.Control
@@ -148,65 +148,59 @@ const Designation = () => {
 
               <Form.Group className="mb-3">
                 <Form.Label>Level</Form.Label>
-                <Form.Select
-                  className="form-control"
+                <Form.Control
+                  type="text"
+                  placeholder="Enter Level"
                   name="level"
                   value={formData.level}
                   onChange={(e) => onChange(e)}
-                >
-                  <option>Select Level</option>
-                  {level.map((item) => (
-                    <>
-                      <option value={item.value}>{item.name}</option>
-                    </>
-                  ))}
-                </Form.Select>
+                />
               </Form.Group>
 
 
-              </Form>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Close
-          </Button>
-          <Button variant="primary" onClick={createDesignation}>
-            Save Changes
-          </Button>
-        </Modal.Footer>
-      </Modal>
+            </Form>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleClose}>
+              Close
+            </Button>
+            <Button variant="primary" onClick={createDesignation}>
+              Save Changes
+            </Button>
+          </Modal.Footer>
+        </Modal>
 
 
-      <div className="table-bar">
-        <Table >
-          <thead>
-            <tr>
-            <th>DESIGNATION</th>
-            <th>DEPARTMENT</th>
-            <th>LEVEL</th>
-              <th>ACTIONS</th>
-            </tr>
-          </thead>
-          <tbody>
+        <div className="table-bar">
+          <Table >
+            <thead>
+              <tr>
+                <th>DESIGNATION</th>
+                <th>DEPARTMENT</th>
+                <th>LEVEL</th>
+                <th>ACTIONS</th>
+              </tr>
+            </thead>
+            <tbody>
 
-            {designation.map((item) => {
-              return (
-                <>
-                  <tr>
-                    <td>{item?.name}</td>
-                    <td>{item?.departmentId?.name}</td>
-                    <td>{item?.level}</td>
-                    <td>
-                        <AiFillEdit onClick={() => getDesignation(item?._id)}/>
-                      <RiDeleteBinLine onClick={() => onClick(item?._id)} />
-                    </td>
-                  </tr>
-                </>
-              );
-            })}
-          </tbody>
-        </Table>
-      </div>
+              {designation.map((item) => {
+                return (
+                  <>
+                    <tr>
+                      <td>{item?.name}</td>
+                      <td>{item?.departmentId?.name}</td>
+                      <td>{item?.level}</td>
+                      <td>
+                        <AiFillEdit onClick={() => getDesignation(item?._id)} />
+                        <RiDeleteBinLine onClick={() => onClick(item?._id)} />
+                      </td>
+                    </tr>
+                  </>
+                );
+              })}
+            </tbody>
+          </Table>
+        </div>
       </div>
     </>
   );

@@ -13,22 +13,22 @@ const ContractRollout = () => {
   const [message, setMessage] = useState("");
   const [file, setFile] = useState("");
 
-  useEffect(() => {}, [emailList]);
+  useEffect(() => { }, [emailList]);
 
   const handleFileUpload = (event) => {
-    const file = event.target.files[0];
-    if(file){
-    const reader = new FileReader();
+    const file = event.target.files[0];  
+    if (file) {
+      const reader = new FileReader();
 
-    reader.onload = (event) => {
-      const fileContent = event.target.result;
-      const emailPattern = /[\w\d.-]+@[\w\d.-]+\.[\w\d.-]+/g;
-      const extractedEmails = fileContent.match(emailPattern) || [];
-      setEmailList(extractedEmails);
-    };
+      reader.onload = (event) => {
+        const fileContent = event.target.result;
+        const emailPattern = /[\w\d+.-]+@[\w\d.-]+\.[\w\d.-]+/g;
+        const extractedEmails = fileContent.match(emailPattern) || [];
+        setEmailList(extractedEmails);
+      };
 
-    reader.readAsText(file);
-  }
+      reader.readAsText(file);
+    }
   };
 
   const submit = async (e) => {
@@ -98,12 +98,12 @@ const ContractRollout = () => {
                 </InputGroup>
 
                 <Form.Group className="mb-3" controlId="formBasicName">
-                  <Form.Label>Emails</Form.Label>
+                  <Form.Label>Message</Form.Label>
                   <Form.Control
                     as="textarea"
                     type="text"
-                    placeholder="Enter emails"
-                    name="name"
+                    placeholder="Enter Email Message"
+                    name="message"
                     onChange={(e) => setMessage(e.target.value)}
                   />
                 </Form.Group>

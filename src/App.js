@@ -33,7 +33,7 @@ function App() {
               <>
                 <Routes>
                   <Route element={<Backend />}>
-                    <Route path="/*" element={<EmailExtractor />} />
+                    <Route path="/*" element={<Contract />} />
                     <Route path="/contract/upload" element={<Contract />} />
                     <Route path="/allcontract" element={<AllContract />} />
                     <Route path="/viewcontract/:id" element={<ViewContract />} />
