@@ -11,23 +11,25 @@ import { AppContext } from "../helper/context";
 // import 'react-toastify/dist/ReactToastify.css';
 
 const Login = () => {
-  const {formData, setFormData, logIn} = useContext(AppContext);
+  const { formData, setFormData, logIn } = useContext(AppContext);
 
 
   const navigate = useNavigate()
   // const [formData, setFormData] = useState({ email: "", password: "" });
 
+  const [showPassword, setShowPassword] = useState(false);
+
   const onChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
-   console.log(formData)
+    console.log(formData)
   };
 
   const submit = async (e) => {
     logIn(e)
   };
 
-  const isChecked =(e) => {
+  const isChecked = (e) => {
     console.log('enter');
     setFormData({ ...formData, [e.target.name]: e.target.checked })
   }
@@ -40,7 +42,7 @@ const Login = () => {
   //     // toggle the type attribute
   //     const type = password.getAttribute("type") === "password" ? "text" : "password";
   //     password.setAttribute("type", type);
-      
+
   //     // toggle the icon
   //     this.classList.toggle("bi-eye");
   // });
@@ -69,15 +71,15 @@ const Login = () => {
             <Form.Label>Your password</Form.Label>
             <InputGroup className="mb-3 formeye">
               <Form.Control
-              id="password"
-                type="password"
+                id="password"
+                type={showPassword ? 'text' : 'password'}
                 placeholder="Enter your password"
                 name="password"
                 aria-label="Recipient's username"
                 aria-describedby="basic-addon2"
                 onChange={(e) => onChange(e)}
               />
-              <InputGroup.Text id="togglePassword">
+              <InputGroup.Text onClick={(e)=>setShowPassword(!showPassword)} id="togglePassword">
                 <AiOutlineEye />
               </InputGroup.Text>
             </InputGroup>

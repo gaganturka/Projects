@@ -1,13 +1,15 @@
-*{
+* {
     padding: 0;
     margin: 0;
     box-sizing: border-box;
 }
-body{
+
+body {
     font-family: var(--fonts-500)
 }
+
 /* Colors variables */
-:root{
+:root {
     --black: #000000;
     --white: #ffffff;
     --bggray: #F6F6F8;
@@ -16,9 +18,11 @@ body{
     --form-label: #6E7280;
     --primary: #CBDB2D;
 }
-.bg-black{
+
+.bg-black {
     background-color: var(--black);
 }
+
 /* Fonts variables  */
 :root {
     --fonts-100: 'Museo Sans 100';
@@ -27,60 +31,76 @@ body{
     --fonts-700: 'Museo Sans 700';
     --fonts-900: 'Museo Sans 900';
 }
-h1{
+
+h1 {
     font-size: 50px;
 }
-h2{
+
+h2 {
     font-size: 40px;
 }
-h3{
+
+h3 {
     font-size: 32px;
 }
-h4{
+
+h4 {
     font-size: 26px;
 }
-h5{
+
+h5 {
     font-size: 20px;
 }
-h6{
+
+h6 {
     font-size: 18px;
 }
-p{
+
+p {
     font-style: normal;
     font-weight: 400;
     font-size: 16px;
     line-height: 24px;
     color: var(--black);
 }
+
 a {
     text-decoration: none;
     color: #000000;
 }
+
 /* Form input css  */
-.form-control , .form-select{
+.form-control,
+.form-select {
     padding: 14px 16px;
     background: var(--white);
-    border: 2px solid var(--forminput-border); 
+    border: 2px solid var(--forminput-border);
     border-radius: 8px;
 }
+
 /* Change the white to any color */
 input:-webkit-autofill,
-input:-webkit-autofill:hover, 
-input:-webkit-autofill:focus, 
-input:-webkit-autofill:active{
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
     -webkit-box-shadow: 0 0 0 30px white inset !important;
 }
-.form-control:focus , .form-select:focus{
+
+.form-control:focus,
+.form-select:focus {
     border-color: #000000;
     box-shadow: 0 0 0 0.25rem rgb(0 0 0 / 51%) !important;
 }
+
 .form-check-input:checked {
     background-color: #000000;
     border-color: #000000;
 }
+
 .form-check-input:focus {
     box-shadow: 0 0 0 0.25rem rgb(0 0 0 / 25%);
 }
+
 .form-tabs .Form .form-label {
     font-style: normal;
     font-weight: 400;
@@ -89,6 +109,7 @@ input:-webkit-autofill:active{
     color: #6E7280;
     margin: 0 0 5px 0;
 }
+
 .formeye .input-group-text {
     position: absolute;
     right: 0px;
@@ -99,7 +120,9 @@ input:-webkit-autofill:active{
     font-size: 25px;
     cursor: pointer;
 }
-.btnblack {
+
+.btnblack,
+.btn-primary {
     background: var(--black) !important;
     width: 100%;
     border: 1px solid var(--black);
@@ -107,15 +130,50 @@ input:-webkit-autofill:active{
     border-radius: 8px;
     height: auto;
 }
-.btnblack:focus {
+
+.btnblack:focus,
+.btn-primary:focus {
     box-shadow: 0 0 0 0.25rem rgb(0 0 0 / 34%) !important;
 }
-.btnblack:hover {
+
+.btnblack:hover,
+.btn-primary:hover {
     background: transparent !important;
     color: var(--black);
     border: 1px solid var(--black) !important;
     outline: none !important;
 }
+
+.btn-primary{
+    width: auto;
+}
+
+
+.btn-secondary {
+    background: var(--bggray) !important;
+    color: var(--black);
+    border: 1px solid var(--black) !important;
+    border: 1px solid var(--bggray);
+    padding: 12px;
+    border-radius: 8px;
+    height: auto;
+}
+
+.btn-secondary:focus {
+    box-shadow: 0 0 0 0.25rem rgb(0 0 0 / 34%) !important;
+}
+
+.btn-secondary:hover {
+    background: var(--black) !important;
+    color: var(--white);
+}
+
+table td svg{
+    margin: 0 5px;
+    cursor: pointer;
+}
+
+
 /* Header css  */
 .mainheader {
     position: fixed;
@@ -124,18 +182,22 @@ input:-webkit-autofill:active{
     width: 100%;
     z-index: 10;
 }
+
 .mainheader nav.navbar {
     background: var(--white);
     padding: 0;
 }
-.mainheader nav.navbar  .navbar-brand {
-    background:var(--black);
+
+.mainheader nav.navbar .navbar-brand {
+    background: var(--black);
     padding: 20px 80px;
 }
+
 .main-wraper {
     background: var(--bggray);
     padding: 130px 0 50px 0;
 }
+
 .main-wraper .body-wraper {
     background: var(--white);
     border: 0.5px solid var(--box-border);
@@ -145,19 +207,23 @@ input:-webkit-autofill:active{
     margin: 0 auto;
     padding: 35px;
 }
+
 .main-wraper .body-wraper .logo {
     text-align: center;
     margin-bottom: 30px;
 }
+
 .main-wraper .body-wraper .form-tabs .nav-tabs {
     margin-bottom: 28px;
     border: none;
     justify-content: center;
 }
+
 .main-wraper .body-wraper .form-tabs .nav-tabs li.nav-item {
     flex: 1 1 0;
     justify-content: space-between;
 }
+
 .main-wraper .body-wraper .form-tabs .nav-tabs li.nav-item .nav-link {
     width: 100%;
     background: var(--white);
@@ -169,42 +235,50 @@ input:-webkit-autofill:active{
     line-height: 24px;
     color: var(--black);
 }
+
 .main-wraper .body-wraper .form-tabs .nav-tabs li.nav-item .nav-link.active {
     background: var(--black);
     color: var(--white);
 }
+
 .main-wraper .body-wraper .form-tabs .nav-tabs li.nav-item:first-child .nav-link {
     border-radius: 8px 0 0 8px;
 }
+
 .main-wraper .body-wraper .form-tabs .nav-tabs li.nav-item:last-child .nav-link {
     border-radius: 0px 8px 8px 0;
 }
 
 .title-bar h2 {
-    font-family : var(--fonts-700)
+    font-family: var(--fonts-700)
 }
+
 .dashboard-wrapper {
     padding-top: 84px;
     padding-left: 311px;
     position: relative;
     min-height: 100vh;
 }
+
 .dashboard-wrapper .dashboardsidebar {
     width: 311px;
     height: 100vh;
     margin-top: 84px;
     position: fixed;
-    background-color: var(--white);
+    background-color: var(--black);
     top: 0;
     left: 0;
 }
+
 .accordion-button:focus {
     box-shadow: none;
     outline: none;
 }
+
 .dashboard-block {
     background: var(--bggray);
 }
+
 .sidebar-panel {
     height: calc(100vh - 85px);
     overflow: scroll;
@@ -212,6 +286,7 @@ input:-webkit-autofill:active{
     flex-direction: column;
     justify-content: space-between;
 }
+
 .sidebar-panel a.logoutbtn {
     padding: 18px 25px;
     background: var(--black);
@@ -220,6 +295,7 @@ input:-webkit-autofill:active{
     align-items: center;
     justify-content: flex-start;
 }
+
 .sidebar-panel a.logoutbtn svg {
     margin-right: 10px;
 }
@@ -230,16 +306,19 @@ input:-webkit-autofill:active{
     max-width: 100%;
     min-height: calc(100vh - 124px);
 }
+
 .dashboard-wrapper .dashboardsidebar .sidebar-innner {
     margin-top: 1px;
-    background: var(--white);
+    background: var(--black);
     height: 100vh;
 }
+
 .dashboard-wrapper .dashboardsidebar .sidebar-innner .accordion {
     background: var(--black);
 }
-.dashboard-wrapper .dashboardsidebar .accordion .accordion-item h2.accordion-header button.accordion-button ,
-.dashboard-wrapper .dashboardsidebar .sidebar-innner .accordion a{
+
+.dashboard-wrapper .dashboardsidebar .accordion .accordion-item h2.accordion-header button.accordion-button,
+.dashboard-wrapper .dashboardsidebar .sidebar-innner .accordion a {
     color: var(--white);
     background: var(--black);
     padding: 18px 25px 18px 25px;
@@ -253,29 +332,36 @@ input:-webkit-autofill:active{
     align-items: center;
     justify-content: flex-start;
 }
+
 .dashboard-wrapper .dashboardsidebar .accordion .accordion-item .accordion-collapse {
     background: var(--black);
     color: var(--white);
 }
+
 .dashboard-wrapper .dashboardsidebar .accordion .accordion-item h2.accordion-header button.accordion-button::after {
     filter: invert(1);
     opacity: 1;
 }
+
 .dashboard-wrapper .dashboardsidebar .accordion .accordion-item .accordion-collapse .accordion-body ul li:last-child a {
     border: none;
 }
+
 .dashboard-wrapper .dashboardsidebar .accordion .accordion-item .accordion-collapse .accordion-body {
     padding: 10px 25px 10px 25px;
 }
-.dashboard-wrapper .dashboardsidebar .accordion  .accordion-item {
+
+.dashboard-wrapper .dashboardsidebar .accordion .accordion-item {
     background-color: var(--white);
     border: none;
 }
+
 .dashboard-wrapper .dashboardsidebar .accordion .accordion-item .accordion-collapse .accordion-body ul {
     list-style: none;
     padding: 0;
     margin: 0;
 }
+
 .dashboard-wrapper .dashboardsidebar .accordion .accordion-item .accordion-collapse .accordion-body ul li a {
     display: block;
     padding: 14px 0;
@@ -287,6 +373,7 @@ input:-webkit-autofill:active{
     color: var(--white);
     font-family: var(--fonts-700);
 }
+
 .dashboard-block .dashboard-wrapper .dashboardsidebar li a {
     padding: 18px 25px 18px 25px;
     font-style: normal;
@@ -296,14 +383,17 @@ input:-webkit-autofill:active{
     text-decoration: none;
     display: block;
 }
+
 .main-body .table-bar table {
-    color : var(--black);
-    
+    color: var(--black);
+
 }
+
 .main-body .table-bar table thead {
     background: var(--bggray);
     border: none;
 }
+
 .table-bar thead tr th {
     background: var(--bggray);
     color: var(--black);
@@ -316,26 +406,32 @@ input:-webkit-autofill:active{
     margin: 0;
     padding: 13px;
 }
+
 .main-body .table-bar table tbody tr {
-    background:  var(--white);
+    background: var(--white);
     border: none !important;
 }
+
 .main-body .table-bar table tbody tr td {
-    background:  var(--white) !important;
+    background: var(--white) !important;
     border: none !important;
     box-shadow: none;
 }
+
 .main-body .body-main {
     background: var(--white);
     border-radius: 20px;
 }
+
 .main-body {
     background: var(--white);
     border-radius: 20px;
 }
+
 .body-main {
     background: var(--bggray);
 }
+
 .main-body .body-main .title-bar {
     margin-bottom: 40px;
 }
@@ -345,44 +441,55 @@ input:-webkit-autofill:active{
     align-items: center;
     justify-content: flex-start;
 }
+
 .uploadbar label.form-label {
     margin: 0;
     flex: 0 0 160px;
 }
+
 .btnupload {
     max-width: 300px;
     margin: 0 0 0 auto;
 }
-.form-label{
+
+.form-label {
     font-weight: 400;
     font-size: 14px;
     line-height: 18px;
     color: var(--form-label);
 }
+
 .dashboard-wrapper .dashboardsidebar .accordion .accordion-item .accordion-collapse .accordion-body ul li a.active {
     color: var(--primary);
 }
+
 .uploadbar input.form-control {
     border: none;
 }
+
 .uploadbar input.form-control {
     border: none;
 }
+
 .btngroups {
     display: flex;
     align-items: center;
     justify-content: flex-end;
 }
+
 .btngroups .btnblack {
     margin-left: 20px;
     max-width: 30%;
 }
+
 .forminputs-bar .form-check {
     margin-right: 20px;
 }
+
 .forminputs-bar {
     margin: 40px 0 20px 0;
 }
+
 .uploademails .input-group-text {
     position: absolute;
     top: 50%;
@@ -397,24 +504,30 @@ input:-webkit-autofill:active{
     border-radius: 5px !important;
     margin: 0 !important;
 }
+
 .uploademails input.form-control {
     padding-right: 130px;
 }
+
 .form .btngroups {
     margin-top: 100px;
 }
+
 .form .btngroups {
     margin-top: 100px;
 }
+
 .emaillisting li {
     border-bottom: 1px solid #E9ECEE;
 }
+
 .emaillisting li .del-btn {
     padding: 0;
     border: none;
     background: transparent;
     cursor: pointer;
 }
+
 .emailadded-bar {
     height: 100%;
     background: var(--white);
@@ -422,33 +535,41 @@ input:-webkit-autofill:active{
     border-radius: 8px;
     padding: 24px;
 }
+
 .emailadded-bar .title-bar {
     margin-bottom: 30px;
 }
+
 .sidebar-panel a.logoutbtn svg {
     margin-right: 10px;
 }
+
 .title-bar .btnblack {
     width: auto;
     padding: 12px 20px;
 }
+
 .title-bar .btnblack svg {
     margin-right: 10px;
 }
+
 .dropdown-flexing {
     display: flex;
     align-items: center;
     justify-content: space-between;
 }
+
 .dropdown-flexing .dropdown-listing-bar {
     list-style: none;
     display: flex;
     align-items: center;
     justify-content: flex-end;
 }
+
 .dropdown-flexing .dropdown-listing-bar li {
     margin-left: 10px;
 }
+
 .dropdown-flexing .dropdown-listing-bar li .dropdown .custom-dropbar {
     background: transparent !important;
     border: 1px solid var(--black);
@@ -459,32 +580,39 @@ input:-webkit-autofill:active{
     outline: none !important;
     box-shadow: none !important;
 }
-.dropdown-listing-bar .dropdown-menu select.form-select , 
-.dropdown-listing-bar .dropdown-menu  .form-control{
+
+.dropdown-listing-bar .dropdown-menu select.form-select,
+.dropdown-listing-bar .dropdown-menu .form-control {
     padding: 6px 12px;
     font-size: 12px;
     margin-bottom: 9px;
 }
+
 .dropdown-flexing .dropdown-listing-bar li .dropdown .dropdown-menu {
     padding: 0;
 }
+
 .dropdown-flexing .dropdown-listing-bar li .dropdown .dropdown-menu .dropdown-item {
     padding: 9px 12px;
     font-size: 12px;
     line-height: 14px;
 }
+
 .dropdown-listing-bar .icondropdown {
     border: none !important;
     padding: 0;
     font-size: 30px !important;
 }
+
 .dropdown-listing-bar .icondropdown::after {
     display: none;
 }
-.dropdown-listing-bar  .dropdown-menu {
+
+.dropdown-listing-bar .dropdown-menu {
     padding: 12px !important;
     width: 250px !important;
 }
+
 .dropdown-listing-bar .dropdown-menu h6 {
     font-weight: 700;
     font-size: 12px;
@@ -492,13 +620,16 @@ input:-webkit-autofill:active{
     color: var(--form-label);
     font-family: 'Museo Sans 700';
 }
+
 .dropdown-listing-bar .dropdown-menu ul {
     padding: 0;
     list-style: none;
 }
+
 .dropdown-listing-bar .dropdown-menu ul li {
     margin: 0;
 }
+
 .dropdown-listing-bar .dropdown-menu ul li button {
     padding: 2px 2px;
     border: none;
@@ -511,10 +642,12 @@ input:-webkit-autofill:active{
     align-items: center;
     color: var(--black);
 }
+
 .dropdown-flexing .dropdown-listing-bar li .dropdown .dropdown-menu button.btnblack {
     width: 100%;
     color: #ffffff;
 }
+
 .contactorlist {
     padding: 20px;
     border: 1px solid var(--box-border);
@@ -533,6 +666,7 @@ input:-webkit-autofill:active{
     flex: 0 0 50%;
     font-size: 20px;
 }
+
 .contactorlist ul.contactorlist-ul {
     margin-bottom: 10px;
     padding-bottom: 10px;
