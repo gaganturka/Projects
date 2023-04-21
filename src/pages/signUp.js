@@ -19,6 +19,8 @@ const SignUp = () => {
     designation: "",
   });
 
+  const [showPassword, setShowPassword] = useState(false);
+
   useEffect(() => {
     getDeprtments()
   },[])
@@ -102,8 +104,10 @@ const SignUp = () => {
           <Form.Label>Your password</Form.Label>
 
           <InputGroup className="mb-3 formeye">
-            <Form.Control type="password" placeholder="Enter your password" onChange={(e) =>onChange(e)} name='password'/>
-            <InputGroup.Text id="basic-addon2">
+            <Form.Control 
+            type={showPassword ? 'text' : 'password'}
+             placeholder="Enter your password" onChange={(e) =>onChange(e)} name='password'/>
+            <InputGroup.Text onClick={(e)=>setShowPassword(!showPassword)} id="basic-addon2">
               <AiOutlineEye />
             </InputGroup.Text>
           </InputGroup>
