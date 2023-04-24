@@ -51,7 +51,7 @@ const ViewContract = () => {
                 <li>{data.email}</li>
             </ul>
             <ul className="contactorlist-ul">
-                <li>CUSTOMER/VENDOR Email</li>
+                <li>CUSTOMER/VENDOR EMAIL</li>
                 <li>{data.customerEmail}</li>
             </ul>
             <ul className="contactorlist-ul">

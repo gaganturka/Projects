@@ -18,7 +18,7 @@ const Designation = () => {
   const handleShow = () => setShow(true);
   let [newDesignation, setNewDesignation] = useState('')
   const [id, setId] = useState('');
-  const level = ([
+  const levelValues = ([
     { name: 1, value: 1 },
     { name: 2, value: 2 },
     { name: 3, value: 3 },
@@ -148,13 +148,20 @@ const Designation = () => {
 
               <Form.Group className="mb-3">
                 <Form.Label>Level</Form.Label>
-                <Form.Control
+                <Form.Select
                   type="text"
                   placeholder="Enter Level"
                   name="level"
                   value={formData.level}
                   onChange={(e) => onChange(e)}
-                />
+                >
+                   <option>Select Level</option>
+                  {levelValues.map((item) => (
+                    <>
+                      <option value={item.value}>{item.name}</option>
+                    </>
+                  ))}
+                   </Form.Select>
               </Form.Group>
 
 

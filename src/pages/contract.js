@@ -60,7 +60,7 @@ const Contract = () => {
   };
 
   const getSubContracts = async () => {
-    const department = await httpGet(`contract/type/sub/${formData.type}`);
+    const department = await httpGet(`sub/contract/type/department/${formData.type}`);
     console.log("daqta", department.data);
     setAllSubContractsType(department.data);
   };

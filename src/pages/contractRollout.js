@@ -3,20 +3,26 @@ import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import Button from "react-bootstrap/Button";
 import { RiDeleteBin5Line } from "react-icons/ri";
-import { useEffect, useState } from "react";
-import { httpPost } from "../Action";
+import { useContext, useEffect, useState } from "react";
+import { httpGet, httpPost } from "../Action";
 import { showError, showSucess } from "../helper/heper";
+import { AppContext } from "../helper/context";
+import moment from "moment";
 
 const ContractRollout = () => {
+  const { decodeToken } = useContext(AppContext);
   const [emailList, setEmailList] = useState([]);
   const [subject, setSubject] = useState("");
   const [message, setMessage] = useState("");
   const [file, setFile] = useState("");
+  const [remiderEmail, setReminderEmail] = useState([]);
+  const [page, setPage] = useState("brodcast");
+  const [replyMessageId, setReplyMessageId] = useState('')
 
-  useEffect(() => { }, [emailList]);
+  useEffect(() => {}, [emailList]);
 
   const handleFileUpload = (event) => {
-    const file = event.target.files[0];  
+    const file = event.target.files[0];
     if (file) {
       const reader = new FileReader();
 
@@ -38,6 +44,10 @@ const ContractRollout = () => {
     newFormData.append("message", message);
     newFormData.append("subject", subject);
     newFormData.append("file", file);
+    if(replyMessageId){
+      newFormData.append("replyMessageId", replyMessageId);
+
+    }
     // newFormData.append("endDate",endDate);
 
     const response = await httpPost("contract/roleout/", newFormData);
@@ -56,6 +66,35 @@ const ContractRollout = () => {
     setEmailList(newEmails);
   };
 
+  const reminderEmailFunc = (e) => {
+    setPage("reminder");
+    console.log(e.target.name, e.target.value);
+    const userId = decodeToken().userId;
+    getContractOfUser(userId);
+  };
+
+  const getContractOfUser = async (id) => {
+    const response = await httpGet(`contract/roleout/${id}`);
+    if (response.status == "400") {
+      console.log("err");
+      showError(response.message);
+    } else {
+      showSucess(response.message);
+      setReminderEmail(response.data);
+    }
+  };
+
+  const remiderEmailData = (e) => {
+    const targetId = e;
+    const foundObject = remiderEmail.find(
+      (obj) => obj._id.toString() === targetId.toString()
+    );
+    console.log("foundObject", foundObject);
+   const emailListOfUsers =foundObject.emailList;
+   setEmailList(emailListOfUsers.split(' '))
+   setReplyMessageId(foundObject?.messageId)
+   setSubject(foundObject?.subject)
+  };
   return (
     <>
       <div clsassName="form">
@@ -69,33 +108,60 @@ const ContractRollout = () => {
                 className="cursor-pointer"
                 type="radio"
                 label="New Email Broadcast"
-                name="formHorizontalRadios"
+                name="formHorizontalRadios1"
                 id="formHorizontalRadios1"
+                onClick={() => setPage("brodcast")}
               />
               <Form.Check
                 className="cursor-pointer"
                 type="radio"
                 label="Reminder Email"
-                name="formHorizontalRadios"
+                name="formHorizontalRadios1"
                 id="formHorizontalRadios2"
+                onClick={(e) => reminderEmailFunc(e)}
               />
             </div>
 
             <div className="form">
               <Form>
-                <Form.Group className="mb-3" controlId="formBasicName">
-                  <Form.Label>Subject</Form.Label>
-                  <Form.Control
-                    type="text"
-                    placeholder="Enter the intent of the mail"
-                    name="name"
-                    onChange={(e) => setSubject(e.target.value)}
-                  />
-                </Form.Group>
-                <Form.Label>Emails</Form.Label>
-                <InputGroup className="mb-3 uploademails">
-                  <input type="file" onChange={handleFileUpload} />
-                </InputGroup>
+                {page == "brodcast" ? (
+                  <Form.Group className="mb-3" controlId="formBasicName">
+                    <Form.Label>Subject</Form.Label>
+                    <Form.Control
+                      type="text"
+                      placeholder="Enter the intent of the mail"
+                      name="name"
+                      onChange={(e) =>
+                      setSubject(e.target.value) }
+                    />
+                  </Form.Group>
+                ) : (
+                  <Form.Group className="mb-3">
+                    <Form.Label>Subject</Form.Label>
+                    <Form.Select
+                      className="form-control"
+                      name="reminderFrequency"
+                      onChange={(e) => remiderEmailData(e.target.value)}
+                    >
+                      <option>Select Email</option>
+                      {remiderEmail.map((item) => (
+                        <>
+                          <option value={item._id}>{`${moment(item.createdAt).format('DD-MM-YYYY')} ${item.subject}`}</option>
+                        </>
+                      ))}
+                    </Form.Select>
+                  </Form.Group>
+                )}
+                {page == "brodcast" ? (
+                  <>
+                    <Form.Label>Emails</Form.Label>
+                    <InputGroup className="mb-3 uploademails">
+                      <input type="file" onChange={handleFileUpload} />
+                    </InputGroup>
+                  </>
+                ) : (
+                  ""
+                )}
 
                 <Form.Group className="mb-3" controlId="formBasicName">
                   <Form.Label>Message</Form.Label>
@@ -142,12 +208,13 @@ const ContractRollout = () => {
                     {emailList.map((email, index) => (
                       <li key={index}>
                         {email}
+                        {page == "brodcast" ?
                         <button
                           className="del-btn"
                           onClick={() => deleteEmail(index)}
-                        >
+                        > 
                           <RiDeleteBin5Line />
-                        </button>{" "}
+                        </button> : '' }
                       </li>
                     ))}
                   </ul>
