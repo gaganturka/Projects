@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
 import Table from "react-bootstrap/Table";
 import {  httpGet } from "../Action";
-import { showError, showSucess, Loader, showLoading } from "../helper/heper";
+import { showError, showSucess,  showLoading } from "../helper/heper";
 import moment from "moment";
-import '../css/lodar.css'
 
 const ApprovedUser = () => {
  
