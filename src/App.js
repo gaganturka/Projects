@@ -22,12 +22,23 @@ import ViewContract from "./pages/viewContract";
 import EmailExtractor from "./pages/read";
 import ContractType from "./pages/contractType";
 import SubContractType from "./pages/subContractType";
+import ApprovedUser from "./pages/approvedUser";
+import { TailSpin } from 'react-loader-spinner'
 
 function App() {
   const { token, decodeToken } = useContext(AppContext);
   const role = decodeToken()?.role;
   return (
     <>
+     <div className="custm-loader d-none" id="mainLoaderElement">
+    <TailSpin  height="80"
+  width="80"
+  color="#4fa94d"
+  ariaLabel="circles-loading"
+  wrapperStyle={{}}  
+  wrapperClass=""
+  visible={true} />
+  </div>
       <div>
         <ToastContainer />
         {token ? (
@@ -61,6 +72,7 @@ function App() {
                     <Route path="/designation" element={<Designation />} />
                     <Route path="/contract/type" element={<ContractType />} />
                     <Route path="/sub/contract/type" element={<SubContractType />} />
+                    <Route path="/approved/user" element={<ApprovedUser />} />
                   </Route>
                 </Routes>
               </>

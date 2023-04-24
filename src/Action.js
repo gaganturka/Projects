@@ -1,14 +1,18 @@
 import axios from "axios";
 import { BackEndUrl } from "./helper/heper";
+import { showLoading,hideLoading } from "./helper/heper";
 
 export const httpPost = (url, data) => {
   return new Promise((resolve, reject) => {
+    showLoading()
     axios
       .post(`${BackEndUrl}${url}`, data)
       .then(function (response) {
+        hideLoading()
         return resolve(response.data);
       })
       .catch(function (error) {
+        hideLoading()
         console.log("err", error);
         return reject(error);
       });
@@ -17,12 +21,15 @@ export const httpPost = (url, data) => {
 
 export const httpGet = (url) => {
   return new Promise((resolve, reject) => {
+    showLoading()
     axios
       .get(`${BackEndUrl}${url}`)
       .then(function (response) {
+        hideLoading()
         return resolve(response.data);
       })
       .catch(function (error) {
+        hideLoading()
         console.log("err", error);
         return reject(error);
       });
@@ -31,12 +38,15 @@ export const httpGet = (url) => {
 
 export const httpPut = (url, data) => {
   return new Promise((resolve, reject) => {
+    showLoading()
     axios
       .put(`${BackEndUrl}${url}`, data)
       .then(function (response) {
+        hideLoading()
         return resolve(response.data);
       })
       .catch(function (error) {
+        hideLoading()
         console.log("err", error);
         return reject(error);
       });
@@ -45,12 +55,15 @@ export const httpPut = (url, data) => {
 
 export const httpDelete = (url) => {
   return new Promise((resolve, reject) => {
+    showLoading()
     axios
       .delete(`${BackEndUrl}${url}`)
       .then(function (response) {
+        hideLoading()
         return resolve(response.data);
       })
       .catch(function (error) {
+        hideLoading()
         console.log("err", error);
         return reject(error);
       });

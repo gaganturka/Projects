@@ -187,9 +187,9 @@ const ContractRollout = () => {
                 </Row>
 
                 <div class="btngroups">
-                  <Button className="btnblack" type="submit" onClick={"submit"}>
+                  {/* <Button className="btnblack" type="submit" onClick={"submit"}>
                     Preview
-                  </Button>
+                  </Button> */}
                   <Button className="btnblack" type="submit" onClick={submit}>
                     Submit
                   </Button>
