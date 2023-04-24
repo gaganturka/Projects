@@ -264,7 +264,7 @@ const AllContract = () => {
                     {tableFields.includes('endDate') ?    <td>{moment(item.endDate).format("DD-MM-YYYY")}</td>    : ''}
                     {tableFields.includes('email') ?    <td>  { item.email}  </td>    : ''}
                     {tableFields.includes('customerEmail') ?    <td>  {item.customerEmail}   </td>    : ''}
-                    {tableFields.includes('department') ?    <td>  {item.department}   </td>    : ''}
+                    {tableFields.includes('department') ?    <td>  {item.department?.name}   </td>    : ''}
                     {      tableFields.length > 0 ?     
                     <> <div className="btnupload">
                 <Button className="btnblack" type="submit" onClick={() => {ViewContract(item._id)}}>View Contract</Button>
