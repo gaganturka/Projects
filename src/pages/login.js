@@ -79,7 +79,7 @@ const Login = () => {
                 aria-describedby="basic-addon2"
                 onChange={(e) => onChange(e)}
               />
-              <InputGroup.Text onClick={(e)=>setShowPassword(!showPassword)} id="togglePassword">
+              <InputGroup.Text onClick={(e)=>setShowPassword(!showPassword)}>
                 <AiOutlineEye />
               </InputGroup.Text>
             </InputGroup>

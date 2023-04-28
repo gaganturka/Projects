@@ -48,12 +48,13 @@ const ContractType = () => {
       overAllResponse = response
 
     }
-    handleClose()
+ 
     setNewDesignation('')
     if (overAllResponse.status == "400") {
       console.log("err");
       showError(overAllResponse.message);
     } else {
+      handleClose()
       subContractTypes()
       showSucess(overAllResponse.message);
       console.log("res", overAllResponse.data);
@@ -101,7 +102,7 @@ console.log('e',formData)
 
       <div className="body-main">
         <div className="title-bar d-flex align-items-center justify-content-between">
-          <h2>Designation</h2>
+          <h2>Contract Sub Type</h2>
           <Button variant="primary" className="btnblack" onClick={addNew}>
             Add New
           </Button>
@@ -161,7 +162,7 @@ console.log('e',formData)
           <Table >
             <thead>
               <tr>
-              <th>Name</th>
+              <th>NAME</th>
               <th>CONTRACT TYPE</th>
                 <th>ACTIONS</th>
               </tr>

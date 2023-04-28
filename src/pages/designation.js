@@ -54,12 +54,13 @@ const Designation = () => {
       overAllResponse = response
 
     }
-    handleClose()
+ 
     setNewDesignation('')
     if (overAllResponse.status == "400") {
       console.log("err");
       showError(overAllResponse.message);
     } else {
+      handleClose()
       getDesignations()
       showSucess(overAllResponse.message);
       console.log("res", overAllResponse.data);
@@ -147,21 +148,14 @@ const Designation = () => {
               </Form.Group>
 
               <Form.Group className="mb-3">
-                <Form.Label>Level</Form.Label>
-                <Form.Select
-                  type="text"
-                  placeholder="Enter Level"
+              <Form.Control
+                  type="number"
+                  placeholder="Enter level"
                   name="level"
                   value={formData.level}
                   onChange={(e) => onChange(e)}
-                >
-                   <option>Select Level</option>
-                  {levelValues.map((item) => (
-                    <>
-                      <option value={item.value}>{item.name}</option>
-                    </>
-                  ))}
-                   </Form.Select>
+                />
+
               </Form.Group>
 
 

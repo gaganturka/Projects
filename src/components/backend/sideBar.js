@@ -57,11 +57,13 @@ const SideBar = () => {
                   </ul>
                 </Accordion.Body>
               </Accordion.Item>
+              <NavLink to="/approvals">Approvals</NavLink>
             </>
           ) : (
             <>
               <NavLink to="/approvals">Approvals</NavLink>
               <NavLink to="/approved/user">Approved User</NavLink>
+              <NavLink to="/allcontract">All Contracts</NavLink>{" "}
 
               <Accordion.Item eventKey="Configuration">
                 <Accordion.Header>Configuration</Accordion.Header>

@@ -57,6 +57,7 @@ const Approvals = () => {
               <th>EMAIL ID</th>
               <th>DEPARTMENT</th>
               <th>DESIGNATION</th>
+              
               <th>ACTIONS</th>
             </tr>
           </thead>

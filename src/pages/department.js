@@ -50,11 +50,11 @@ const Department = () => {
     }
   };
 
-  const getDepartments = async () => {
-    const department = await httpGet("department/");
-    console.log("daqta", department.data);
-    setDepartment(department.data);
-  };
+    const getDepartments = async () => {
+      const department = await httpGet("department/");
+      console.log("daqta", department.data);
+      setDepartment(department.data);
+    };
 
   const onClick = async (id) => {
     if (window.confirm("Are you want to Delete Department")) {

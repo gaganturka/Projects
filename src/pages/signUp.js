@@ -56,6 +56,13 @@ const SignUp = () => {
       console.log('err');
       showError(response.message);
     } else {
+      setFormData ({
+        email: "",
+        password: "",
+        name: "",
+        department: "",
+        designation: "",
+      });
       showSucess(response.message);
       navigate('/log-in')
       console.log("res", response.data);
@@ -73,17 +80,17 @@ const SignUp = () => {
         <Form>
           <Form.Group className="mb-3" controlId="formBasicName">
             <Form.Label>Name</Form.Label>
-            <Form.Control type="text" placeholder="Requester’s Name"  onChange={(e) =>onChange(e)} name='name' />
+            <Form.Control type="text" placeholder="Requester’s Name" value={formData.name} onChange={(e) =>onChange(e)} name='name' />
           </Form.Group>
 
           <Form.Group className="mb-3" controlId="formBasicEmail">
             <Form.Label>Email ID</Form.Label>
-            <Form.Control type="email" placeholder="Requester’s Email ID" onChange={(e) =>onChange(e)} name='email'/>
+            <Form.Control type="email" placeholder="Requester’s Email ID" value={formData.email} onChange={(e) =>onChange(e)} name='email'/>
           </Form.Group>
 
           <Form.Group className="mb-3">
             <Form.Label>Department</Form.Label>
-            <Form.Select onChange={(e) =>onChange(e)} name='department'>
+            <Form.Select onChange={(e) =>onChange(e)} name='department' value={formData.department}>
             <option value="">Requester’s Department</option>
             {allDepartment.map((item) => <>
               <option value={item._id}>{item.name}</option>
@@ -93,7 +100,7 @@ const SignUp = () => {
 
           <Form.Group className="mb-3">
             <Form.Label>Designation</Form.Label>
-            <Form.Select onChange={(e) =>onChange(e)} name='designation'>
+            <Form.Select onChange={(e) =>onChange(e)} name='designation' value={formData.designation}>
               <option value="">Requester’s Designation</option>
               {allDesignation.map((item) => <>
               <option value={item._id}>{item.name}</option>
@@ -106,6 +113,7 @@ const SignUp = () => {
           <InputGroup className="mb-3 formeye">
             <Form.Control 
             type={showPassword ? 'text' : 'password'}
+            value={formData.password}
              placeholder="Enter your password" onChange={(e) =>onChange(e)} name='password'/>
             <InputGroup.Text onClick={(e)=>setShowPassword(!showPassword)} id="basic-addon2">
               <AiOutlineEye />

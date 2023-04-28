@@ -94,7 +94,7 @@ const ContractType = () => {
 
       <div className="body-main">
         <div className="title-bar d-flex align-items-center justify-content-between">
-          <h2>ContractType</h2>
+          <h2>Contract Type</h2>
           <Button variant="primary" className="btnblack" onClick={addNew}>
             Add New
           </Button>

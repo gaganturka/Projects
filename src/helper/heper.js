@@ -1,4 +1,5 @@
 import { toast } from "react-toastify";
+import moment from "moment";
 
 export const  BackEndUrl ='https://api.xyxx-cmt.dev.seraphic.io/';
 
@@ -27,4 +28,10 @@ export const showError = (message) =>{
       mainLoader.classList.add("d-none");
     }
   }
+
+  export const formateDate = (date) =>{
+    return moment(date).format('DD-MM-YYYY')
+   
+};
+
   

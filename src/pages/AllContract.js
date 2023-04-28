@@ -9,19 +9,20 @@ import moment from "moment";
 import Button from "react-bootstrap/Button";
 import ViewContract from "./viewContract";
 import { useNavigate } from "react-router-dom";
+import { formateDate } from "../helper/heper";
 
 
 const AllContract = () => {
   const [allContract, setAllContract] = useState([]);
-  const [allDepartment, setAllDepartment] = useState([]);
+  // const [allDepartment, setAllDepartment] = useState([]);
   const [allContractsType, setAllContractsType] = useState([]);
   const [formData, setFormData] = useState({
     type: "",
-    department: "",
+    // department: "",
     startDate: "",
     endDate: "",
   });
-  const navigate = useNavigate()
+  const navigate = useNavigate() 
 
   const [tableFields, setTableFields] = useState(['name', 'customerName', 'Type', 'endDate']);
 
@@ -33,28 +34,34 @@ const AllContract = () => {
 
   useEffect(() => {
     getDesignations()
+    // contractEmail()
   }, [formData]);
 
   useEffect(() => {
     getContracts();
  
-    getDeprtments();
+    // getDeprtments();
   }, []);
 
   const getDesignations = async (e) => {
     e?.preventDefault();
     const contract = await httpGet(
-      `contract/?department=${formData?.department}&type=${formData?.type}&startDate=${formData?.startDate}&endDate=${formData?.endDate}`
+      `contract/?type=${formData?.type}&startDate=${formData?.startDate}&endDate=${formData?.endDate}`
     );
     console.log("daqta", contract.data);
     setAllContract(contract.data);
   };
 
-  const getDeprtments = async () => {
-    const department = await httpGet("department/");
+  const contractEmail = async () => {
+    const department = await httpGet("contract/email");
     console.log("daqta", department.data);
-    setAllDepartment(department.data);
   };
+
+  // const getDeprtments = async () => {
+  //   const department = await httpGet("department/");
+  //   console.log("daqta", department.data);
+  //   setAllDepartment(department.data);
+  // };
 
   const getContracts = async () => {
     const department = await httpGet("contract/type/");
@@ -146,7 +153,7 @@ const AllContract = () => {
                 ))}
               </Form.Select>
             </li>
-            <li>
+            {/* <li>
               <Form.Select
                 aria-label="Default select example"
                 className="form-control"
@@ -160,7 +167,7 @@ const AllContract = () => {
                   </>
                 ))}
               </Form.Select>
-            </li>
+            </li> */}
             <li>
               <Form.Control
                 type="date"
@@ -224,8 +231,8 @@ const AllContract = () => {
                     </li>
                     <li>
                       <button onClick={() =>addFieldInArray('customerEmail')}>
-                      Customer/Vendor Email</button>
-                      {tableFields.includes('customerEmail') ? <AiOutlineCheck /> : ''}
+                      Customer/Vendor Email
+                      {tableFields.includes('customerEmail') ? <AiOutlineCheck /> : ''}</button>
                     </li>
                     <li>
                       <button onClick={() =>addFieldInArray('department')}>
@@ -240,7 +247,7 @@ const AllContract = () => {
           </ul>
         </div>
         <div className="table-bar">
-          <Table>
+          <Table responsive>
             <thead>
               <tr>
               {tableFields.includes('name') ?  <th>NAME</th>     : ''}
@@ -250,9 +257,7 @@ const AllContract = () => {
               {tableFields.includes('email') ? <th>Email</th>   : ''}
               {tableFields.includes('customerEmail') ? <th>CUSTOMER/VENDOR Email</th>   : ''}
               {tableFields.includes('department') ? <th>Department</th>   : ''}
-              {<th>Action</th>}
-
-
+              {   tableFields.length > 0 ?  <th>Action</th> : '' }
               </tr>
             </thead>
             <tbody>
@@ -261,14 +266,16 @@ const AllContract = () => {
                     {tableFields.includes('name') ?  <td>{item.name}</td>    : ''}
                     {tableFields.includes('customerName') ?  <td>{item.customerName}</td>    : ''}
                     {tableFields.includes('Type') ?    <td>{item?.type?.name}</td>   : ''}
-                    {tableFields.includes('endDate') ?    <td>{moment(item.endDate).format("DD-MM-YYYY")}</td>    : ''}
+                    {tableFields.includes('endDate') ?    <td>{formateDate(item.endDate)}</td>    : ''}
                     {tableFields.includes('email') ?    <td>  { item.email}  </td>    : ''}
                     {tableFields.includes('customerEmail') ?    <td>  {item.customerEmail}   </td>    : ''}
                     {tableFields.includes('department') ?    <td>  {item.department?.name}   </td>    : ''}
                     {      tableFields.length > 0 ?     
-                    <> <div className="btnupload">
+                    <> <td>
+                      <div className="">
                 <Button className="btnblack" type="submit" onClick={() => {ViewContract(item._id)}}>View Contract</Button>
-                </div>  </> 
+                </div>
+                </td>  </> 
                    : '' }
 
                  

@@ -1,4 +1,4 @@
-import { Col, Row } from "react-bootstrap";
+import { Col, Row, Table } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import Button from "react-bootstrap/Button";
@@ -8,6 +8,8 @@ import { httpGet, httpPost } from "../Action";
 import { showError, showSucess } from "../helper/heper";
 import { AppContext } from "../helper/context";
 import moment from "moment";
+import Papa from "papaparse";
+import { useNavigate } from "react-router-dom";
 
 const ContractRollout = () => {
   const { decodeToken } = useContext(AppContext);
@@ -18,29 +20,33 @@ const ContractRollout = () => {
   const [remiderEmail, setReminderEmail] = useState([]);
   const [page, setPage] = useState("brodcast");
   const [replyMessageId, setReplyMessageId] = useState('')
+  const [data, setData] = useState([]);
+  const navigate = useNavigate()
 
-  useEffect(() => {}, [emailList]);
+  useEffect(() => {console.log('fysdfhtdgsa', data)}, [data]);
 
   const handleFileUpload = (event) => {
     const file = event.target.files[0];
     if (file) {
-      const reader = new FileReader();
+      // const reader = new FileReader();
 
-      reader.onload = (event) => {
-        const fileContent = event.target.result;
-        const emailPattern = /[\w\d+.-]+@[\w\d.-]+\.[\w\d.-]+/g;
-        const extractedEmails = fileContent.match(emailPattern) || [];
-        setEmailList(extractedEmails);
-      };
+      // reader.onload = (event) => {
+      //   const fileContent = event.target.result;
+      //   const emailPattern = /[\w\d+.-]+@[\w\d.-]+\.[\w\d.-]+/g;
+      //   const extractedEmails = fileContent.match(emailPattern) || [];
+      //   setEmailList(extractedEmails);
 
-      reader.readAsText(file);
-    }
+      Papa.parse(file, {
+        header: true,
+        complete: (results) => setData(results.data),
+      })  
   };
+  }
 
   const submit = async (e) => {
     e.preventDefault();
     const newFormData = new FormData();
-    newFormData.append("emailList", emailList);
+    newFormData.append("emailList", JSON.stringify(data));
     newFormData.append("message", message);
     newFormData.append("subject", subject);
     newFormData.append("file", file);
@@ -55,15 +61,22 @@ const ContractRollout = () => {
       console.log("err");
       showError(response.message);
     } else {
+      setMessage('');
+      setSubject('');
+      setFile('');
+      setData([]);
+      setReminderEmail([]);
+      setReplyMessageId('')
       showSucess(response.message);
+      navigate('/contractrollout')
       console.log("res", response.data);
     }
   };
   const deleteEmail = (index) => {
-    const newEmails = [...emailList];
+    const newEmails = [...data];
     console.log("emailList", emailList);
     console.log("index", newEmails.splice(index, 1));
-    setEmailList(newEmails);
+    setData(newEmails);
   };
 
   const reminderEmailFunc = (e) => {
@@ -79,7 +92,7 @@ const ContractRollout = () => {
       console.log("err");
       showError(response.message);
     } else {
-      showSucess(response.message);
+      
       setReminderEmail(response.data);
     }
   };
@@ -91,15 +104,26 @@ const ContractRollout = () => {
     );
     console.log("foundObject", foundObject);
    const emailListOfUsers =foundObject.emailList;
-   setEmailList(emailListOfUsers.split(' '))
+   setData(emailListOfUsers)
    setReplyMessageId(foundObject?.messageId)
    setSubject(foundObject?.subject)
   };
+
+  const emailSetInMessage= (e) => {
+    e.preventDefault();
+  setMessage(`${message} {email}`);
+  }
+
+
+  const nameSetInMessage= (e) => {
+    e.preventDefault();
+  setMessage(`${message} {name}`);
+  }
   return (
     <>
       <div clsassName="form">
         <Row>
-          <Col xs="7">
+          <Col xs="6">
             <div className="title-bar">
               <h2>Contract Rollout</h2>
             </div>
@@ -111,6 +135,7 @@ const ContractRollout = () => {
                 name="formHorizontalRadios1"
                 id="formHorizontalRadios1"
                 onClick={() => setPage("brodcast")}
+              defaultChecked
               />
               <Form.Check
                 className="cursor-pointer"
@@ -131,6 +156,7 @@ const ContractRollout = () => {
                       type="text"
                       placeholder="Enter the intent of the mail"
                       name="name"
+                      value={subject}
                       onChange={(e) =>
                       setSubject(e.target.value) }
                     />
@@ -141,6 +167,7 @@ const ContractRollout = () => {
                     <Form.Select
                       className="form-control"
                       name="reminderFrequency"
+                      
                       onChange={(e) => remiderEmailData(e.target.value)}
                     >
                       <option>Select Email</option>
@@ -169,18 +196,32 @@ const ContractRollout = () => {
                     as="textarea"
                     type="text"
                     placeholder="Enter Email Message"
+                    value={message}
                     name="message"
                     onChange={(e) => setMessage(e.target.value)}
                   />
                 </Form.Group>
+<div className="d-flex btnblac_2">
+<Button  className="mx-2 btnblack" type="submit" onClick={(e) => emailSetInMessage(e)}>
+                    {`{email}`}
+                  </Button>
+                <Button className="mx-2 btnblack" type="submit" onClick={(e) => nameSetInMessage(e)}>
+                    {`{name}`}
+                  </Button>
+
+  </div>
+                 
 
                 <Row>
                   <Col className="uploadbar">
                     <Form.Label>Upload Document</Form.Label>
                     <Form.Control
                       type="file"
+                      className="form-control"
                       placeholder="Upload Document"
                       name="file"
+                     
+                      accept=".jpeg, .png, .pdf"
                       onChange={(e) => setFile(e.target.files[0])}
                     />
                   </Col>
@@ -197,7 +238,7 @@ const ContractRollout = () => {
               </Form>
             </div>
           </Col>
-          <Col>
+          <Col xs='6'>
             <div className="emailadded-bar">
               <div className="title-bar">
                 <h3>Email Added</h3>
@@ -205,18 +246,44 @@ const ContractRollout = () => {
               <ul className="emaillisting mb-0 p-0 ">
                 <li className="d-flex align-items-center justify-content-between pb-2 mb-2">
                   <ul>
-                    {emailList.map((email, index) => (
+                    {/* {emailList.map((email, index) => (
                       <li key={index}>
-                        {email}
-                        {page == "brodcast" ?
-                        <button
+                        {email} */}
+                                  <Table >
+            <thead>
+              <tr>
+              <th>Name</th>
+              <th>Email</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+
+              {data.map((item, index) => {
+                return (
+                  <>
+                    <tr>
+                    <td>{item?.name}</td>
+                    <td>{item?.email}</td>
+                      <td>
+                      <button
                           className="del-btn"
                           onClick={() => deleteEmail(index)}
                         > 
                           <RiDeleteBin5Line />
-                        </button> : '' }
-                      </li>
-                    ))}
+                        </button> 
+                      </td>
+                    </tr>
+                  </>
+                );
+              })}
+            </tbody>
+          </Table>
+
+                    
+                    
+                      {/* </li>
+                    ))} */}
                   </ul>
                 </li>
                 {/* <li className='d-flex align-items-center justify-content-between pb-2 mb-2'>

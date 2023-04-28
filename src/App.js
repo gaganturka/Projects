@@ -48,6 +48,7 @@ function App() {
                 <Routes>
                   <Route element={<Backend />}>
                     <Route path="/*" element={<Contract />} />
+                    <Route path="/approvals" element={<Approvals />} />
                     <Route path="/contract/upload" element={<Contract />} />
                     <Route path="/allcontract" element={<AllContract />} />
                     <Route path="/viewcontract/:id" element={<ViewContract />} />
@@ -67,7 +68,9 @@ function App() {
                 <Routes>
                   <Route element={<Backend />}>
                     <Route path="/approvals" element={<Approvals />} />
+                    <Route path="/viewcontract/:id" element={<ViewContract />} />
                     <Route path="/*" element={<Approvals />} />
+                    <Route path="/allcontract" element={<AllContract />} />
                     <Route path="/department" element={<Department />} />
                     <Route path="/designation" element={<Designation />} />
                     <Route path="/contract/type" element={<ContractType />} />

@@ -94,6 +94,21 @@ const Contract = () => {
       console.log("err");
       showError(response.message);
     } else {
+      setFormData({
+        name: "",
+        customerName: "",
+        type: "",
+        startDate: "",
+        endDate: "",
+        reminderDate: "",
+        reminderFrequency: "",
+        email: "",
+        customerEmail: "",
+        subContractType: "",
+        spocName: "",
+        department: "",
+      });
+      setFile('')
       showSucess(response.message);
       console.log("res", response.data);
     }
@@ -116,6 +131,7 @@ const Contract = () => {
                     type="text"
                     placeholder="Requester’s Name"
                     name="name"
+                    value={formData.name}
                     onChange={(e) => onChange(e)}
                   />
                 </Form.Group>
@@ -126,6 +142,7 @@ const Contract = () => {
                     type="text"
                     placeholder="Customer/Vendor Name"
                     name="customerName"
+                    value={formData.customerName}
                     onChange={(e) => onChange(e)}
                   />
                 </Form.Group>
@@ -135,6 +152,7 @@ const Contract = () => {
                   <Form.Select
                     className="form-control"
                     name="type"
+                    value={formData.type}
                     onChange={(e) => onChange(e)}
                   >
                     <option>Select Contract Type</option>
@@ -150,6 +168,7 @@ const Contract = () => {
                   <Form.Label>Contract Start Date</Form.Label>
                   <Form.Control
                     type="date"
+                    value={formData.startDate}
                     placeholder="Enter Start Date"
                     name="startDate"
                     onChange={(e) => onChange(e)}
@@ -162,6 +181,7 @@ const Contract = () => {
                     type="date"
                     placeholder="Enter Reminder Date"
                     name="reminderDate"
+                    value={formData.reminderDate}
                     onChange={(e) => onChange(e)}
                   />
                 </Form.Group>
@@ -171,6 +191,7 @@ const Contract = () => {
                   <Form.Select
                     className="form-control"
                     name="reminderFrequency"
+                    value={formData.reminderFrequency}
                     onChange={(e) => onChange(e)}
                   >
                     <option>Select Reminder Frequency</option>
@@ -191,6 +212,7 @@ const Contract = () => {
                     type="email"
                     placeholder="Requester’s Email ID"
                     name="email"
+                    value={formData.email}
                     onChange={(e) => onChange(e)}
                   />
                 </Form.Group>
@@ -201,6 +223,7 @@ const Contract = () => {
                     type="text"
                     placeholder="Customer/Vendor Email ID"
                     name="customerEmail"
+                    value={formData.customerEmail}
                     onChange={(e) => onChange(e)}
                   />
                 </Form.Group>
@@ -210,6 +233,7 @@ const Contract = () => {
                   <Form.Select
                     className="form-control"
                     name="subContractType"
+                    value={formData.subContractType}
                     onChange={(e) => onChange(e)}
                   >
                     <option>Select Sub Contract Type</option>
@@ -227,6 +251,7 @@ const Contract = () => {
                     type="date"
                     placeholder="Enter End Date"
                     name="endDate"
+                    value={formData.endDate}
                     onChange={(e) => onChange(e)}
                   />
                 </Form.Group>
@@ -239,6 +264,7 @@ const Contract = () => {
                     type="text"
                     placeholder="Enter..."
                     name="spocName"
+                    value={formData.spocName}
                     onChange={(e) => onChange(e)}
                   />
                 </Form.Group>
@@ -248,6 +274,7 @@ const Contract = () => {
                   <Form.Select
                     className="form-control"
                     name="department"
+                     value={formData.department}
                     onChange={(e) => onChange(e)}
                   >
                     <option>Select Contract Type</option>
@@ -269,12 +296,13 @@ const Contract = () => {
                   type="file"
                   placeholder="Customer/Vendor Name"
                   name="file"
+                  accept=".jpeg, .png, .pdf"
                   onChange={(e) => setFile(e.target.files[0])}
                 />
               </div>
             </Col>
             <Col>
-                <div className="btnupload">
+                <div className="btnupload bttnnn">
                 <Button className="btnblack" type="submit" onClick={submit}>
                 Submit
               </Button>
