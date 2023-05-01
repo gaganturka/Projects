@@ -32,14 +32,14 @@ const Approvals = () => {
   const approveRequest = (e) => {
     // const approvedAt = moment(Date.now()).format("YYYY-MM-DD HH:mm:ss");
     if (window.confirm("Are you want to accept this request")) {
-      updateUser("accept", { _id: e });
+      updateUser("Accepted", { _id: e });
     }
   };
 
   const rejectRequest = (e) => {
     // const rejectAt = moment(Date.now()).format("YYYY-MM-DD HH:mm:ss");
     if (window.confirm("Are you want to reject this request")) {
-      updateUser("reject", { _id: e });
+      updateUser("Rejected", { _id: e });
     }
   };
   return (

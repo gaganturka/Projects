@@ -254,10 +254,10 @@ const AllContract = () => {
               {tableFields.includes('customerName') ?    <th>CUSTOMER/VENDOR NAME</th>    : ''}
               {tableFields.includes('Type') ?    <th>TYPE OF CONTRACT</th>  : ''}
               {tableFields.includes('endDate') ? <th>CONTRACT END DATE</th>   : ''}
-              {tableFields.includes('email') ? <th>Email</th>   : ''}
-              {tableFields.includes('customerEmail') ? <th>CUSTOMER/VENDOR Email</th>   : ''}
-              {tableFields.includes('department') ? <th>Department</th>   : ''}
-              {   tableFields.length > 0 ?  <th>Action</th> : '' }
+              {tableFields.includes('email') ? <th>EMAIL</th>   : ''}
+              {tableFields.includes('customerEmail') ? <th>CUSTOMER/VENDOR EMAIL</th>   : ''}
+              {tableFields.includes('department') ? <th>DEPARTMENT</th>   : ''}
+              {   tableFields.length > 0 ?  <th>ACTION</th> : '' }
               </tr>
             </thead>
             <tbody>

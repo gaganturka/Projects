@@ -114,12 +114,12 @@ useEffect(() => {},[formData])
     <>
       <div className="body-main">
         <div className="title-bar d-flex align-items-center justify-content-between">
-          <h2>APPROVED USER</h2>
+          <h2>Approved Users</h2>
         </div>
        
         <Modal show={show} onHide={handleClose}>
           <Modal.Header closeButton>
-            <Modal.Title>{id ? 'Edit' : 'Add'} Department</Modal.Title>
+            <Modal.Title>{id ? 'Edit' : 'Add'} User</Modal.Title>
           </Modal.Header>
           <Modal.Body>
           <Form>
@@ -199,12 +199,12 @@ useEffect(() => {},[formData])
             <thead>
               <tr>
                 <th>NAME</th>
-                <th>EMAIL</th>
+                <th>EMAIL ID</th>
                 <th>DEPARTMENT</th>
                 <th>DESIGNATION</th>
-                <th>Is Active User</th>
+                <th>IS ACTIVE USER</th>
                 <th>APPROVED AT</th>
-                <th>Active</th>
+                <th>ACTIVE</th>
               </tr>
             </thead>
             <tbody>

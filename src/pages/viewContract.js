@@ -64,7 +64,7 @@ const ViewContract = () => {
             </ul>
            
             <ul className="contactorlist-ul">
-                <li>Email</li>
+                <li>EMAIl</li>
                 <li>{data.email}</li>
             </ul>
             <ul className="contactorlist-ul">
@@ -91,7 +91,7 @@ const ViewContract = () => {
 
             <li>DOCUMENT</li>
             {data?.file ? 
-            <li> <a href={data?.file}>{data?.file}</a></li> :  <li>NO DOCUMENT EXIST</li> }
+            <li> <a href={data?.file}>{data?.file}</a></li> :  <li>NO DOCUMENT UPLOADED</li> }
             </ul>
 
 

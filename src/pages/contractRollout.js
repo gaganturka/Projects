@@ -183,7 +183,7 @@ const ContractRollout = () => {
                   <>
                     <Form.Label>Emails</Form.Label>
                     <InputGroup className="mb-3 uploademails">
-                      <input type="file" onChange={handleFileUpload} />
+                      <input type="file" accept=".csv" onChange={handleFileUpload} />
                     </InputGroup>
                   </>
                 ) : (

@@ -42,12 +42,13 @@ const ContractType = () => {
       overAllResponse = response
 
     }
-    handleClose()
+ 
     setNewContractType('')
     if (overAllResponse.status == "400") {
       console.log("err");
       showError(overAllResponse.message);
     } else {
+      handleClose()
       getContractTypes()
       showSucess(overAllResponse.message);
       console.log("res", overAllResponse.data);
@@ -138,7 +139,7 @@ const ContractType = () => {
           <Table >
             <thead>
               <tr>
-                <th>Name</th>
+                <th>NAME</th>
                 <th>ACTIONS</th>
               </tr>
             </thead>
