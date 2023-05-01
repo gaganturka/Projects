@@ -9,7 +9,7 @@ const Header = () => {
             <Navbar.Brand className="bg-black" href="#home">
                 <img src='/images/logo.png' alt="logo white"/>
             </Navbar.Brand>
-            <Navbar.Toggle aria-controls="basic-navbar-nav" />
+            <Navbar.Toggle className="mx-4" onClick={()=> document.body.classList.toggle('buttontoggle')} aria-controls="basic-navbar-nav" />
           
         </Navbar>
       </header>

@@ -186,7 +186,7 @@ const AllContract = () => {
                 onChange={(e) => onChange(e)}
               />
             </li>
-            <li>
+            <li className="setting_button">
               <Dropdown>
                 <Dropdown.Toggle
                   className="custom-dropbar icondropdown"

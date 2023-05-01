@@ -67,7 +67,7 @@ const StandardAgreement = () => {
 
       <div className="form">
         <Row>
-          <Col>
+          <Col md={6}>
             <Form>
               <Form.Group className="mb-3">
                 <Form.Label>Type of Contract</Form.Label>
@@ -98,7 +98,7 @@ const StandardAgreement = () => {
               </Form.Group>
             </Form>
           </Col>
-          <Col>
+          <Col md={6}>
             <Form>
               <Form.Group className="mb-3">
                 <Form.Label>Select XYXX Entity and Address</Form.Label>

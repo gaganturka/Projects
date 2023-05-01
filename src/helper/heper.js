@@ -1,9 +1,9 @@
 import { toast } from "react-toastify";
 import moment from "moment";
 
-// export const  BackEndUrl ='https://api.xyxx-cmt.dev.seraphic.io/';
+export const  BackEndUrl ='https://api.xyxx-cmt.dev.seraphic.io/';
 
-export const  BackEndUrl ='http://localhost:4333/';
+// export const  BackEndUrl ='http://localhost:4333/';
 
  
 export const showSucess = (message) =>{

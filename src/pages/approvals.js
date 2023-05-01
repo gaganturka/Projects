@@ -50,7 +50,7 @@ const Approvals = () => {
       </div>
 
       <div className="table-bar">
-        <Table >
+        <Table responsive>
           <thead>
             <tr>
               <th>NAME</th>
@@ -71,8 +71,8 @@ const Approvals = () => {
                     <td>{item?.department?.name}</td>
                     <td>{item?.designation?.name}</td>
                     <td>
-                      <CiCircleCheck onClick={() => approveRequest(item._id)} />
-                      <CiCircleRemove onClick={() => rejectRequest(item._id)} />
+                      <CiCircleCheck size={24} color="#43af50" onClick={() => approveRequest(item._id)} />
+                      <CiCircleRemove size={24} color="#db2e2e" onClick={() => rejectRequest(item._id)} />
                     </td>
                   </tr>
                 </>

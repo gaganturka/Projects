@@ -195,7 +195,7 @@ useEffect(() => {},[formData])
           </Modal.Footer>
         </Modal>
         <div className="table-bar">
-          <Table>
+          <Table responsive>
             <thead>
               <tr>
                 <th>NAME</th>

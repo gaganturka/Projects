@@ -49,52 +49,56 @@ const ViewContract = () => {
         </div>
 
         <div className="contactorlist ">
+          <Table responsive>
+
+          
+          <tbody>
        
-            <ul className="contactorlist-ul">
-                <li>NAME</li>
-                <li>{data.name}</li>
-            </ul>
-            <ul className="contactorlist-ul">
-                <li>CUSTOMER/VENDOR NAME</li>
-                <li>{data.customerName}</li>
-            </ul>
-            <ul className="contactorlist-ul">
-                <li>TYPE OF CONTRACT</li>
-                <li>{data?.type?.name}</li>
-            </ul>
+            <tr className="contactorlist-ul">
+                <td>NAME</td>
+                <td>{data.name}</td>
+            </tr>
+            <tr className="contactorlist-ul">
+                <td>CUSTOMER/VENDOR NAME</td>
+                <td>{data.customerName}</td>
+            </tr>
+            <tr className="contactorlist-ul">
+                <td>TYPE OF CONTRACT</td>
+                <td>{data?.type?.name}</td>
+            </tr>
            
-            <ul className="contactorlist-ul">
-                <li>EMAIl</li>
-                <li>{data.email}</li>
-            </ul>
-            <ul className="contactorlist-ul">
-                <li>CUSTOMER/VENDOR EMAIL</li>
-                <li>{data.customerEmail}</li>
-            </ul>
-            <ul className="contactorlist-ul">
-                <li>SPOC NAME</li>
-                <li>{data.spocName}</li>
-            </ul>
-            <ul className="contactorlist-ul">
-                <li>START DATE</li>
-                <li>{formateDate(data.startDate)}</li>
-            </ul>
-            <ul className="contactorlist-ul">
-                <li>SUB CONTRACT TYPE</li>
-                <li>{data.subContractType?.name}</li>
-            </ul>
-            <ul className="contactorlist-ul">
-                <li>DEPARTMENT</li>
-                <li>{data.department?.name}</li>
-            </ul>
-            <ul className="contactorlist-ul">
+            <tr className="contactorlist-ul">
+                <td>Email</td>
+                <td>{data.email}</td>
+            </tr>
+            <tr className="contactorlist-ul">
+                <td>CUSTOMER/VENDOR EMAIL</td>
+                <td>{data.customerEmail}</td>
+            </tr>
+            <tr className="contactorlist-ul">
+                <td>SPOC NAME</td>
+                <td>{data.spocName}</td>
+            </tr>
+            <tr className="contactorlist-ul">
+                <td>START DATE</td>
+                <td>{formateDate(data.startDate)}</td>
+            </tr>
+            <tr className="contactorlist-ul">
+                <td>SUB CONTRACT TYPE</td>
+                <td>{data.subContractType?.name}</td>
+            </tr>
+            <tr className="contactorlist-ul">
+                <td>DEPARTMENT</td>
+                <td>{data.department?.name}</td>
+            </tr>
+            <tr className="contactorlist-ul">
 
-            <li>DOCUMENT</li>
+            <td>DOCUMENT</td>
             {data?.file ? 
-            <li> <a href={data?.file}>{data?.file}</a></li> :  <li>NO DOCUMENT UPLOADED</li> }
-            </ul>
-
-
+            <td> <a href={data?.file}>{data?.file}</a></td> :  <td>NO DOCUMENT EXIST</td> }
+            </tr>
+            </tbody>
+            </Table>
         </div>
         
       </div>
