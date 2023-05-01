@@ -27,7 +27,8 @@ const ContractRollout = () => {
 
   const handleFileUpload = (event) => {
     const file = event.target.files[0];
-    if (file) {
+   if(file?.name?.slice(-4) == '.csv'){
+    if (file ) {
       // const reader = new FileReader();
 
       // reader.onload = (event) => {
@@ -41,6 +42,9 @@ const ContractRollout = () => {
         complete: (results) => setData(results.data),
       })  
   };
+}else{
+  setData([]);
+}
   }
 
   const submit = async (e) => {

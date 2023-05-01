@@ -171,7 +171,7 @@ const AllContract = () => {
             <li>
               <Form.Control
                 type="date"
-                placeholder="Enter Start Date"
+                value="Enter Start Date"
                 className="form-control"
                 name="startDate"
                 onChange={(e) => onChange(e)}

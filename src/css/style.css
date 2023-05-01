@@ -753,6 +753,9 @@ table tbody tr td:first-child{
     .dashboard-wrapper {
     padding-left: 0;
 }
+.dropdown-flexing .dropdown-listing-bar li {
+    margin-left: 10px;
+}
 .dashboard-wrapper .main-body {
     padding: 40px;
     margin: 40px;
@@ -762,7 +765,7 @@ table tbody tr td:first-child{
 
 .dashboard-wrapper .dashboardsidebar {
     left: -100%;
-    
+    z-index: 9999;
 }
 .buttontoggle .dashboardsidebar{
     left:0;
@@ -834,8 +837,8 @@ table tbody tr td:first-child{
         flex-direction: column;
     }
     .dashboard-wrapper .main-body {
-        padding: 40px;
-        margin: 40px;
+        padding: 28px;
+        margin: 24px 15px;
         max-width: 100%;
         min-height: calc(100vh - 180px);
     }
