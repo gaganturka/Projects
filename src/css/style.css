@@ -168,11 +168,13 @@ input:-webkit-autofill:active {
     color: var(--white);
 }
 
-table td svg{
+table td svg {
     margin: 0 5px;
     cursor: pointer;
 }
-
+.svg:first-child{
+    background: #43af50;
+}
 
 /* Header css  */
 .mainheader {
@@ -265,6 +267,7 @@ table td svg{
     height: 100vh;
     margin-top: 84px;
     position: fixed;
+    transition: all 0.4s ease-in;
     background-color: var(--black);
     top: 0;
     left: 0;
@@ -281,7 +284,7 @@ table td svg{
 
 .sidebar-panel {
     height: calc(100vh - 85px);
-    overflow: scroll;
+    overflow-y: scroll;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -302,9 +305,9 @@ table td svg{
 
 .dashboard-wrapper .main-body {
     padding: 40px;
-    margin: 40px 40px 0 40px;
+    margin: 40px;
     max-width: 100%;
-    min-height: calc(100vh - 124px);
+    min-height: calc(100vh - 180px);
 }
 
 .dashboard-wrapper .dashboardsidebar .sidebar-innner {
@@ -450,10 +453,6 @@ table td svg{
     margin-top: 20px !important;
 }
 
-.btnupload {
-    width: 300px;
-margin: 0 0 0 33.3%;
-}
 .btnupload button{
     width: 120px;
     font-size: 14px;
@@ -494,10 +493,6 @@ padding: 2px 10px;
     justify-content: flex-end;
 }
 
-.btngroups .btnblack {
-    margin-left: 20px;
-    max-width: 30%;
-}
 
 .forminputs-bar .form-check {
     margin-right: 20px;
@@ -744,4 +739,112 @@ padding: 2px 10px;
 .custom-warn-box  button{
     margin-left: auto;
     margin-right: 0;
+}
+.btnupload {
+    text-align: center;
+}
+table tbody tr td:first-child{
+    padding-left: 20px;
+}
+
+/* ----------------------- responsiveness ----------------- */
+
+@media only screen and (max-width:1199px){
+    .dashboard-wrapper {
+    padding-left: 0;
+}
+.dashboard-wrapper .main-body {
+    padding: 40px;
+    margin: 40px;
+    max-width: 100%;
+    min-height: calc(100vh - 180px);
+}
+
+.dashboard-wrapper .dashboardsidebar {
+    left: -100%;
+    
+}
+.buttontoggle .dashboardsidebar{
+    left:0;
+}
+.emailadded-bar{
+    margin-top: 30px;
+}
+.dropdown-flexing .dropdown-listing-bar {
+    list-style: none;
+    display: flex;
+    align-items: unset;
+    flex-direction: column;
+    padding: 0 !important;
+}
+.dropdown-flexing {   
+    display: flex;
+    flex-direction: column;
+    align-items: unset;
+}
+.dropdown-flexing li{
+    padding: 10px;
+}
+.main-body .body-main .title-bar{
+    position: relative;
+}
+.setting_button{
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+}
+
+
+@media only screen and (max-width:574px){
+    .mainheader nav.navbar .navbar-brand {
+        padding: 20px 35px;
+    }
+    .uploadbar {
+        display: block;
+    }
+    .main-body .body-main .title-bar {
+        margin-bottom: 40px;
+        display: flex;
+        flex-direction: column;
+    }
+    .dropdown-flexing .dropdown-listing-bar {
+        list-style: none;
+        display: flex;
+        align-items: unset;
+        flex-direction: column;
+        padding: 0 !important;
+    }
+    .dashboard-wrapper .dashboardsidebar{
+        width: 220px;
+    }
+    .dropdown-flexing {
+       
+        display: flex;
+        flex-direction: column;
+        align-items: unset;
+    }
+    .dropdown-flexing li{
+        padding: 10px;
+    }
+    .form-tabs ul li{
+        margin: 10px 0;
+    }
+    .form-tabs ul{
+        flex-direction: column;
+    }
+    .dashboard-wrapper .main-body {
+        padding: 40px;
+        margin: 40px;
+        max-width: 100%;
+        min-height: calc(100vh - 180px);
+    }
+    .title-bar .btnblack {
+        width: auto;
+        padding: 7px 6px;
+    }
+    .title-bar h2{
+        font-size: 30px;
+    }
+    
 }

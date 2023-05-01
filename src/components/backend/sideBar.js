@@ -27,19 +27,19 @@ const SideBar = () => {
                   <ul>
                     <li>
                       {" "}
-                      <NavLink to="/contract/upload">
+                      <NavLink onClick={()=> document.body.classList.remove('buttontoggle')} to="/contract/upload">
                         Contract Upload
                       </NavLink>{" "}
                     </li>
                     <li>
                       {" "}
-                      <NavLink to="/standard/agreement">
+                      <NavLink onClick={()=> document.body.classList.remove('buttontoggle')} to="/standard/agreement">
                         Standard Agreement
                       </NavLink>{" "}
                     </li>
                     <li>
                       {" "}
-                      <NavLink to="/contractrollout">Contract Rollout</NavLink>
+                      <NavLink onClick={()=> document.body.classList.remove('buttontoggle')} to="/contractrollout">Contract Rollout</NavLink>
                     </li>
                   </ul>
                 </Accordion.Body>
@@ -51,38 +51,38 @@ const SideBar = () => {
                   <ul>
                     <li>
                       {" "}
-                      <NavLink to="/allcontract">All Contracts</NavLink>{" "}
+                      <NavLink onClick={()=> document.body.classList.remove('buttontoggle')} to="/allcontract">All Contracts</NavLink>{" "}
                     </li>
                    
                   </ul>
                 </Accordion.Body>
               </Accordion.Item>
-              <NavLink to="/approvals">Approvals</NavLink>
+              <NavLink onClick={()=> document.body.classList.remove('buttontoggle')} to="/approvals">Approvals</NavLink>
             </>
           ) : (
             <>
-              <NavLink to="/approvals">Approvals</NavLink>
-              <NavLink to="/approved/user">Approved User</NavLink>
-              <NavLink to="/allcontract">All Contracts</NavLink>{" "}
+              <NavLink onClick={()=> document.body.classList.remove('buttontoggle')} to="/approvals">Approvals</NavLink>
+              <NavLink onClick={()=> document.body.classList.remove('buttontoggle')} to="/approved/user">Approved User</NavLink>
+              <NavLink onClick={()=> document.body.classList.remove('buttontoggle')} to="/allcontract">All Contracts</NavLink>{" "}
 
               <Accordion.Item eventKey="Configuration">
                 <Accordion.Header>Configuration</Accordion.Header>
                 <Accordion.Body>
                   <ul>
                     <li>
-                      <NavLink to="/department"> Department </NavLink>{" "}
+                      <NavLink onClick={()=> document.body.classList.remove('buttontoggle')} to="/department"> Department </NavLink>{" "}
                     </li>
                     <li>
                       {" "}
-                      <NavLink to="/designation"> Designation </NavLink>{" "}
+                      <NavLink onClick={()=> document.body.classList.remove('buttontoggle')} to="/designation"> Designation </NavLink>{" "}
                     </li>
                     <li>
                       {" "}
-                      <NavLink to="/contract/type"> Contract Type </NavLink>{" "}
+                      <NavLink onClick={()=> document.body.classList.remove('buttontoggle')} to="/contract/type"> Contract Type </NavLink>{" "}
                     </li>
                     <li>
                       {" "}
-                      <NavLink to="/sub/contract/type">Contract Sub Type </NavLink>{" "}
+                      <NavLink onClick={()=> document.body.classList.remove('buttontoggle')} to="/sub/contract/type">Contract Sub Type </NavLink>{" "}
                     </li>
                   </ul>
                 </Accordion.Body>

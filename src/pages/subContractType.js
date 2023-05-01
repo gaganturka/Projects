@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Table from "react-bootstrap/Table";
 import { httpDelete, httpGet, httpPost, httpPut } from "../Action";
 import { RiDeleteBinLine } from "react-icons/ri";
-import { AiFillEdit } from "react-icons/ai";
+import { AiFillEdit, AiOutlinePlus } from "react-icons/ai";
 import { showError, showSucess } from "../helper/heper";
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
@@ -104,6 +104,7 @@ console.log('e',formData)
         <div className="title-bar d-flex align-items-center justify-content-between">
           <h2>Contract Sub Type</h2>
           <Button variant="primary" className="btnblack" onClick={addNew}>
+          <AiOutlinePlus />
             Add New
           </Button>
         </div>
@@ -159,7 +160,7 @@ console.log('e',formData)
 
 
         <div className="table-bar">
-          <Table >
+          <Table responsive>
             <thead>
               <tr>
               <th>NAME</th>

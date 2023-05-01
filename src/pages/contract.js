@@ -289,7 +289,7 @@ const Contract = () => {
             </Col>
           </Row>
           <Row>
-            <Col>
+            <Col md={6}>
               <div className="uploadbar">
                 <Form.Label>Upload Document</Form.Label>
                 <Form.Control
@@ -301,7 +301,7 @@ const Contract = () => {
                 />
               </div>
             </Col>
-            <Col>
+            <Col md={6}>
                 <div className="btnupload bttnnn">
                 <Button className="btnblack" type="submit" onClick={submit}>
                 Submit

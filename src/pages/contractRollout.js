@@ -123,7 +123,7 @@ const ContractRollout = () => {
     <>
       <div clsassName="form">
         <Row>
-          <Col xs="6">
+          <Col md={6}>
             <div className="title-bar">
               <h2>Contract Rollout</h2>
             </div>
@@ -238,18 +238,18 @@ const ContractRollout = () => {
               </Form>
             </div>
           </Col>
-          <Col xs='6'>
+          <Col md={6}>
             <div className="emailadded-bar">
               <div className="title-bar">
                 <h3>Email Added</h3>
               </div>
               <ul className="emaillisting mb-0 p-0 ">
                 <li className="d-flex align-items-center justify-content-between pb-2 mb-2">
-                  <ul>
+               
                     {/* {emailList.map((email, index) => (
                       <li key={index}>
                         {email} */}
-                                  <Table >
+                                  <Table responsive>
             <thead>
               <tr>
               <th>Name</th>
@@ -284,7 +284,6 @@ const ContractRollout = () => {
                     
                       {/* </li>
                     ))} */}
-                  </ul>
                 </li>
                 {/* <li className='d-flex align-items-center justify-content-between pb-2 mb-2'>
                   <p className="mb-0">xyz@email.com</p>
